@@ -1,0 +1,6 @@
+[submodule "ut-master-thesis"]
+	path = ut-master-thesis
+	url = git@github.com:osingaatje/ut-master-thesis.git
+[submodule "typst-template-ut"]
+	path = typst-template-ut
+	url = git@github.com:osingaatje/typst-template-ut.git
