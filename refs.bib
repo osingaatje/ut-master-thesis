@@ -21,7 +21,7 @@ Grading rubric in Figure 3 seems very appropriate for autograding!},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/ahmed2024_TAs-experience-based-narrative.pdf:PDF},
   groups     = {NOT autograding},
   keywords   = {Teaching Assistants, Grading Consistency, Grading Variation, Reliability},
-  readstatus = {skimmed},
+  readstatus = {read},
   url        = {https://research.utwente.nl/files/457355611/126242.pdf},
 }
 
@@ -32,8 +32,22 @@ Grading rubric in Figure 3 seems very appropriate for autograding!},
   year       = {2023},
   publisher  = {IEEE},
   abstract   = {2023 ACM/IEEE 26th International Conference on Model Driven Engineering Languages and Systems (MODELS);2023; ; ;10.1109/MODELS58315.2023.00029},
+  comment    = {Method: comparing to teacher's solution, using structural matching, syntactic/semantic word matching, NLP for sentence matching, flattening of use case hierarchies.
+
+Levels of use cases: 'summary-level', 'user-goal level', 'subfunction-level'.
+
+Word matching: Levenshtein distance (syntactic) + WordNet Similarity (using HSO, WUP, LIN metrics for semantic)
+
+Sentence matching: Part-Of-Speech-analysis (tokenising, throwing away some prepositions and NER words, and then using lemmatisation to convert different version of words into one (p.109)). Interesting matching algo in Alg.3 (p.109).
+
+Not very good research questions. Sad.
+
+I also feel that this focuses a bit more on statistics than individual cases. Checking features and comparing flaws in grading and refining the grading rubric and tool should probably be done.
+
+Also highlights edge cases where use case is split into two, or when two use cases are handed in by a student as one. Interesting problem to potentially solve.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/alam2023_AutomatedGradingOfUseCases.pdf:PDF},
-  readstatus = {skimmed},
+  groups     = {Algorithmic},
+  readstatus = {read},
   url        = {https://ieeexplore.ieee.org/iel7/10343461/10343549/10343598.pdf},
 }
 
@@ -41,15 +55,23 @@ Grading rubric in Figure 3 seems very appropriate for autograding!},
   author     = {Outair Anas and Tanana Mariam and Lyhyaoui Abdelouahid},
   title      = {New method for summative evaluation of UML class diagramsbased on graph similarities},
   year       = {1818},
+  comment    = {Convert UML Class diagrams into graphs, use graph similarity algorithms.
+
+Very mathematically intense paper, not nice to read.
+
+However, the matching seems quite similar. Similarity scores of 83%, 98%, 96%. However, this is still based on a teacher example, and manual review is still required (although it is sped up because the tool automatically shows discrepancies in graphing).},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/anas2021_EvaluationUMLUsingGraphSimilarities.pdf:PDF},
+  groups     = {Algorithmic},
   keywords   = {teachers. To achieve this objective, we must analyze these productions and study the transformation, matching, similarity measurement and comparison},
-  readstatus = {skimmed},
+  readstatus = {read},
   url        = {https://www.academia.edu/download/66135135/70_22270_EM_26aug_20feb_L.pdf},
 }
 
 @InProceedings{lbltc,
   author     = {Firat Batmaz},
   title      = {Semi-Automatic Assessment ofStudents’ Graph-Based Diagrams},
+  year       = {2010},
+  comment    = {Very in-depth methods of manual, semi-automatic grading. COOL: relation between explanation text and graphs/models.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Batmaz2001_Semi-AutomaticAssessmentGraph-BasedDiagrams.pdf:PDF},
   readstatus = {skimmed},
   url        = {https://www.academia.edu/download/66135135/70_22270_EM_26aug_20feb_L.pdf},
@@ -438,6 +460,6 @@ and discusses its potential impact on database education.},
 0 AllEntriesGroup:;
 1 StaticGroup:Autograding\;0\;1\;\;COMPUTER\;\;;
 2 StaticGroup:LLM\;0\;1\;\;ADB\;\;;
-2 StaticGroup:Other\;0\;1\;\;GMI_360\;\;;
+2 StaticGroup:Algorithmic\;0\;1\;\;GMI_360\;\;;
 1 StaticGroup:NOT autograding\;0\;1\;\;MDI_HUMAN\;\;;
 }
