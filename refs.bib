@@ -44,7 +44,9 @@ Not very good research questions. Sad.
 
 I also feel that this focuses a bit more on statistics than individual cases. Checking features and comparing flaws in grading and refining the grading rubric and tool should probably be done.
 
-Also highlights edge cases where use case is split into two, or when two use cases are handed in by a student as one. Interesting problem to potentially solve.},
+Also highlights edge cases where use case is split into two, or when two use cases are handed in by a student as one. Interesting problem to potentially solve.
+
+Has as source Bian et al. 2019.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/alam2023_AutomatedGradingOfUseCases.pdf:PDF},
   groups     = {Algorithmic},
   readstatus = {read},
@@ -61,7 +63,7 @@ Very mathematically intense paper, not nice to read.
 
 However, the matching seems quite similar. Similarity scores of 83%, 98%, 96%. However, this is still based on a teacher example, and manual review is still required (although it is sped up because the tool automatically shows discrepancies in graphing).},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/anas2021_EvaluationUMLUsingGraphSimilarities.pdf:PDF},
-  groups     = {Algorithmic},
+  groups     = {Algorithmic, Semi-automatic},
   keywords   = {teachers. To achieve this objective, we must analyze these productions and study the transformation, matching, similarity measurement and comparison},
   readstatus = {read},
   url        = {https://www.academia.edu/download/66135135/70_22270_EM_26aug_20feb_L.pdf},
@@ -71,14 +73,16 @@ However, the matching seems quite similar. Similarity scores of 83%, 98%, 96%. H
   author     = {Firat Batmaz},
   title      = {Semi-Automatic Assessment ofStudents’ Graph-Based Diagrams},
   year       = {2010},
-  comment    = {Very in-depth methods of manual, semi-automatic grading. COOL: relation between explanation text and graphs/models.},
+  comment    = {Very in-depth methods of manual, semi-automatic grading. 
+COOL: relation between explanation text and graphs/models.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Batmaz2001_Semi-AutomaticAssessmentGraph-BasedDiagrams.pdf:PDF},
+  groups     = {Semi-automatic},
   readstatus = {skimmed},
   url        = {https://www.academia.edu/download/66135135/70_22270_EM_26aug_20feb_L.pdf},
 }
 
 @InProceedings{Bian2019,
-  author     = {Bian, Weiyi and Alam, Omar and Kienzle, Jörg},
+  author     = {Weiyi Bian and Omar Alam and Jörg Kienzle},
   booktitle  = {2019 ACM/IEEE 22nd International Conference on Model Driven Engineering Languages and Systems Companion (MODELS-C)},
   title      = {Automated Grading of Class Diagrams},
   year       = {2019},
@@ -90,10 +94,25 @@ an essential learning task in many software engineering courses. can have a larg
 In course assignments, students are tasked to draw models vary based on the class names, i.e., a student’s solution can
 that describe scenarios, model requirements, or system designs.
 The course instructor usually grades the diagrams manually by use a synonym for a class name instead of the exact name used},
+  comment    = {Propose metamodel that maps a teacher solution with syntactic, semantic, structural matching.
+
+Basis of the methodology to Hosseinibaghadadadi et al., 2023
+
+TWO MAIN CONTRIBUTIONS:
+1. Metamodel to establish mappings between instructor solution and student solution.
+2. Metamodel to grade model elements.
+
+- syntactic matching (eliminating spelling
+mistakes), 
+- semantic matching (considering synonyms and
+words with related meaning) , 
+- structural matching (matching by comparing the contents of a class, similarity based on the associations with other classes, and considering classes that are split or merged), 
+- handle class inheritance (handle the class elements that are misplaced within the inheritance hierarchy), 
+- match associations (including finding potential derivative associations)},
   doi        = {10.1109/models-c.2019.00106},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bian2019-AutomatedGradingOfClassDiagrams.pdf:PDF},
   keywords   = {automated grading, class diagrams, model comparison},
-  readstatus = {skimmed},
+  readstatus = {read},
   url        = {https://research.utwente.nl/files/457355611/126242.pdf},
 }
 
@@ -124,9 +143,17 @@ the grading style of the instructor, and b) the importance of con- been implemen
 sidering multiple solution variants when grading. Modifications to Academy [5], Udemy [7], and Coursera [2]. Automated assessment
 the grading algorithm are proposed and validated experimentally. can also be used to calibrate a learner’s prior knowledge [42], i.e.,},
   collection = {MODELS ’20},
+  comment    = {Study of grading tool on UML diagrams. Main findings:
+- multiple teacher solutions are effective if you use a tool that compares student solutions to teacher solutions ("40/89 students used an alternative correct solution in their assignment", p.12)
+
+- grading configurations (deductions of certain points) change per exam if you want similar grades to a teacher's solution (the focus is likely on different parts of UML per exam)
+
+- autograding helps ensure fairness and trasparency (within 9% of manual grading with algorithmic, deterministic evaluation, "more consistent and able to ensure fairness in the grading process").
+
+- "incremental discovery of alternative solutions" would be nice to have, since a student might give a solution that the teacher thinks is cool, but the autograder does not take this into account (unless program can regrade using the (adjusted) student solution)},
   doi        = {10.1145/3365438.3410944},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bian2020-automated-class-diagram-grading.pdf:PDF},
-  readstatus = {skimmed},
+  readstatus = {read},
   url        = {https://dl.acm.org/doi/pdf/10.1145/3365438.3410944},
 }
 
@@ -454,6 +481,39 @@ and discusses its potential impact on database education.},
   readstatus = {skimmed},
 }
 
+@InProceedings{Schoettle2015,
+  author     = {Matthias Schöttle and Nishanth Thimmegowda and Omar Alam and Jörg Kienzle and Gunter Mussbacher},
+  booktitle  = {Companion Proceedings of the 14th International Conference on Modularity},
+  title      = {Feature Modelling and Traceability for Concern-Driven Software Development with TouchCORE},
+  year       = {2015},
+  month      = mar,
+  pages      = {11--14},
+  publisher  = {ACM},
+  series     = {Modularity ’15},
+  abstract   = {port for concern-driven software development based on a common
+This demonstration paper presents TouchCORE, a multi-touch en- metamodel [5].
+abled software design modelling tool aimed at developing scal- As of early 2015, TouchCORE now provides full support for
+able and reusable software design models following the concern- concern-driven software development as outlined in this paper. Sec-
+driven software development paradigm. After a quick review of tion 2 briefly recalls the main concepts of concern-driven software
+concern-orientation, this paper primarily focusses on the new fea- development. Section 3 describes TouchCORE’s support for fea-
+tures that were added to TouchCORE since the last demonstration ture model and impact model visualization and assessment tar-
+at Modularity 2014 (were the tool was still called TouchRAM). geted at concern designers as well as concern users. Section 4 ex-
+TouchCORE now provides full support for concern-orientation. plains how traceability support was added to the CORE (Concern-
+This includes support for feature model editing and different modes Oriented REuse) metamodel, which defines the key concepts of
+for feature model and impact model visualization and assessment concern-driven software development, to allow visualization of the
+to best assist the concern designers as well as the concern users. To crosscutting nature of concerns in woven models. The last section
+help the modeller understand the interactions between concerns, draws our conclusions.
+TouchCORE now also collects tracing information when concerns
+are reused and stores that information with the woven models. This
+makes it possible to visualize from which concern(s) a model ele- 2. Concern-Driven Software Development
+ment in the woven model has originated.},
+  collection = {Modularity ’15},
+  doi        = {10.1145/2735386.2735922},
+  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/schottle2015_TouchCORE.pdf:PDF},
+  keywords   = {concern-driven software development, reuse, feature models, impact models, traceability. groups together software artifacts (models and code, henceforth},
+  readstatus = {skimmed},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
@@ -461,5 +521,6 @@ and discusses its potential impact on database education.},
 1 StaticGroup:Autograding\;0\;1\;\;COMPUTER\;\;;
 2 StaticGroup:LLM\;0\;1\;\;ADB\;\;;
 2 StaticGroup:Algorithmic\;0\;1\;\;GMI_360\;\;;
+3 StaticGroup:Semi-automatic\;0\;1\;\;GMI_360\;\;;
 1 StaticGroup:NOT autograding\;0\;1\;\;MDI_HUMAN\;\;;
 }
