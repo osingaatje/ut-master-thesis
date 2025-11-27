@@ -14,14 +14,24 @@
 #set page("a4", margin: 2cm, numbering: "1")
 
 
-= Intro
-test text
+= Introduction <intro>
+Current state of grading + autograding, University of Twente is looking into ways to save time and money in grading by automating (parts of) it.
 
-= Bullshit words
-#lorem(100)
 
-= More words 
-#lorem(1000)
+= Problem statement <prob-stat> 
+Grading takes long time etc. etc.
+Want a solution that automatically grades UML diagrams (specifically class/sequence/...?), with as main goals: _transparency_, _consistency_, _fairness_. See initial plan description.
 
+== Research Questions <rqs>
+
+
+= Related work <relatedwork>
+see `./refs.bib`
+
+= Tools and Techniques <tools-techniques>
+Adopt existing tool(s), make own tool, what frameworks/languages, ...
+
+= Planning <planning>
+TODO: Graduation planning. Phases, goals per phase.
 
 
