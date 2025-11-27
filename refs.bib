@@ -55,7 +55,7 @@ Has as source Bian et al. 2019.},
 
 @InProceedings{Vol1818,
   author     = {Outair Anas and Tanana Mariam and Lyhyaoui Abdelouahid},
-  title      = {New method for summative evaluation of UML class diagramsbased on graph similarities},
+  title      = {New method for summative evaluation of UML class diagrams based on graph similarities},
   year       = {1818},
   comment    = {Convert UML Class diagrams into graphs, use graph similarity algorithms.
 
@@ -63,7 +63,7 @@ Very mathematically intense paper, not nice to read.
 
 However, the matching seems quite similar. Similarity scores of 83%, 98%, 96%. However, this is still based on a teacher example, and manual review is still required (although it is sped up because the tool automatically shows discrepancies in graphing).},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/anas2021_EvaluationUMLUsingGraphSimilarities.pdf:PDF},
-  groups     = {Algorithmic, Semi-automatic},
+  groups     = {Semi-automatic},
   keywords   = {teachers. To achieve this objective, we must analyze these productions and study the transformation, matching, similarity measurement and comparison},
   readstatus = {read},
   url        = {https://www.academia.edu/download/66135135/70_22270_EM_26aug_20feb_L.pdf},
@@ -111,7 +111,9 @@ words with related meaning) ,
 - match associations (including finding potential derivative associations)},
   doi        = {10.1109/models-c.2019.00106},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bian2019-AutomatedGradingOfClassDiagrams.pdf:PDF},
+  groups     = {Algorithmic, incredible!},
   keywords   = {automated grading, class diagrams, model comparison},
+  priority   = {prio1},
   readstatus = {read},
   url        = {https://research.utwente.nl/files/457355611/126242.pdf},
 }
@@ -153,6 +155,8 @@ the grading algorithm are proposed and validated experimentally. can also be use
 - "incremental discovery of alternative solutions" would be nice to have, since a student might give a solution that the teacher thinks is cool, but the autograder does not take this into account (unless program can regrade using the (adjusted) student solution)},
   doi        = {10.1145/3365438.3410944},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bian2020-automated-class-diagram-grading.pdf:PDF},
+  groups     = {Algorithmic, incredible!},
+  priority   = {prio1},
   readstatus = {read},
   url        = {https://dl.acm.org/doi/pdf/10.1145/3365438.3410944},
 }
@@ -172,14 +176,36 @@ ficients above 0.76 and Mean Absolute Errors below 4 points on a 40-point scale.
 LLM-based grading can provide consistent, scalable assessment of UML diagrams while matching the grading
 quality of human assessors. This approach offers a promising solution for managing growing student numbers
 while ensuring fair and timely feedback.},
+  comment    = {Grading UML class diagrams with LLMs + sentence transformers and structured grading rubric.
+
+Challenges in automated grading: 
+- semantic equivalence (p.159), 
+- different student interpretations - partially solved by tools such as TouchCORE, but "require significant instructor effort to organize acceptable variations."
+- balancing accuracy with model completeness - systems "often over-penalize missing elements or fail to (...) assign partial grades"
+- "LLMs could be valuable tool in automating the grading" p.158
+- "current systems often lack the granularity (...) [to] assess incomplete submissions"
+- Rule-based grading is fast but are "not very efficient due to rigid rules, (...) considerable configuration effort, and the struggle to handle diverse or creative solutions" - ML predicts scores from trained datasets, but challenges: data dependency, difficulty in interpretation, high computational cost
+	- LLMs handle creative solutions but "face challenges domain-specific fine-tuning and ethical concerns" (bias/transparency)
+- combining methods (Boubekeur et al., 2020) could balance flexibility and performance
+
+Methodology:
+- LLMs with 0 temperature (deterministic)
+
+Grading rubric is provided which looks a whole lot like a ruleset for an autograder! I wonder if we can combine the ruleset with a teacher submission / derive rulesets from a teacher's submission and grade that way... (although the pure class-similarity approach of Bian 2019 looks more flexible at face value...)
+
+"All three LLMs (...) ability to process and *understand*" big red flag here, ascribing human traits to machines.
+"While the models would provide a final score as requested in the prompt’s response format, this score often did not match the actual sum of points awarded in their criterion-by-criterion assessment"
+
+"The near parity between human graders and LLMs highlights their potential to significantly reduce grading workloads" - " LLMs can effectively grade these subjective tasks" <-- they are not fully objective, but far from completely subjective. There is no proof in this paper given about the transparency and clarity of grading,},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bouali2025_LLM-Grading-UML-compared-to-TAs.pdf:PDF},
+  groups     = {Review, LLM},
   keywords   = {AI-Assisted Grading, Autograding, Large Language Models, GPT, Llama, Claude, UML},
-  readstatus = {skimmed},
+  readstatus = {read},
   url        = {https://research.utwente.nl/files/496461589/134819.pdf},
 }
 
 @InProceedings{Stikkolorum2019,
-  author     = {Dave R. Stikkolorum and Peter van der and Putten and Caroline Sperandio},
+  author     = {Dave R. Stikkolorum and Peter van der Putten and Caroline Sperandio and Michel R.V. Chaudron},
   title      = {Towards Automated Grading of UML Class Diagrams with Machine Learning},
   year       = {2019},
   abstract   = {This paper describes an exploratory study on the application
@@ -192,7 +218,11 @@ grading scale can’t be done reliably. Classifying with trained data using
 expert consensus and a rubric comes closer to accuracy, but is still not
 good enough (a precision of 69%). Future work should include larger
 training sets and an exploration for other features.},
+  comment    = {expert grading vs. ML-based grading. Converting files to XMI (XML-based).
+
+don't really say anything other than spelling mistakes and '42.76%' for the actual grading, and if you quantise the grading, then it correlates more (yeah of course, you group small errors into one group).},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/chaudron2019_TowardsAutomatedGradingWithMachineLearning.pdf:PDF},
+  groups     = {LLM, bad/not worth reading},
   keywords   = {automated grading · software design · class diagrams · UML},
   readstatus = {skimmed},
   url        = {https://ceur-ws.org/Vol-2491/paper80.pdf},
@@ -222,24 +252,33 @@ tions. The demonstration shows the random question generation, AutoER [11], has 
 how students construct database designs, and the auto-marking ca-
 pabilities. The system and practice questions are publicly available • Supports students building a design model by directly inter-},
   collection = {MODELS ’22},
+  comment    = {good related works (UML tooling etc.
+
+Extension to PrairieLearn (bad UX but cool idea, making DB diagrams and grading them)
+
+not great research. doesn't provide source code as well even though it says there is some :(},
   doi        = {10.1145/3550356.3559091},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/foss2022_AutoER_automated_database_grading.pdf:PDF},
+  groups     = {Algorithmic},
   keywords   = {database design,models,education,automatic marking},
-  readstatus = {skimmed},
+  priority   = {prio3},
+  readstatus = {read},
   url        = {https://dl.acm.org/doi/pdf/10.1145/3550356.3559091},
 }
 
 @InProceedings{Design2022,
-  author     = {Database Design and Diagrams and by},
-  title      = {AutoER: A System for the Automatic Generation and Evaluation of UML},
+  author     = {Sarah Foss},
+  title      = {AutoER: A System for the Automatic Generation and Evaluation of UML Database Design Diagrams},
   year       = {2022},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/foss-sarah-2020_automated-generation-evaluation-UML-database-diag.pdf:PDF},
+  groups     = {Algorithmic},
+  priority   = {prio3},
   readstatus = {skimmed},
   url        = {https://open.library.ubc.ca/media/download/pdf/24/1.0421624/4},
 }
 
 @InProceedings{Herout2016,
-  author     = {Herout, Pavel and Brada, Premek},
+  author     = {Pavel Herout and Premek Brada},
   booktitle  = {2016 IEEE 29th International Conference on Software Engineering Education and Training (CSEET)},
   title      = {UML-Test Application for Automated Validation of Students’ UML Class Diagram},
   year       = {2016},
@@ -249,21 +288,25 @@ pabilities. The system and practice questions are publicly available • Support
   abstract   = {2016 IEEE 29th International Conference on Software Engineering Education and Training (CSEET);2016; ; ;10.1109/CSEET.2016.33},
   doi        = {10.1109/cseet.2016.33},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/hernout2007_UML-Test_Application_for_Automated_Validation_of_Students_UML_Class_Diagram.pdf:PDF},
+  groups     = {Slightly relevant},
   keywords   = {OOP, UML, Class diagram, automatic validation},
-  readstatus = {skimmed},
+  readstatus = {read},
   url        = {https://ieeexplore.ieee.org/iel7/7474421/7474423/07474487.pdf},
 }
 
 @InProceedings{Solution2023,
-  author     = {Automated Solution},
+  author     = {Rhaydae Jebli and Jaber El Bouhdidi and Mohamed Yassin Chkouri},
   booktitle  = {2023 7th IEEE Congress on Information Science and Technology (CiSt) |},
-  title      = {Assessing Students&#x2019; UML Class Diagrams: a New Automated Solution},
+  title      = {Assessing Students' UML Class Diagrams: a NewAutomated Solution},
   year       = {2023},
   publisher  = {IEEE},
   abstract   = {2023 7th IEEE Congress on Information Science and Technology (CiSt);2023; ; ;10.1109/CiSt56084.2023.10409936},
+  comment    = {view of some tool with some (useful) heuristics. No mass verification or whatever, so meh.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/jebli2023_AssessingStudentsUMLClassDiagrams.pdf:PDF},
+  groups     = {Algorithmic},
   keywords   = {Automatic Assessment, UML diagrams, Distance assessment of students’ productions. Section III describes our},
-  readstatus = {skimmed},
+  priority   = {prio3},
+  readstatus = {read},
   url        = {https://ieeexplore.ieee.org/iel7/10409867/10409868/10409936.pdf},
 }
 
@@ -271,7 +314,8 @@ pabilities. The system and practice questions are publicly available • Support
   author     = {Bilal Karasneh, Dave Stikkolorum, Enrique Larios, and Michel R.V. Chaudron},
   title      = {Quality Assessment of UML Class Diagrams},
   abstract   = {In this paper, we present an experiment conducted for comparing how},
-  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/karanesh2015_QualityAssessmentUMLClassDiagrams (not automated).pdf:PDF},
+  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/BilalKarasneh - Quality Assessment of UML Class Diagrams.pdf:PDF},
+  groups     = {NOT autograding},
   keywords   = {Empirical Studies; Software Engineering Education; Software De},
   readstatus = {skimmed},
   url        = {https://ceur-ws.org/Vol-1555/6.pdf},
@@ -514,13 +558,107 @@ ment in the woven model has originated.},
   readstatus = {skimmed},
 }
 
+@InProceedings{Foss2022a,
+  author     = {Foss, Sarah and Urazova, Tatiana and Lawrence, Ramon},
+  booktitle  = {Proceedings of the 53rd ACM Technical Symposium on Computer Science Education},
+  title      = {Automatic Generation and Marking of UML Database Design Diagrams},
+  year       = {2022},
+  month      = feb,
+  number     = {solutions.},
+  pages      = {626--632},
+  publisher  = {ACM},
+  series     = {SIGCSE 2022},
+  abstract   = {systems support the generation and auto-marking of questions
+Interactive question systems improve student engagement and pro- [11, 15, 34] for practice and improving learning outcomes.
+vide opportunities for increased practice and skill mastery. Develop- Database design and modeling are key concepts taught in data-
+ing database design diagrams is a key skill for database courses, but base and software engineering courses. Design exercises are often
+providing evaluation feedback is time-consuming for instructors challenging for students and additional practice helps learning. This
+and accurate auto-grading is challenging due to the variability of work focuses on questions where the goal is to produce a design
+student answers especially when labeling diagram components. diagram for a database that captures the requirements discussed in
+This work presents a system for the automatic creation and real- a written text. Evaluating design diagrams is complex due to the
+time evaluation of database design questions using UML diagrams. lack of testing frameworks, diversity of correct answers, and inter-
+Students directly interact with the question text, and the system preting the semantics of the diagram and its concepts. Prior work
+continuously generates a visual representation of their answer as examined automatic evaluation of design diagrams using image
+well as provides immediate feedback at any time. By utilizing a processing [32], syntactic, structural, and semantic analysis [7], and
+web-based, customizable user interface, the system supports precise machine learning [9]. These systems provide evaluations similar to
+marking and the ability to practice variants of design questions to human markers for instructor developed questions.
+mastery. A classroom evaluation demonstrates high student satisfac- The contribution of this work is a question generation and evalu-
+tion compared to traditional UML design questions and preference ation system for UML database design diagrams and its evaluation
+for using the software to improve their learning outcomes. in a database course. The system, called AutoER, supports both},
+  collection = {SIGCSE 2022},
+  doi        = {10.1145/3478431.3499376},
+  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/foss2022_AutomaticGenerationMarkingUMLDiagrams.pdf:PDF},
+  keywords   = {operation as a stand-alone system or integrated with a learning management system. A unique aspect of the user interface is that},
+}
+
+@Article{,
+  author  = {Horace He and Thinking Machines},
+  title   = {Defeating Nondeterminism in LLM Inference},
+  year    = {2025-09-10},
+  comment = {LLMs with temperature = 0 can still be nondeterminstic ("run-to-run determinism") because "kernels add numbers in different orders" (concurrency + floating point)},
+  groups  = {LLM nondeterminism},
+  url     = {https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/},
+}
+
+@Article{,
+  author  = {Michael Brenndoerfer},
+  title   = {Why Temperature=0 Doesn't Guarantee Determinism in LLMs},
+  comment = {Temperature
+= 0 in language models aims to eliminate randomness by always selecting
+the most probable next token (i.e., greedy decoding).
+Despite this, real-world LLMs still produce varying outputs due to
+factors like:
+
+* Floating-point precision limitations
+* Hardware and parallel processing variability
+* Decoding tie-breakers
+* Other sampling parameters like top-k or top-p that may still introduce variation
+
+Additional nondeterminism comes from model and infrastructure complexity, including:
+
+* Mixture-of-Experts ([MoE](https://mbrenndoerfer.com/writing/mixture-of-experts-sparse-activation)) architectures
+* Nondeterministic operations in frameworks like PyTorch or TensorFlow
+* Multi-GPU sharding
+* Batching, [load balancing](https://mbrenndoerfer.com/writing/scaling-ai-agents-performance-cost-optimization), and cross-server variability
+
+While
+temperature=0 increases consistency, true repeatability requires strict
+control over hardware, software, and decoding settings.
+Ultimately, these nuances explain why outputs can still differ, even
+when no randomness is explicitly introduced.},
+  groups  = {LLM nondeterminism},
+  url     = {https://mbrenndoerfer.com/writing/why-llms-are-not-deterministic},
+}
+
+@InProceedings{“Deterministic2408,
+  author  = {Non-Determinism of “Deterministic and LLM Settings},
+  title   = {Preprint. Under review},
+  year    = {2408},
+  comment = {"Although the use of multiple GPUs introduces some randomness (...), it can be eliminated by setting random seeds (...). However, engineering optimizations to run LLMs faster (...) might lead to nondeterministic behavior."},
+  file    = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Atil2025_NonDeterminismOfDeterministicLLMSettings.pdf:PDF},
+}
+
+@InProceedings{Hasker2011,
+  author   = {Robert W. Hasker},
+  title    = {UMLGrader},
+  year     = {2011},
+  abstract = {J. Comput. Sci. Coll. 2011.27:47-54},
+  file     = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Hasker2011_UMLGrader.pdf:PDF},
+  url      = {https://dl.acm.org/doi/abs/10.5555/2037151.2037163},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
 0 AllEntriesGroup:;
-1 StaticGroup:Autograding\;0\;1\;\;COMPUTER\;\;;
-2 StaticGroup:LLM\;0\;1\;\;ADB\;\;;
-2 StaticGroup:Algorithmic\;0\;1\;\;GMI_360\;\;;
-3 StaticGroup:Semi-automatic\;0\;1\;\;GMI_360\;\;;
-1 StaticGroup:NOT autograding\;0\;1\;\;MDI_HUMAN\;\;;
+1 StaticGroup:Autograding\;2\;1\;0x008000ff\;COMPUTER\;\;;
+2 StaticGroup:LLM\;2\;1\;0xf2f2f2ff\;SLOT_MACHINE_OUTLINE\;\;;
+3 StaticGroup:bad/not worth reading\;2\;1\;0x800000ff\;SLOT_MACHINE_OUTLINE\;\;;
+2 StaticGroup:Algorithmic\;2\;0\;0x800080ff\;GMI_360\;\;;
+3 StaticGroup:Semi-automatic\;2\;1\;0xb34d1aff\;STATE_MACHINE\;\;;
+3 StaticGroup:incredible!\;2\;0\;0x00ff00ff\;GMI_360\;\;;
+2 StaticGroup:Review\;2\;1\;0x804d80ff\;FOUNTAIN_PEN_TIP\;\;;
+1 StaticGroup:NOT autograding\;2\;1\;\;MDI_HUMAN\;\;;
+1 StaticGroup:LLM nondeterminism\;2\;1\;0x666600ff\;SLOT_MACHINE\;\;;
+1 StaticGroup:Slightly relevant\;2\;1\;\;AIRLINE_SEAT_INDIVIDUAL_SUITE\;\;;
 }
