@@ -326,9 +326,12 @@ not great research. doesn't provide source code as well even though it says ther
   title      = {A Tool to Automate Student UML diagram Evaluation},
   year       = {2021},
   abstract   = {Unified modelling language (UML) is the accepted standard and modelling language for modeling in software development},
+  comment    = {Java-based class diagram checker tool. Focuses more on UI and feedback. Focuses input on two ZIP files containing XMI Modeli class diagrams. Not really useful for me.},
   doi        = {ng},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Modi-et-al-AToolToAutomateStudentUMLdiagramEvaluation.pdf:PDF},
+  groups     = {Algorithmic},
   keywords   = {Unified Modeling Language (UML), Use case Diagram, Extensible Markup Language (XML), UML Auto},
+  priority   = {prio3},
   readstatus = {skimmed},
   url        = {https://www.academia.edu/download/72488756/575.pdf},
 }
@@ -340,7 +343,9 @@ not great research. doesn't provide source code as well even though it says ther
   editor     = {Angelo Sifaleras and Fuhua Lin},
   pages      = {185-192},
   publisher  = {Springer},
+  comment    = {use machine learning, with their own feature extraction. Only for detection. Not useful for me.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/nedelcu2024_ClassificationOfUMLDiagramsUsingMachineLearning.pdf:PDF},
+  groups     = {NOT autograding},
   readstatus = {skimmed},
   url        = {https://link.springer.com/chapter/10.1007/978-3-031-63031-6_16},
 }
@@ -349,7 +354,9 @@ not great research. doesn't provide source code as well even though it says ther
   author     = {Noraida Haji Ali and Zarina Shukur and Sufian Idris},
   title      = {Assessment System For UML Class DiagramUsing Notations Extraction},
   year       = {2007},
+  comment    = {don't say anythign about the actual implementation and techniques.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/noraida2007_AssessmentSystemForUMLClassDiagram.pdf:PDF},
+  groups     = {Bad-ish},
   keywords   = {: class diagram. The class diagram includes all information Object-oriented Modeling, UML Class Diagram, Rational Rose about the system structure such as class object and relations and Petal File. between those classes. This paper discusses the extraction},
   readstatus = {skimmed},
   url        = {https://www.researchgate.net/profile/Zarina-Shukur/publication/253243639_Assessment_System_For_UML_Class_Diagram_Using_Notations_Extraction/links/55487af30cf2b0cf7acec2e4/Assessment-System-For-UML-Class-Diagram-Using-Notations-Extraction.pdf},
@@ -393,8 +400,10 @@ requirement in UML model correctly.  Group, 1999) [1]. CASE tools, which provide
  use of an automatic layout tool. The first attempts at 
  using computers to automate the process of assessing 
  student work were reported in the early 1960’s [2].},
+  comment    = {same as previous Ali et al. (2007) work.},
   doi        = {10.1109/iccsa.2007.2},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/noraida2007_Design_of_Assessment_System_for_UML_Class_Diagram.pdf:PDF},
+  groups     = {Bad-ish},
   readstatus = {skimmed},
 }
 
@@ -402,18 +411,29 @@ requirement in UML model correctly.  Group, 1999) [1]. CASE tools, which provide
   author     = {Pete Thomas and Neil Smith and Kevin Waugh},
   title      = {An approach to the automatic grading of imprecise diagrams},
   year       = {2006-12-01},
+  comment    = {similarity between names with "stemming and edit-distance" + synonym detecting
+Edge case: recursive relations in class diagrams were not accounted for at first.
+
+Interesting observation: humans are influenced by the shape of the diagram!
+Synonym identification rules, but requires extra verification (it related "FacilityType" to "Card" and "Staff")},
   doi        = {.org/10.21954/ou.ro.00016046},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/pete2006_ApproachToGradingImpreciseDiagrams.pdf:PDF},
+  groups     = {incredible!},
+  priority   = {prio1},
   readstatus = {skimmed},
   url        = {https://oro.open.ac.uk/90182/1/TR2006-16.pdf},
 }
 
 @InProceedings{AlRawashdeh2014,
   author     = {Hazim AlRawashdeh and Sufian Idris and Abdullah Mohd Zin},
-  title      = {Using Model Checking Approach for Gradingthe Semantics of UML Models},
+  title      = {Using Model Checking Approach for Grading the Semantics of UML Models},
   year       = {2014},
   abstract   = {IEEE Transactions on Magnetics},
+  comment    = {is very into using LTL-like formulas and quoting (Nu)SMV, Promela, UPPAAL, ...
+
+produces a hodge podge solution that combines everything, but no quantitative metrics mentioned. Weird paper.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Rawashdeh2014_ModelCheckingApproach_GradingSemanticsOfUMLModels.pdf:PDF},
+  groups     = {Slightly relevant},
   keywords   = {UML semantics, Formal representation, Model cannot be put to good use. On the other hand, the symbolic Mapping, Spin, Hugo/RT model checker SMV, is used for verifying the properties, as it},
   readstatus = {skimmed},
   url        = {https://iieng.org/images/proceedings_pdf/8684E0114567.pdf},
@@ -430,17 +450,28 @@ requirement in UML model correctly.  Group, 1999) [1]. CASE tools, which provide
   series     = {ITiCSE ’11},
   abstract   = {exist some systems concerned with this task since the 2000s},
   collection = {ITiCSE ’11},
+  comment    = {based on "graph queries which promises to be more flexible".
+
+Has some pretty interesting syntax w.r.t. checking class names, checking syntax. Looks a bit complex though, learning curve could be pretty high for some teachers, and it does not address alternative namings ("Covering different spellings of the same term currently needs tedious lists of alternative strings").},
   doi        = {10.1145/1999747.1999761},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/striewe2011_AutomatedChecksOnUMLDiagrams.pdf:PDF},
+  groups     = {Semi-automatic},
   keywords   = {diagrams is not just a matter of right and wrong, but also a matter of quality of the solution. In pure comparisons with},
+  priority   = {prio3},
   readstatus = {skimmed},
 }
 
-@InProceedings{Thomas2004,
+@InProceedings{Thomas20040130,
   author     = {Pete Thomas},
   title      = {Grading Diagrams Automatically},
   year       = {2004-01-30},
+  comment    = {construct a very reduced Box+Arrow graphical language (tiny subset of UML).
+The marking is very accurate though, but likely because the question is very simple (though it is not mentioned).
+
+Says nothing about anything, really.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/thomas2004_GradingDiagramsAutomatically.pdf:PDF},
+  groups     = {Bad-ish},
+  priority   = {prio3},
   readstatus = {skimmed},
   url        = {https://oro.open.ac.uk/90155/1/2004_01.pdf},
 }
@@ -652,13 +683,14 @@ when no randomness is explicitly introduced.},
 @Comment{jabref-meta: grouping:
 0 AllEntriesGroup:;
 1 StaticGroup:Autograding\;2\;1\;0x008000ff\;COMPUTER\;\;;
-2 StaticGroup:LLM\;2\;1\;0xf2f2f2ff\;SLOT_MACHINE_OUTLINE\;\;;
+2 StaticGroup:LLM\;2\;0\;0xf2f2f2ff\;SLOT_MACHINE_OUTLINE\;\;;
 3 StaticGroup:bad/not worth reading\;2\;1\;0x800000ff\;SLOT_MACHINE_OUTLINE\;\;;
-2 StaticGroup:Algorithmic\;2\;0\;0x800080ff\;GMI_360\;\;;
-3 StaticGroup:Semi-automatic\;2\;1\;0xb34d1aff\;STATE_MACHINE\;\;;
+2 StaticGroup:Algorithmic\;2\;1\;0x800080ff\;GMI_360\;\;;
+3 StaticGroup:Semi-automatic\;2\;0\;0xb34d1aff\;STATE_MACHINE\;\;;
 3 StaticGroup:incredible!\;2\;0\;0x00ff00ff\;GMI_360\;\;;
+3 StaticGroup:Bad-ish\;2\;1\;0x800000ff\;GMI_360\;\;;
 2 StaticGroup:Review\;2\;1\;0x804d80ff\;FOUNTAIN_PEN_TIP\;\;;
-1 StaticGroup:NOT autograding\;2\;1\;\;MDI_HUMAN\;\;;
-1 StaticGroup:LLM nondeterminism\;2\;1\;0x666600ff\;SLOT_MACHINE\;\;;
-1 StaticGroup:Slightly relevant\;2\;1\;\;AIRLINE_SEAT_INDIVIDUAL_SUITE\;\;;
+1 StaticGroup:NOT autograding\;2\;0\;\;MDI_HUMAN\;\;;
+1 StaticGroup:LLM nondeterminism\;2\;0\;0x666600ff\;SLOT_MACHINE\;\;;
+1 StaticGroup:Slightly relevant\;2\;0\;\;AIRLINE_SEAT_INDIVIDUAL_SUITE\;\;;
 }
