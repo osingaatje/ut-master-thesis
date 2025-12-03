@@ -26,7 +26,17 @@ Want a solution that automatically grades UML diagrams (specifically class/seque
 
 
 = Related work <relatedwork>
-see `./refs.bib`
+Work @Hosseinibaghdadabadi2023 @anas2021 @batmaz2010 @Bian2019 @Bian2020 @Foss2022 @Jebli2023 @Modi2021 @Ali2007 @Ali2007b @thomas2006 @thomas2004 @thomas2009 @thomas2008 @Striewe2011 @Smith2013
+
+More focused on interactivity: @Foss2022b 
+
+Work on AI @Bouali2025 @Stikkolorum2019
+(nondeterminism of AI @he2025 @brenndoerfer2025 @atil2025 + counterarg: inherent lack of transparency, risks of nondeterminism in grading (see sources) == bad because same solution might not give same grade), lack of consistency (contexxt window, importance of reducing prompt length, ...)
+
+Experience on TAs @Ahmed2024
+
+Reliability of human marking/grading in general @Meadows2005
+
 
 = Tools and Techniques <tools-techniques>
 Adopt existing tool(s), make own tool, what frameworks/languages, ...
@@ -34,4 +44,7 @@ Adopt existing tool(s), make own tool, what frameworks/languages, ...
 = Planning <planning>
 TODO: Graduation planning. Phases, goals per phase.
 
+
+#pagebreak()
+#bibliography("refs.bib")
 
