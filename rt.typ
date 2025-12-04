@@ -3,12 +3,25 @@
 
 #show: conf.with(
   doctyp: [MSc Thesis],
+  //date: "2026-..-..",
   authors: (
     (
       name: "Douwe Osinga",
       email: "d.r.osinga@student.utwente.nl",
     ),
   ),
+  supervisors: (
+    (
+      name: "dr. ir. Vadim Zaytsev",
+      email: "v.zaytsev@utwente.nl",
+    // institution: "University of Twente",
+    ),
+    (
+      name: "dr. Nacir Bouali",
+      email: "n.bouali@utwente.nl",
+    ),
+  ),
+  faculty: "Faculty of Electrical Engineering, Mathematics, and Computer Science",
   abstract: lorem(80),
 )
 #set page("a4", margin: 2cm, numbering: "1")
