@@ -58,17 +58,16 @@ In order to examin the feasibility of automatically grading UML diagrams, we pro
 We aim to answer the main research question with the following sub-research questions:
 
 #box(inset: (left: 10pt), [
-*RQ1*: What existing solutions exist for automatically analysing and/or grading UML diagrams?
+*RQ1*: What existing work exist for automatically analysing and/or grading UML diagrams?
+- *RQ1a*: What correction models are employed by existing works?
 
-*RQ2*: To what extent can Intended Learning Objectives be translated into autograder instructions?
+*RQ2*: To what extent can Intended Learning Objectives be translated into different types of autograder correction models?
 
-*RQ3*: To what extent can grading rubrics be translated into autograder instructions?
+*RQ3*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) UTML support, (2) availability of source code, (3) grading transparency, (4) grading consistency, (5) fairness in grading, (6) ease of linking ILOs to grading instructions, and (7) ease of integration into the grading process?
 
-*RQ4*: What existing solutions are suitable for use in autograding with regards to UTML support, availability of source code, transparency, consistency, and fairness in grading, ease of linking ILOs to grading instructions, and ease of integration into the grading process?
+*RQ4*: To what extent can suitable autograders be adjusted, extended, and/or incorporated to be able to grade UTML UML diagrams?
 
-*RQ5*: To what extent can suitable autograders be adjusted, extended, and/or incorporated to be able to grade UTML UML diagrams?
-
-*RQ6*: To what extent do suitable autograders compare to human grading in the context of grading first-year UML exam questions?
+*RQ5*: To what extent do suitable autograders compare to human grading in the context of grading first-year UML exam questions?
 ])
 
 
