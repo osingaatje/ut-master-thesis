@@ -198,7 +198,10 @@ Grading rubric is provided which looks a whole lot like a ruleset for an autogra
 "All three LLMs (...) ability to process and *understand*" big red flag here, ascribing human traits to machines.
 "While the models would provide a final score as requested in the prompt’s response format, this score often did not match the actual sum of points awarded in their criterion-by-criterion assessment"
 
-"The near parity between human graders and LLMs highlights their potential to significantly reduce grading workloads" - " LLMs can effectively grade these subjective tasks" <-- they are not fully objective, but far from completely subjective. There is no proof in this paper given about the transparency and clarity of grading,},
+"The near parity between human graders and LLMs highlights their potential to significantly reduce grading workloads" - " LLMs can effectively grade these subjective tasks" <-- they are not fully objective, but far from completely subjective. There is no proof in this paper given about the transparency and clarity of grading.
+
+
+"While the models would provide a final score as requested in the prompt’s response format, this  core often did not match the actual sum of points awarded in their criterion-by-criterion assessment. This discrepancy can be attributed to the autoregressive nature of LLMs, where they generate responses token by token without maintaining perfect consistency across long outputs" (p.164)},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bouali2025_LLM-Grading-UML-compared-to-TAs.pdf:PDF},
   groups     = {Review, LLM},
   keywords   = {AI-Assisted Grading, Autograding, Large Language Models, GPT, Llama, Claude, UML},
@@ -765,6 +768,61 @@ Like other papers, hint to difficulty of comparing human text (labels).
 @Misc{utml,
   title = {UTML},
   url   = {https://github.com/andrewjh9/UTML},
+}
+
+@TechReport{Wang2025,
+  author   = {Chong Wang and Beian Wang and Peng Liang and Jie Liang;},
+  title    = {Assessing UML Diagrams by GPT: Implications for Education},
+  year     = {2025},
+  comment  = {- evaluation criteria to quantitatively assess UML Use Case, Class, Sequence Diagrams
+- 40-participant study - 5 types of evaluation discrepancy, analyse competency of GPT-grading.
+
+Criteria-based, follow role-play prompting, triggering Chain-of-Thought processes.
+
+Temperature is not at 0! No deterministic grading. One run, no seed.
+
+"GPT is effective (...) However, GPT usually generates lower scores than human experts (...). In addition, the performance of GPT evaluating different types of UML diagrams"
+
+Example hallucination: "In the evaluation based on UC4, GPT deducts points for missing relationships between specified actors and use cases, but theses relationships existed in the UML use case" (p.13)
+diagram"},
+  file     = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/wang2025AssessingUMLDiagramsGPT.pdf:PDF},
+  groups   = {LLM},
+  keywords = {UML Diagram, GPT, Model Assessment, Software Modeling Education},
+  url      = {https://www.researchgate.net/publication/397720325_Assessing_UML_Diagrams_by_GPT_Implications_for_Education},
+}
+
+@Article{Ferraris2025,
+  author      = {Andrea Filippo Ferraris and Davide Audrito and Luigi Di Caro and Cristina Poncibò},
+  journal     = {Cambridge Forum on AI: Law and Governance},
+  title       = {{T}he architecture of language: {U}nderstanding the mechanics behind {L}{L}{M}s},
+  year        = {2025},
+  pages       = {1–19},
+  volume      = {1},
+  abstract    = {Large language models (LLMs) have significantly advanced artificial intelligence (AI) and natural language
+processing (NLP) by excelling in tasks like text generation, machine translation, question answering and
+sentiment analysis, often rivaling human performance. This paper reviews LLMs’ foundations, advance-
+ments and applications, beginning with the transformative transformer architecture, which improved on
+earlier models like recurrent neural networks and convolutional neural networks through self-attention
+mechanisms that capture long-range dependencies and contextual relationships. Key innovations such
+as masked language modeling and causal language modeling underpin leading models like Bidirectional
+encoder representations from transformers (BERT) and the Generative Pre-trained Transformer (GPT)
+series. The paper highlights scaling laws, model size increases and advanced training techniques that have
+driven LLMs’ growth. It also explores methodologies to enhance their precision and adaptability, includ-
+ing parameter-efficient fine-tuning and prompt engineering. Challenges like high computational demands,
+biases and hallucinations are addressed, with solutions such as retrieval-augmented generation to improve
+factual accuracy. By discussing LLMs’ strengths, limitations and transformative potential, this paper pro-
+vides researchers, practitioners and students with a comprehensive understanding. It underscores the
+importance of ongoing research to improve efficiency, manage ethical concerns and shape the future of
+AI and language technologies.},
+  booktitle   = {Cambridge Forum on AI: Law and Governance},
+  doi         = {10.1017/cfl.2024.16},
+  file        = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/cambridgeArchitectureOfLLMs.pdf:PDF},
+  groups      = {LLM},
+  institution = {Cambridge Forum on AI: Law and Governance},
+  keywords    = {large language models (LLMs); artificial intelligence (AI); natural language processing (NLP)},
+  publisher   = {Cambridge Univesrity Press},
+  series      = {11},
+  url         = {https://www.cambridge.org/core/journals/cambridge-forum-on-ai-law-and-governance/article/architecture-of-language-understanding-the-mechanics-behind-llms/E3DDEFB9C04883733380E04331D6F782},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
