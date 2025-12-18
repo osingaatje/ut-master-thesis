@@ -26,7 +26,6 @@
 )
 #set page("a4", margin: 2cm, numbering: "1")
 
-
 // highlight styling
 #set highlight(radius: 2pt)
 
@@ -72,12 +71,19 @@ We aim to answer the main research question with the following sub-research ques
 
 
 = Related work <relatedwork>
+In order to answer research questions *RQ1* until *RQ4*, we conducted a small-scale literary study, collecting works from sources such as Google Scholar#footnote(link("https://scholar.google.com/")) and ResearchGate#footnote(link("https://www.researchgate.net"))
+
 Work @Hosseinibaghdadabadi2023 @anas2021 @batmaz2010 @Bian2019 @Bian2020 @Foss2022 @Jebli2023 @Modi2021 @Ali2007 @Ali2007b @thomas2006 @thomas2004 @thomas2009 @thomas2008 @Striewe2011 @Smith2013
 
 More focused on interactivity: @Foss2022b 
 
 Work on AI @Bouali2025 @Stikkolorum2019
-(nondeterminism of AI @he2025 @brenndoerfer2025 @atil2025 + counterarg: inherent lack of transparency, risks of nondeterminism in grading (see sources) == bad because same solution might not give same grade), lack of consistency (contexxt window, importance of reducing prompt length, ...)
+
+Nondeterminism of AI @he2025 @brenndoerfer2025 @atil2025 + counterarg: inherent lack of transparency, risks of nondeterminism in grading (see sources) == bad because same solution might not give same grade), lack of consistency (contexxt window, importance of reducing prompt length, ...)
+
+Further proof of unreliability of using Large Language Models (LLMs) for automatic grading: "In the evaluation based on UC4, GPT deducts points for missing relationships between specified actors and use cases, but theses relationships existed in the UML use case" #cite(<Wang2025>, supplement: "p.13"), and "While the models would provide a final score as requested in the prompt’s response format, this  core often did not match the actual sum of points awarded in their criterion-by-criterion assessment.#cite(<Bouali2025>, supplement: "p.164"). Bouali et al. identify the problem perfectly, stating that "This discrepancy can be attributed to the autoregressive nature of LLMs, where they generate responses token by token". 
+
+I believe that the observation from #cite(<Bouali2025>, form: "prose") highlights the underlying problem of using LLMs for automatic grading. Because these models are in their very essence based on predicting tokens @Ferraris2025, there is no formal guarantee that grades are produced with accuracy. The fact that LLMs produce grades that correlate with human grading does not mean that this grading is done in a fair, consistent, or reliable manner.
 
 Experience on TAs @Ahmed2024
 
