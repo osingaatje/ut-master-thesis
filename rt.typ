@@ -24,6 +24,7 @@
   faculty: "Faculty of Electrical Engineering, Mathematics, and Computer Science",
 )
 #set page("a4", margin: 2cm, numbering: "1")
+#columns(2, gutter: 10pt, [
 
 // highlight styling
 #set highlight(radius: 2pt)
@@ -66,18 +67,17 @@ We aim to answer the main research question with the following sub-research ques
 #box(inset: (left: 10pt), [
 *RQ1*: What existing work exist for automatically analysing and/or grading UML diagrams?
 - *RQ1a*: What correction models are employed by existing works?
+- *RQ1b*: To what extent can Intended Learning Objectives be translated into different types of autograder correction models?
 
-*RQ2*: To what extent can Intended Learning Objectives be translated into different types of autograder correction models?
+*RQ2*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) accuracy, (2) consistency, (3) transparency, (4) availability of source code, (5) extent to which linking ILOs to grading instructions is possible, (6) ease of integration into the grading process, and (7) UTML support?
 
-*RQ3*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) accuracy, (2) consistency, (3) transparency, (4) availability of source code, (5) UTML support, (6) extent to which linking ILOs to grading instructions is possible, and (7) ease of integration into the grading process?
+*RQ3*: To what extent can a suitable autograder be constructed from previous work to be able to grade UTML UML diagrams?
 
-*RQ4*: To what extent can suitable autograders be used to be able to grade UTML UML diagrams?
-
-*RQ5*: To what extent do suitable autograders compare to human grading in the context of grading first-year UML exam questions?
+*RQ4*: To what extent does the autograder compare to human grading in the context of grading first-year UML exam questions?
 ])
 
 
-*RQ1* and *RQ2* is answered by collecting related work (@relatedwork), which will give us an overview of existing solutions and their grading methodologies. *RQ3* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ4* and *RQ5* are to be answered in the final thesis, where we aim to grade UTML diagrams with the most suitable autograder and compare it to human grading.
+*RQ1* is answered by collecting related work (@relatedwork), which will give us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we aim to grade UTML diagrams with the most suitable autograder and compare it to human grading.
 
 = Related work <relatedwork>
 In order to answer research questions *RQ1* until *RQ4*, we have conducted a small-scale study covering roughly #highlight("40") works. These works were collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", and "UML diagram assessment" for autograder-based related works, and terms such as "ILO translation", "intended learning objective grading", and #highlight("more terms and stuff about ILOs")
@@ -113,7 +113,37 @@ Adopt existing tool(s), make own tool, what frameworks/languages, ...
 = Planning <planning>
 TODO: Graduation planning. Phases, goals per phase.
 
+])
 
 #pagebreak()
 #bibliography("refs.bib")
+
+= Appendices
+== Autograder suitability table <app:grader-suitability>
+#[
+  #show table.cell.where(body: [N]): t => text(fill: rgb("#CC1212"), strong(t))
+  #show table.cell.where(body: [H]): t => text(fill: rgb("#12CC12"), strong(t))
+  #show table.cell.where(body: [?]): t => t
+
+  #figure(
+    table(columns: (4fr, 2fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+      inset: 3pt,
+      align: horizon,
+        table.header(
+        [Author],                                        [Di],           [Ac], [Co], [Tr], [OSS], [ILO], [Int], [UTML],
+      ),
+
+      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [N],   [N],   [?],   [N], 
+
+    ),
+    caption: figure.caption(position: bottom, [
+      Autograders and their suitability scores. \
+      #align(left, [ 
+        \*Di(_agram type_), Ac(_curacy_), Co(_nsistency_), Tr(_ansparency_), OSS = _availability of source code_, ILO = _ease of linking grading to ILOs_, Int(_egration ease_), UTML _support_. \
+        #v(2pt)
+        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium.
+      ])
+    ]),
+  )
+]
 
