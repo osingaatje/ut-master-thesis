@@ -42,9 +42,9 @@
 
 UML diagrams play a significant role in computer science, as they allow for communicating system designs in a standardised format. During technical studies, students are often required to make a UML diagram for a graded assignment or exam.
 
-However, the grading of these diagrams can often be a costly and lengthy process, involving multiple paid members of staff#footnote("From personal experience.")<footnote:pers-exp>.
+However, the grading of these diagrams can often be a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("Also from personal experience.")<footnote:pers-exp>.
 
-Additionally, this process is prone to grading inconsistencies, as humans are inherently unreliable when grading @Meadows2005. Letting the process of determining a grade based on a rubric be performed by a machine instead of a human would reduce these inconsistencies.
+Additionally, this process is prone to grading inconsistencies @Ahmed2024, as humans are inherently unreliable when grading @Meadows2005. Letting the process of determining a grade based on a rubric be performed by a (deterministic) program instead of a human reduces these inconsistencies @Bian2020.
 
 In this Research Topics paper, I examine the current state of autograding diagrams and propose a plan for the implementation of _Seshat_, an automatic diagram grader that combines concepts from related works (@relatedwork), which is to be implemented and verified in the final thesis.
 
@@ -81,17 +81,34 @@ We aim to answer the main research question with the following sub-research ques
 ])
 
 
-*RQ1* is answered by collecting related work (@relatedwork), which will give us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we aim to grade UTML diagrams with the most suitable autograder and compare it to human grading.
+*RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
 = Related work <relatedwork>
 In order to answer research questions *RQ1* until *RQ4*, we have conducted a small-scale study covering roughly #highlight("40") works. These works were collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", and "UML diagram assessment" for autograder-based related works, and terms such as "ILO translation", "intended learning objective grading", and #highlight("more terms and stuff about ILOs")
 
-== Existing work
-The automatic analysis of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @thomas2004. Multiple types of diagrams are researched, including UML diagrams @Hosseinibaghdadabadi2023 @anas2021 @batmaz2010 @Bian2019 @Bian2020 @Jebli2023 @Modi2021 @Ali2007 @Ali2007b @AlRawashdeh2014 @Vachharajani2014 @Striewe2011, Entity-Relation Diagrams (including UML ERDs) @Foss2022 @Foss2022b @thomas2006 @thomas2004 @thomas2009 @thomas2008 @Smith2013
+== Autograders
+=== Non-ML/LLM
+The automatic analysis of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @thomas2004. Multiple types of diagrams are researched, including UML diagrams @Hosseinibaghdadabadi2023 @anas2021 @batmaz2010 @Bian2019 @Bian2020 @Jebli2023 @Modi2021 @Ali2007 @Ali2007b @AlRawashdeh2014 @Vachharajani2014 @Striewe2011, Entity-Relation Diagrams (including UML ERDs) @Foss2022 @Foss2022b @thomas2006 @thomas2004 @thomas2009 @thomas2008 @Smith2013.
 
+#cite(<Bian2019>, form: "prose") establishes a metamodel to map submissions to example solutions and proposes a metamodel to grade submissions. It suggests using syntactic matching, semantic matching, and structural matching, with the goal to optimally match parts of a student submission with those of a teacher, considering spelling mistakes, synonyms and related words, and neighbours / inheritance, respectively. They expand their work in a paper from #cite(<Bian2020>, form: "year") which expands the work with a case study. Their main findings are that multiple teacher solutions result in more accurate grades, that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11").
+
+#cite(<Hosseinibaghdadabadi2023>, form: "prose") implements the work of #cite(<Bian2019>, form: "prose") by comparing UML use case diagrams to one or multiple example solutions, preferring the maximum grade. It uses a graph similarity strategy which matches nodes based on structural matching, along with syntactic and semantic word matching. Syntactic matching with Levenshtein distance, semantic matching with WordNet similarity score (uses HSO, WUP, LIN metrics). It achieves high correlation with human grades. #highlight("more?")
+
+#cite(<anas2021>, form: "prose") compares UML class diagram submissions to an example solution. It uses graph similarity scores based on structural matching along with syntactic and semantic matching. Syntactic matching is done with substring matching, semantic matching is done with neighbour similarity ("the comparison of the neighboring classes" #cite(<anas2021>, supplement: "p.1585")), relationship name, type, multiplicity, and inheritance. It achieves high correlation with human grading (more than 80% is perfectly similar, over 90% had a correlation >0.85, no correlation was lower than 0.7).
+
+
+
+
+=== ML/LLM-driven
+Work on AI @Bouali2025 @Stikkolorum2019.
+
+#cite(<Bouali2025>, form: "prose") uses various Large Language Models (Llama, GPT o1-mini, Claude) to grade 
+
+
+=== Other
 More focused on interactivity: @Foss2022b 
 
-Work on AI @Bouali2025 @Stikkolorum2019
+#cite(<batmaz2010>, form: "prose") takes a broader look at the process of grading, identifying and developing techniques to reduce repetitive actions, focusing on database ER diagrams. It proposes a semi-automatic grading system which identifies identical segments between a submission and the solution. Assuming multiple submission revisions are available, it suggests to "not only [use] the reference text but also the intermediate diagrams" for identifying semantic matches #cite(<batmaz2010>, supplement: "p.40").
 
 == ILO translation
 
