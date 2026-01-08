@@ -442,7 +442,7 @@ Synonym identification rules, but requires extra verification (it related "Facil
 
 produces a hodge podge solution that combines everything, but no quantitative metrics mentioned. Weird paper.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Rawashdeh2014_ModelCheckingApproach_GradingSemanticsOfUMLModels.pdf:PDF},
-  groups     = {Slightly relevant},
+  groups     = {Slightly relevant, Algorithmic},
   keywords   = {UML semantics, Formal representation, Model cannot be put to good use. On the other hand, the symbolic Mapping, Spin, Hugo/RT model checker SMV, is used for verifying the properties, as it},
   readstatus = {read},
   url        = {https://iieng.org/images/proceedings_pdf/8684E0114567.pdf},
@@ -621,7 +621,7 @@ ment in the woven model has originated.},
 }
 
 @InProceedings{Foss2022a,
-  author     = {Foss, Sarah and Urazova, Tatiana and Lawrence, Ramon},
+  author     = {Sarah Foss and Tatiana Urazova and Ramon Lawrence},
   booktitle  = {Proceedings of the 53rd ACM Technical Symposium on Computer Science Education},
   title      = {Automatic Generation and Marking of UML Database Design Diagrams},
   year       = {2022},
@@ -775,10 +775,10 @@ Like other papers, hint to difficulty of comparing human text (labels).
 }
 
 @TechReport{Wang2025,
-  author   = {Chong Wang and Beian Wang and Peng Liang and Jie Liang;},
-  title    = {Assessing UML Diagrams by GPT: Implications for Education},
-  year     = {2025},
-  comment  = {- evaluation criteria to quantitatively assess UML Use Case, Class, Sequence Diagrams
+  author     = {Chong Wang and Beian Wang and Peng Liang and Jie Liang;},
+  title      = {Assessing UML Diagrams by GPT: Implications for Education},
+  year       = {2025},
+  comment    = {- evaluation criteria to quantitatively assess UML Use Case, Class, Sequence Diagrams
 - 40-participant study - 5 types of evaluation discrepancy, analyse competency of GPT-grading.
 
 Criteria-based, follow role-play prompting, triggering Chain-of-Thought processes.
@@ -789,10 +789,11 @@ Temperature is not at 0! No deterministic grading. One run, no seed.
 
 Example hallucination: "In the evaluation based on UC4, GPT deducts points for missing relationships between specified actors and use cases, but theses relationships existed in the UML use case" (p.13)
 diagram"},
-  file     = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/wang2025AssessingUMLDiagramsGPT.pdf:PDF},
-  groups   = {LLM},
-  keywords = {UML Diagram, GPT, Model Assessment, Software Modeling Education},
-  url      = {https://www.researchgate.net/publication/397720325_Assessing_UML_Diagrams_by_GPT_Implications_for_Education},
+  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/wang2025AssessingUMLDiagramsGPT.pdf:PDF},
+  groups     = {LLM},
+  keywords   = {UML Diagram, GPT, Model Assessment, Software Modeling Education},
+  readstatus = {skimmed},
+  url        = {https://www.researchgate.net/publication/397720325_Assessing_UML_Diagrams_by_GPT_Implications_for_Education},
 }
 
 @Article{Ferraris2025,
@@ -825,6 +826,7 @@ AI and language technologies.},
   institution = {Cambridge Forum on AI: Law and Governance},
   keywords    = {large language models (LLMs); artificial intelligence (AI); natural language processing (NLP)},
   publisher   = {Cambridge Univesrity Press},
+  readstatus  = {skimmed},
   series      = {11},
   url         = {https://www.cambridge.org/core/journals/cambridge-forum-on-ai-law-and-governance/article/architecture-of-language-understanding-the-mechanics-behind-llms/E3DDEFB9C04883733380E04331D6F782},
 }
@@ -833,6 +835,22 @@ AI and language technologies.},
   author = {David Huistra},
   title  = {UTML - internal GitLab repository},
   url    = {https://gitlab.utwente.nl/ewi/eduapps/UTML/},
+}
+
+@Misc{xmi,
+  author     = {OMG},
+  title      = {XMI specification},
+  groups     = {Other},
+  readstatus = {read},
+  url        = {https://www.omg.org/spec/XMI},
+}
+
+@Misc{ibm-rational-rose,
+  author     = {IBM},
+  title      = {Rational Rose},
+  groups     = {Other},
+  readstatus = {read},
+  url        = {https://www.ibm.com/support/pages/ibm-rational-rose-enterprise-7004-fix-pack-4-7000},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
@@ -852,5 +870,6 @@ AI and language technologies.},
 1 StaticGroup:NOT autograding\;2\;0\;\;MDI_HUMAN\;\;;
 1 StaticGroup:Slightly relevant\;2\;1\;\;AIRLINE_SEAT_INDIVIDUAL_SUITE\;\;;
 1 StaticGroup:ManualGradingReview\;2\;1\;\;PERSON_OUTLINE\;\;;
-2 StaticGroup:Man.Grad.Review\;2\;1\;0x000080ff\;BOOK_EDIT_OUTLINE\;\;;
+2 StaticGroup:Man.Grad.Review\;2\;0\;0x000080ff\;BOOK_EDIT_OUTLINE\;\;;
+1 StaticGroup:Other\;2\;1\;0x808000ff\;ARROW_DROP_DOWN\;\;;
 }
