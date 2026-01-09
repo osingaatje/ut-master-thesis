@@ -87,22 +87,23 @@ We aim to answer the main research question with the following sub-research ques
 In order to answer research questions *RQ1* until *RQ4*, we have conducted a small-scale study covering roughly #highlight("40") works. These works were collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", and "UML diagram assessment" for autograder-based related works, and terms such as "ILO translation", "intended learning objective grading", and #highlight("more terms and stuff about ILOs")
 
 == Autograders
-=== Frameworks / Theoretical
-@batmaz2010 @Bian2019 @Ali2007 @Vachharajani2014 
+=== Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
+@smith2004 @Ali2007 @batmaz2010 @Bian2019 @Vachharajani2014 
 
+#cite(<smith2004>, form: "prose") provides a five-step framework for assessing "possibly ill-formed or inaccurate diagrams" that include (1) segmentation, (2) assimilation, (3) identification, (4) aggregation, and (5) interpretation. While the first two steps are aimed at translating images or other "raster-based input" into diagrammatic primitives, the latter stages provide a foundation to grade diagrams used by other papers @thomas2009.
 
 #cite(<Ali2007>, form: "prose") proposes a UML class diagram assessment system using Rose Petal files, but does not mention enough specifics about algorithms to warrant further investigation.
 
+#cite(<batmaz2010>, form: "prose") takes a broader look at the process of grading, identifying and developing techniques to reduce repetitive actions, focusing on database Entity Relation diagrams. It proposes a semi-automatic grading system which identifies identical segments between a submission and the solution. Assuming multiple submission revisions are available, it suggests to "not only [use] the reference text but also the intermediate diagrams" for identifying semantic matches #cite(<batmaz2010>, supplement: "p.40").
+
 #cite(<Vachharajani2014>, form: "prose") proposes a UML use case assessment architecture. It provides a useful catalogue about edge cases related to (use case) diagram assessment, such as the chance of misspellings, synonyms, abbreviations, directionality of relationships, etc.
-
-
-#cite(<batmaz2010>, form: "prose") takes a broader look at the process of grading, identifying and developing techniques to reduce repetitive actions, focusing on database ER diagrams. It proposes a semi-automatic grading system which identifies identical segments between a submission and the solution. Assuming multiple submission revisions are available, it suggests to "not only [use] the reference text but also the intermediate diagrams" for identifying semantic matches #cite(<batmaz2010>, supplement: "p.40").
 
 #cite(<Bian2019>, form: "prose") establishes a metamodel to map submissions to example solutions and proposes a metamodel to grade submissions. It suggests using syntactic matching, semantic matching, and structural matching, with the goal to optimally match parts of a student submission with those of a teacher, considering spelling mistakes, synonyms and related words, and neighbours / inheritance, respectively. 
 
-=== Non-ML/LLM
-The automatic analysis of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @thomas2004. Multiple types of diagrams are researched, including UML diagrams @Bian2020 @Hosseinibaghdadabadi2023 @anas2021 @Jebli2023 @Modi2021 @Ali2007b @AlRawashdeh2014 @Striewe2011
-- TODO: , Entity-Relation Diagrams (including UML ERDs) @Foss2022a @Foss2022 @Foss2022b @thomas2006 @thomas2004 @thomas2009 @thomas2008 @Smith2013.
+=== Non-ML/LLM<subsec:relatedwork-autograder-algorithmic>
+The automatic analysis of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @thomas2004. Multiple types of diagrams are researched, including UML class and use case diagrams @Bian2020 @Hosseinibaghdadabadi2023 @anas2021 @Jebli2023 @Modi2021 @Ali2007b @AlRawashdeh2014 @Striewe2011
+
+and Entity-Relation Diagrams @Foss2022 @Foss2022a @Foss2022b @thomas2006 @thomas2004 @thomas2008 @thomas2009 @thomas2011 @smith2013.
 
 #cite(<Bian2020>, form: "year") expands their previous work @Bian2019 with a case study. Their main findings are that multiple teacher solutions result in more accurate grades, that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11").
 
@@ -116,9 +117,15 @@ Multiple papers mention the use of XMI @Modi2021 @Jebli2023, the object notation
 
 #cite(<Striewe2011>, form: "prose") continues this trend by focusing on graph queries for evaluation, providing a Domain-Specific Language that looks relatively similar to SQL. While it looks promising, the fact that teachers would have to learn a query language and transform their existing rubrics/example solutions into this format could be a real hurdle, especially given the high similarity to existing grading of graph-isomorphism-based solutions. Additionally, the paper does not provide approximate matching that would account for misspelling or synonyms.
 
-#cite(<Foss2022>, form: "author") provide multiple papers on AutoER, a database diagram generator and evaluator that #highlight([TODO!]) @Foss2022 @Foss2022a @Foss2022b.
+#cite(<Foss2022>, form: "author") provide multiple papers on AutoER, a database diagram generator and evaluator that provides direct interaction with a description text @Foss2022 @Foss2022a @Foss2022b. Unfortunately, concrete comparisons to manual grading or source code could not be found.
 
-=== ML/LLM-driven
+#cite(<thomas2004>, form: "author") also provides a selection of paperse on the automatic grading of database diagrams @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011. These papers provide a grading strategy that accounts in its basis for _imprecise_ diagrams (diagrams containing misspellings, duplicate entities, etc.), basing their analysing on comparing ever increasing subsets of the graph ((Minimal) Meaningful Units) based on the work of #cite(<smith2004>, form: "prose"). By #cite(<thomas2009>, form: "year"), #cite(<thomas2009>, form: "author") manage to achieve a correlation to human grading of 92%, along with statistically proving that the autograder grades more consistently than human grading.
+
+In #cite(<thomas2011>, form: "year") #cite(<thomas2011>, form: "author") provide an online platform for both students and teachers to ease the process of automatic grading further, also used by #cite(<smith2013>, form: "prose"), which fruther mathematically specify #cite(<thomas2011>, form: "author")'s work. Unfortunately, we were not able to retrace the source code of this grader.
+
+// Note to self: replicating Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
+
+=== ML/LLM-driven<subsec:relatedwork-autograder-AI>
 Work on AI @Bouali2025 @Stikkolorum2019.
 
 #cite(<Bouali2025>, form: "prose") uses various Large Language Models (Llama, GPT o1-mini, Claude) to grade 
@@ -131,10 +138,6 @@ I believe that the observation from #cite(<Bouali2025>, form: "prose") highlight
 While @Bouali2025 attempts to lower the amount of nondeterminism by setting the model's temperature to zero, nondeterminism can still occur due to 
 
 Nondeterminism of AI @he2025 @brenndoerfer2025 @atil2025 + counterarg: inherent lack of transparency, risks of nondeterminism in grading (see sources) == bad because same solution might not give same grade), lack of consistency (contexxt window, importance of reducing prompt length, ...). 
-
-
-=== Other
-More focused on interactivity: @Foss2022b 
 
 
 == ILO translation
