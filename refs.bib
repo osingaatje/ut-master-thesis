@@ -47,7 +47,7 @@ I also feel that this focuses a bit more on statistics than individual cases. Ch
 Also highlights edge cases where use case is split into two, or when two use cases are handed in by a student as one. Interesting problem to potentially solve.
 
 Has as source Bian et al. 2019.},
-  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/alam2023_AutomatedGradingOfUseCases.pdf:PDF},
+  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/hosseinibaghdadabadi2023_AutomatedGradingOfUseCases.pdf:PDF},
   groups     = {Algorithmic},
   readstatus = {read},
   url        = {https://ieeexplore.ieee.org/iel7/10343461/10343549/10343598.pdf},
@@ -168,7 +168,7 @@ the grading algorithm are proposed and validated experimentally. can also be use
 @InProceedings{Bouali2025,
   author     = {Nacir Bouali and Marcus Gerhold and Tosif Ul Rehman and Faizan Ahmed},
   title      = {Toward Automated UML Diagram Assessment: Comparing LLM-Generated Scores with Teaching Assistants},
-  year       = {5220},
+  year       = {2025},
   abstract   = {This paper investigates the feasibility of using Large Language Models (LLMs) to automate the grading of
 Unified Modeling Language (UML) class diagrams in a software design course. Our method involves care-
 fully designing case studies with constraints that guide students’ design choices, converting visual diagrams
@@ -546,17 +546,6 @@ Very nice theory for dealing with inheritance checking, many-to-many checking, .
   url        = {https://www.academia.edu/download/67672696/pxc3900193.pdf},
 }
 
-@TechReport{Wang2412,
-  author     = {Chong Wang; Beian Wang; Peng Liang; Jie Liang},
-  title      = {Assessing UML Diagrams by GPT: Implications for Education},
-  year       = {2412},
-  number     = {im-},
-  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/wang2024_AssessingUMLDiagramsByGPT_ImplicationsForEducation.pdf:PDF},
-  groups     = {LLM},
-  keywords   = {UML Diagram, GPT, Model Assessment, Software Modeling Education},
-  readstatus = {skimmed},
-}
-
 @InProceedings{Williams2025,
   author     = {Williams, Eldon and Xing, Guangming},
   booktitle  = {Proceedings of the 56th ACM Technical Symposium on Computer Science Education V. 2},
@@ -659,15 +648,15 @@ for using the software to improve their learning outcomes. in a database course.
   title      = {Defeating Nondeterminism in LLM Inference},
   year       = {2025-09-10},
   comment    = {LLMs with temperature = 0 can still be nondeterminstic ("run-to-run determinism") because "kernels add numbers in different orders" (concurrency + floating point)},
-  groups     = {LLM nondeterminism},
+  groups     = {LLM downsides},
   readstatus = {read},
   url        = {https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/},
 }
 
 @Article{brenndoerfer2025,
   author     = {Michael Brenndoerfer},
-  year       = {2025},
   title      = {Why Temperature=0 Doesn't Guarantee Determinism in LLMs},
+  year       = {2025},
   comment    = {Temperature
 = 0 in language models aims to eliminate randomness by always selecting
 the most probable next token (i.e., greedy decoding).
@@ -691,7 +680,7 @@ temperature=0 increases consistency, true repeatability requires strict
 control over hardware, software, and decoding settings.
 Ultimately, these nuances explain why outputs can still differ, even
 when no randomness is explicitly introduced.},
-  groups     = {LLM nondeterminism},
+  groups     = {LLM downsides},
   readstatus = {read},
   url        = {https://mbrenndoerfer.com/writing/why-llms-are-not-deterministic},
 }
@@ -702,7 +691,7 @@ when no randomness is explicitly introduced.},
   year       = {2025-04-02},
   comment    = {"Although the use of multiple GPUs introduces some randomness (...), it can be eliminated by setting random seeds (...). However, engineering optimizations to run LLMs faster (...) might lead to nondeterministic behavior."},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Atil2025_NonDeterminismOfDeterministicLLMSettings.pdf:PDF},
-  groups     = {LLM nondeterminism},
+  groups     = {LLM downsides},
   readstatus = {skimmed},
   url        = {https://arxiv.org/pdf/2408.04667},
 }
@@ -882,6 +871,18 @@ AI and language technologies.},
   url        = {https://www.tandfonline.com/doi/full/10.11120/ital.2011.10010022},
 }
 
+@InProceedings{ranjan2024,
+  author     = {Rajesh Ranjan and Shailja Gupta and Surya Narayan Singh},
+  title      = {A Comprehensive Survey of Bias in LLMs: Current Landscape and Future Directions},
+  year       = {2024},
+  doi        = {10.48550/arXiv.2409.16430},
+  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/ranjan2024_SurveyOfBiasIinLLMs.pdf:PDF},
+  groups     = {LLM downsides},
+  keywords   = {Large Language Model (LLM), Biases, Natural Language Processing (NLP), Bias Mitigation, Artificial Intelligence and Fairness in AI},
+  readstatus = {skimmed},
+  url        = {https://arxiv.org/abs/2409.16430},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
@@ -889,8 +890,8 @@ AI and language technologies.},
 1 StaticGroup:Autograding\;2\;1\;0x008000ff\;COMPUTER\;\;;
 2 StaticGroup:LLM\;2\;1\;0xf2f2f2ff\;SLOT_MACHINE_OUTLINE\;\;;
 3 StaticGroup:bad/not worth reading\;2\;1\;0x800000ff\;SLOT_MACHINE_OUTLINE\;\;;
-3 StaticGroup:LLM nondeterminism\;2\;1\;0x666600ff\;SLOT_MACHINE\;\;;
-2 StaticGroup:Review\;2\;0\;0x804d80ff\;FOUNTAIN_PEN_TIP\;\;;
+3 StaticGroup:LLM downsides\;2\;1\;0x666600ff\;SLOT_MACHINE\;\;;
+2 StaticGroup:Review\;2\;1\;0x804d80ff\;FOUNTAIN_PEN_TIP\;\;;
 2 StaticGroup:Advice - not implementation\;2\;0\;0x808080ff\;ANNOUNCEMENT\;\;;
 2 StaticGroup:Algorithmic\;2\;1\;0x800080ff\;GMI_360\;\;;
 3 StaticGroup:Semi-automatic\;2\;0\;0xb34d1aff\;STATE_MACHINE\;\;;
