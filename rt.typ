@@ -34,30 +34,24 @@
 #set highlight(radius: 2pt)
 
 #abstr(content: 
-  "During computer science studies, students are often required to submit UML diagrams. The grading of these diagrams is often done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasability of automatically grading UML diagrams, focusing on the UTML variant developed at the University of Twente. In the final thesis, we compare the most suitable autograder from our related works to human grading."
+  [
+    During computer science studies, students are often required to submit UML diagrams. The grading of these diagrams is mainly done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasability of automatically grading UML diagrams, focusing on the UTML variant developed at the University of Twente. We find that #highlight("TODO results") and propose _Seshat_, an algorithmic autograder that combines principles from graph isomorphism with structural, semantic, and syntactic matching #highlight("TODO mention this in paper"). In the final thesis, we compare the most suitable autograder from our related works to human grading.
+  ]
 )
 
 = Introduction <intro>
 // Current state of grading + autograding, University of Twente is looking into ways to save time and money in grading by automating (parts of) it.
 
-UML diagrams play a significant role in computer science, as they allow for communicating system designs in a standardised format. During technical studies, students are often required to make a UML diagram for a graded assignment or exam.
+UML diagrams play a significant role in computer science, as they allow for communicating software designs in a standardised format. During technical studies, students are often required to make UML diagrams for graded assignments or exams.
 
-However, the grading of these diagrams can often be a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("Also from personal experience.")<footnote:pers-exp>.
-
-Additionally, this process is prone to grading inconsistencies @Ahmed2024, as humans are inherently unreliable when grading @Meadows2005. Letting the process of determining a grade based on a rubric be performed by a (deterministic) program instead of a human reduces these inconsistencies @Bian2020.
-
-In this Research Topics paper, I examine the current state of autograding diagrams and propose a plan for the implementation of _Seshat_, an automatic diagram grader that combines concepts from related works (@relatedwork), which is to be implemented and verified in the final thesis.
+However, the grading of these diagrams can often be a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies @Ahmed2024, as humans are inherently unreliable, according to #cite(<Meadows2005>, form: "prose"), who pose two possible solutions: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_. Letting the process of determining a grade based on a rubric be performed by software@footnote:determinism instead of a human reduces human inconsistencies and the time it takes to grade .
 
 
-= Problem statement <prob-stat> 
-The grading of (UML) diagram submissions by students can often be a costly and lengthy process, involving multiple paid members of staff @footnote:pers-exp, which can take multiple hours of active work. Additionally, human grading is inherently subject to inconsistencies in grading, according to #cite(<Meadows2005>, form: "prose"), who pose two possible solutions: either "report the level of reliability associated with marks/grades, or find alternatives to marking." We propose a third alternative: what if, instead of finding alternatives to marking/grading, we find alternatives to the grading _process_?
+The automatisation of grading diagrams provides an grading marking method that could both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior, performance compared to human grading in terms of *accuracy* and *process transparency*, while improving *consistency*.
 
-The automatisation of grading diagrams provides an grading marking method that could both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic"). This could result in similar performance compared to human grading in terms of *accuracy* and *process transparency*, while improving *consistency*.
-
-With accuracy, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With consistency, we mean both the extent to which similar grades are given to similar submissions, and the difference between consecutive runs (i.e. determinism). With transparency, we mean the extent to which the reasoning for a particular grade is explained. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance.
+With accuracy, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With consistency, we mean both the extent to which similar grades are given to similar submissions, and the difference between consecutive runs (i.e. determinism). With process transparency, we mean the extent to which the reasoning for a particular grade is explained. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance. For transparency, it would also be desirable to be able to link Intended Learning Objectives (ILOs) to the autograders, as this would help relate the grading to the objectives of the module @osinga2024.
 
 For this research, we focus on the automatic grading of _UTML_ UML diagrams, a recent, in-house developed diagram format of the University of Twente @utml-internal@utml. However, as UTML is just a representation format and tool for creating UML diagrams, we aim to generalise these results to provide advice on the automatic grading of UML diagrams as a whole.
-
 
 == Research Questions <rqs>
 In order to examin the feasibility of automatically grading UTML UML diagrams, we provide a main research question (*MRQ*):
@@ -68,18 +62,25 @@ In order to examin the feasibility of automatically grading UTML UML diagrams, w
 
 We aim to answer the main research question with the following sub-research questions:
 
-#box(inset: (left: 10pt), [
+#let rq(content) = box(inset: (left: 10pt), content)
+
+#rq([
 *RQ1*: What existing work can be found for automatically analysing and/or grading UML diagrams?
 - *RQ1a*: What correction models are employed by existing works?
 - *RQ1b*: To what extent can Intended Learning Objectives be translated into different types of autograder correction models?
-
-*RQ2*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) accuracy, (2) consistency, (3) transparency, (4) availability of source code, (5) extent of linking ILOs to grading instructions, (6) ease of integration into the grading process, and (7) UTML support?
-
-*RQ3*: To what extent can a suitable autograder be constructed from previous work to be able to grade UTML UML diagrams?
-
-*RQ4*: To what extent does the autograder compare to human grading in the context of grading first-year UML exam questions?
 ])
 
+#rq([
+*RQ2*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) accuracy, (2) consistency, (3) transparency, (4) availability of source code, (5) extent of linking ILOs to grading instructions, (6) ease of integration into the grading process, and (7) UTML support?
+])
+
+#rq([
+*RQ3*: To what extent can a suitable autograder be constructed from previous work to be able to grade UTML UML diagrams?
+])
+
+#rq([
+*RQ4*: To what extent does the autograder compare to human grading in the context of grading first-year UML exam questions?
+])
 
 *RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
