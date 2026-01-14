@@ -99,16 +99,16 @@ In order to answer research questions *RQ1* until *RQ4*, we have conducted a sma
 
 #cite(<Bian2019>, form: "prose") establishes a metamodel to map submissions to example solutions and proposes a metamodel to grade submissions. It suggests using syntactic matching, semantic matching, and structural matching, with the goal to optimally match parts of a student submission with those of a teacher, considering spelling mistakes, synonyms and related words, and neighbours / inheritance, respectively. 
 
-In conclusion, most autograder strategies propose structural matching (to identify similar segments of graphs), often in combination with syntactic matching that accounts for misspellings and semantic matching to account for synonyms.
+In conclusion, most autograder strategies propose structural matching (to identify similar segments of graphs), often in combination with syntactic matching that accounts for misspellings and semantic matching to account for synonyms. Unfortunately, the strategies do not account for integrating ILOs into the grading process explicitly.
 
 === Non-ML/LLM<subsec:relatedwork-autograder-algorithmic>
 The implementation of automatic graders seem to be a relatively new field, having started somewhere in the early 2000s @thomas2004. Multiple types of diagrams are researched, including UML class- and use case diagrams @Bian2020 @Hosseinibaghdadabadi2023 @anas2021 @Jebli2023 @Modi2021 @Ali2007b @AlRawashdeh2014 @Striewe2011 and database Entity-Relation Diagrams @Foss2022 @Foss2022a @Foss2022b @thomas2006 @thomas2004 @thomas2008 @thomas2009 @thomas2011 @smith2013.
 
-#cite(<Bian2020>, form: "prose") expands their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study. Their main findings are that multiple teacher solutions result in more accurate grades, that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11").
+#cite(<Bian2020>, form: "prose") expands their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study. Their main findings are that multiple teacher solutions result in more accurate grades with an average accuracy of more than 95% #cite(<Bian2020>, supplement: "p.10"), that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11").
 
 #cite(<Hosseinibaghdadabadi2023>, form: "prose") also implements the framework by #cite(<Bian2019>, form: "prose") by comparing UML use case diagrams to one or multiple example solutions, preferring the maximum grade. It uses a graph similarity strategy which matches nodes based on structural matching, along with syntactic and semantic word matching. Syntactic matching with Levenshtein distance, semantic matching with WordNet similarity score (uses HSO, WUP, LIN metrics). It achieves a very high correlation with human grades, with a similarity percentage of 93.31% #cite(<Hosseinibaghdadabadi2023>, supplement: "p.114").
 
-#cite(<anas2021>, form: "prose") compares UML class diagram submissions to an example solution. It uses graph similarity scores based on structural matching along with syntactic and semantic matching. Syntactic matching is done with substring matching, semantic matching is done with neighbour similarity ("the comparison of the neighboring classes" #cite(<anas2021>, supplement: "p.1585")), relationship name, type, multiplicity, and inheritance. It achieves high correlation with human grading (more than 80% is perfectly similar, over 90% had a correlation >0.85, with no correlation lower than 0.7).
+#cite(<anas2021>, form: "prose") compares UML class diagram submissions to an example solution. It uses graph similarity scores based on structural matching along with syntactic and semantic matching. Syntactic matching is done with substring matching, semantic matching is done with neighbour similarity ("the comparison of the neighboring classes" #cite(<anas2021>, supplement: "p.1585")), relationship name, type, multiplicity, and inheritance. It achieves a respectable correlation with human grading, with more than 80% is perfectly similar, over 90% >0.85 correlated, and no correlations lower than 0.7.
 
 Multiple papers mention the use of XMI @Modi2021 @Jebli2023, the object notation standard by OMG @xmi, or Rose Petal files @Ali2007b, the standard of IBM Rational Rose @ibm-rational-rose, but fail to mention specifics about matching algorithms or results.
 
@@ -120,27 +120,27 @@ Multiple papers mention the use of XMI @Modi2021 @Jebli2023, the object notation
 
 #cite(<thomas2004>, form: "author") also provides a selection of paperse on the automatic grading of database diagrams @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011. These papers provide a grading strategy that accounts in its basis for _imprecise_ diagrams (diagrams containing misspellings, duplicate entities, etc.), basing their analysing on comparing ever increasing subsets of the graph ((Minimal) Meaningful Units) based on the work of #cite(<smith2004>, form: "prose"). By #cite(<thomas2009>, form: "year"), #cite(<thomas2009>, form: "author") manage to achieve a correlation to human grading of 92%, along with statistically proving that the autograder grades more consistently than human grading. The graphed grading distribution can be viewed in @fig:thomas2009-results.
 
-In #cite(<thomas2011>, form: "year") #cite(<thomas2011>, form: "author") provide an online platform for both students and teachers to ease the process of automatic grading further, also used by #cite(<smith2013>, form: "prose"), which fruther mathematically specify #cite(<thomas2011>, form: "author")'s work. Unfortunately, we were not able to retrace the source code of this grader.
+In #cite(<thomas2011>, form: "year") #cite(<thomas2011>, form: "author") provide an online platform for both students and teachers to ease the process of automatic grading further, also used by #cite(<smith2013>, form: "prose"), which further mathematically specify #cite(<thomas2011>, form: "author")'s work. Unfortunately, we were not able to retrace the source code of this grader.
 
 #figure(
-  image("pics/thomas2009_Fig3.png"),
+  box(inset: (left: -10pt), image("pics/thomas2009_Fig3.png", width: 95%)),
     caption: [#cite(<thomas2009>, form: "prose", supplement: "Fig. 3"): Human vs. automatic grading in database ER diagrams.],
 )<fig:thomas2009-results>
 
-// Note to self: replicating Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
+In conclusion, most existing implementations of autotgraders use some form of graph isomorphism algorithm with a combination of structural, semantic, and syntactic matching, also suggested by the majority of frameworks. Some solutions attempt to autograde using property or formula checking, but fail to mention detailed enough methodology or results to warrant further investigation. No autograders provide methods on integrating ILOs into the grading process.
+
+// Note to self: replicating Bian 2020 with Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
 
 === Machine Learning/Large Language Model-driven<subsec:relatedwork-autograder-AI>
-There has also been work on including Machine Learning (ML) and/or Large Language Models (LLMs) in the process of automatic grading @Bouali2025 @Stikkolorum2019.
+There has also been work on using Machine Learning (ML) and/or Large Language Models (LLMs) to automatically grade solutions @Bouali2025 @Stikkolorum2019.
 
-#cite(<Wang2025>, form: "prose") evaluate the feasibility of LLM-based grading with ChatGPT-4o, specifically for entire reports containing multiple types of UML diagrams. It feeds pictures of student-submitted UML diagrams directly into the model along with an explanatory prompt that should trigger Chain-of-Thought, and runs the model one time per student, with a temperature of 0.1. It finds that score differences range from -0.25 to +3.75 points, with significantly lower average scores given by the LLM compared to humans. Additionally, there are many occurrences of incorrect grading (wrong identifications, overstrictness, misunderstandings), as seen by Figure 6 #cite(<Wang2025>, supplement: "p.18"), which means that, while the authors claim that their solution "demonstrates particular proficiency in the automated evaluation of UML use case diagrams", they do note occurrences of hallucination: "In the evaluation based on UC4, GPT deducts points for missing relationships between specified actors and use cases, but theses relationships existed in the UML use case" #cite(<Wang2025>, supplement: "p.13"). Furthermore, the paper does not express a strong correlation between LLM grading and human grading, at least compared to papers utilising graph matching algorithms @thomas2009 @Hosseinibaghdadabadi2023, nor does it recognise the inherent bias of LLMs @ranjan2024 or their inherent non-determinism (even with a zeroed temperature) @brenndoerfer2025 @atil2025, which make it a sub-optimal solution for consistent, fair grading.
+#cite(<Wang2025>, form: "prose") evaluate the feasibility of LLM-based grading with the model ChatGPT-4o, specifically for entire student reports, containing multiple types of UML diagrams. They feed pictures of student-submitted UML diagrams directly into the model along with an explanatory prompt that aims to trigger a Chain-of-Thought process (which helps LLMs "tackle complex arithmetic, commonsense, and symbolic reasoning tasks" @wei2023), and runs the model one time per student, with a temperature of 0.1. It finds that score differences range from -0.25 to +3.75 points, with significantly lower average scores given by the LLM compared to humans. Additionally, there are many occurrences of incorrect grading (wrong identifications, overstrictness, misunderstandings) #cite(<Wang2025>, supplement: "p.18"), which means that, while the authors claim that their solution "demonstrates particular proficiency in the automated evaluation of UML use case diagrams", they do note occurrences of hallucination: "In the evaluation based on UC4, GPT deducts points for missing relationships between specified actors and use cases, but theses relationships existed in the UML use case" #cite(<Wang2025>, supplement: "p.13"). Furthermore, the paper does not express a strong correlation between LLM grading and human grading, at least compared to papers utilising graph matching algorithms @thomas2009 @Hosseinibaghdadabadi2023, nor does it recognise the inherent bias of LLMs @ranjan2024 or their inherent non-determinism (even with a zeroed temperature) @brenndoerfer2025 @atil2025, which make it a sub-optimal solution for consistent, fair grading.
 
-#cite(<Bouali2025>, form: "prose") uses various Large Language Models (Llama, GPT o1-mini, Claude) to grade, translating the models into text instead of giving the LLM images directly like #cite(<Wang2025>, form: "prose"). While they achieve a Pearson correlation to human grading of 0.76 with both ChatGPT and Claude, they run into the same inconsistency issues as #cite(<Wang2025>, form: "author"): "while the models would provide a final score as requested in the prompt’s response format, this score often did not match the actual sum of points awarded in their criterion-by-criterion assessment", and ""One ChargingPort is associated with One Vehicle" was matched with "One ChargingPort is associated with One ChargingStation" with a similarity of 0.92, despite describing different domain relationships" #cite(<Bouali2025>, supplement: "p.164"). 
+#cite(<Bouali2025>, form: "prose") uses various LLMs (Llama, GPT-o1 mini, Claude) to grade, translating the models into text instead of giving the LLM images directly such as #cite(<Wang2025>, form: "prose"). While they achieve a Pearson correlation to human grading of 0.76 with both ChatGPT and Claude, they run into the same inconsistency issues as #cite(<Wang2025>, form: "author"): "while the models would provide a final score as requested in the prompt’s response format, this score often did not match the actual sum of points awarded in their criterion-by-criterion assessment", and ""One ChargingPort is associated with One Vehicle" was matched with "One ChargingPort is associated with One ChargingStation" with a similarity of 0.92, despite describing different domain relationships" #cite(<Bouali2025>, supplement: "p.164").
 
 #cite(<Bouali2025>, form: "author") identify the problem with grading with LLMs perfectly, stating that "This discrepancy can be attributed to the autoregressive nature of LLMs, where they generate responses token by token" #cite(<Bouali2025>, supplement: "p.164"). Because these models are in their very essence based on predicting tokens @Ferraris2025, there is no formal guarantee that results are internally consistent and thus grades are produced with accuracy. The fact that LLMs produce grades that correlate with human grading does not mean that this grading is done in a fair, consistent, or reliable manner. While #cite(<Bouali2025>, form: "author") try to reduce the non-determinism of LLMs by setting the temperature to zero, this does remove non-determinism necesssarily, nor does it correct training biases, as mentioned before.
 
-== ILO translation
-
-
+In conclusion, while ML/LLM grading has been attempted in recent years, the lacking similarity to human grading compared to graph isomorphism-based solutions, as well as the fundamental non-deterministic behaviour and hallucination problem make it inferior to graph isomorphism solutions.
 
 = Tools and Techniques <tools-techniques>
 Adopt existing tool(s), make own tool, what frameworks/languages, ...
@@ -158,25 +158,46 @@ TODO: Graduation planning. Phases, goals per phase.
 #[
   #show table.cell.where(body: [N]): t => text(fill: rgb("#CC1212"), strong(t))
   #show table.cell.where(body: [H]): t => text(fill: rgb("#12CC12"), strong(t))
+  #show table.cell.where(body: [M]): t => text(fill: rgb("#EA7C32"), strong(t))
+  #show table.cell.where(body: [L]): t => text(fill: rgb("#C84312"), strong(t))
   #show table.cell.where(body: [?]): t => t
+  #show table.cell.where(y: 0): c => { 
+    set block(fill: rgb("#252525"))
+    set text(fill: white)
+    c
+  }
 
   #figure(
     table(columns: (4fr, 2fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
       inset: 3pt,
-      align: horizon,
+      align: (left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
         table.header(
-        [Author],                                        [Di],           [Ac], [Co], [Tr], [OSS], [ILO], [Int], [UTML],
+        [Author],                                        [Diagram(s)],   [Ac], [Co], [Tr], [OSS], [ILO], [Int], [UTML],
       ),
 
-      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [N],   [N],   [?],   [N], 
+      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [?],  [N],   [N],   [?],   [N],
+      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [?],  [N],   [N],   [?],   [N],
+      [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [?],  [N],   [N],   [?], [N],
+      [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
+      [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
+      [#cite(<Ali2007>, form: "prose")],                 [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
+      [#cite(<AlRawashdeh2014>, form: "prose")],         [UML State/Sequence],[?],[H],[?],  [N],   [N],   [?], [N],
+      [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
+      [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[N],[N],[?], [N],
+      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2009 @thomas2009 @thomas2011],[ER],[H],[H],[?],[M],[N],[?], [N],
 
+      [#cite(<Wang2025>, form: "prose")],                [UML],          [L],  [L],  [M],  [H],   [N],   [M], [N],
+      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [L],  [M],  [M],  [H],   [N],   [M], [N],
     ),
     caption: figure.caption(position: bottom, [
+      #highlight([TODO FIX TRANSPARENCY]) \
+      #highlight([TODO explain integration ease]) \
+      #highlight([TODO explain Transparency]) \
       Autograders and their suitability scores. \
       #align(left, [ 
         \*Di(_agram type_), Ac(_curacy_), Co(_nsistency_), Tr(_ansparency_), OSS = _availability of source code_, ILO = _ease of linking grading to ILOs_, Int(_egration ease_), UTML _support_. \
         #v(2pt)
-        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium.
+        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium. The scoring is done in a comparative way, with the lowest-scoring solution receiving a "L", the highest scoring receiving a "H". A high consistency is awarded for determinstic/algorithmic solutions.
       ])
     ]),
   )
