@@ -1,4 +1,5 @@
-#import "typst-template-ut/conf.typ" : conf, abstr
+#import "typst-template-ut/typst-template-paper.typ" : conf, abstr
+
 #set document(title: [Automatic analysis and grading of UTML UML diagrams])
 
 #let DOC-MARGIN = 1.5cm
