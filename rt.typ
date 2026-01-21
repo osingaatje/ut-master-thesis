@@ -159,8 +159,11 @@ There has also been work on using Generative AI / Large Language Models (LLMs) t
 In conclusion, while GenAI-based grading has been attempted in recent years, purely GenAI solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions as well as introducing fundamental non-deterministic behaviour / hallucinations. This makes these types of solutions inferior to graph isomorphism solutions for full automatic grading. However, when used particularly for semantic and/or syntactic matching, it may provide similar performance to algorithmic solutions (although it still gives way to nondeterminstic grading and should be carefully evaluated.
 
 == Conclusion
+Existing frameworks seem to recommend structural matching in combination with syntactic and semantic matching to still match solutions containing typos and/or synonyms.
 
+Existing implementations mostly use the recommended methods from frameworks. Using determinstic, graph isomorphism algorithms seem to produce the best results. Purely GenAI methods require less effort from teachers, since they do not need to produce sample solution(s), but produce subpar results to graph matching. Using GenAI for semantic matching seems to produce similar results, but does not provide major advantages over algorithmic solutions and can introduce nondeterminism in otherwise determinstic solutions, which reduces consistency.
 
+#highlight([TODO mention techniques to use from the conclusion here? or at Tools&Techniques?])
 
 = Tools and Techniques <tools-techniques>
 Adopt existing tool(s), make own tool, what frameworks/languages, ...
