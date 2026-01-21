@@ -52,7 +52,7 @@ The automatisation of grading diagrams provides an grading marking method that c
 
 With _accuracy_, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With _consistency_, we mean both the extent to which similar grades are given to similar submissions, and the difference between consecutive runs (i.e. determinism). With _process transparency_, we mean the extent to which the reasoning for a particular grade is explained. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance. For transparency, it would also be desirable to be able to link Intended Learning Objectives (ILOs) to the autograders, as this would help relate the grading to the objectives of the module @osinga2024.
 
-For this research, we focus on the automatic grading of _UTML_ UML diagrams, a recent, in-house developed diagram format of the University of Twente @utml-internal@utml. However, as UTML is just a representation format and tool for creating UML diagrams, we aim to generalise these results to provide advice on the automatic grading of UML diagrams as a whole.
+For this research, we focus on the automatic grading of _UTML_ UML diagrams, a recent, in-house developed diagram format of the University of Twente @utml-internal @utml. However, as UTML is just a representation format and tool for creating UML diagrams, we aim to generalise these results to provide advice on the automatic grading of UML diagrams as a whole.
 
 == Research Questions <rqs>
 In order to examin the feasibility of automatically grading UTML UML diagrams, we provide a main research question (*MRQ*):
@@ -202,8 +202,10 @@ TODO: Graduation planning. Phases, goals per phase.
       [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[N],[N],[?], [N],
       [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2009 @thomas2009 @thomas2011],[ER],[H],[H],[?],[M],[N],[?], [N],
 
-      [#cite(<Wang2025>, form: "prose")],                [UML],          [L],  [L],  [M],  [H],   [N],   [M], [N],
-      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [L],  [M],  [M],  [H],   [N],   [M], [N],
+      [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [L],   [N],   [?], [N],
+      [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [H],   [N],   [M], [N],
+      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [M],  [M],  [H],   [N],   [M], [N],
+      [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [M],  [H],  [L],   [N],   [?], [N],
     ),
     caption: figure.caption(position: bottom, [
       #highlight([TODO FIX TRANSPARENCY]) \
@@ -213,7 +215,7 @@ TODO: Graduation planning. Phases, goals per phase.
       #align(left, [ 
         \*Di(_agram type_), Ac(_curacy_), Co(_nsistency_), Tr(_ansparency_), OSS = _availability of source code_, ILO = _ease of linking grading to ILOs_, Int(_egration ease_), UTML _support_. \
         #v(2pt)
-        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium. The scoring is done in a comparative way, with the lowest-scoring solution receiving a "L", the highest scoring receiving a "H". A high consistency is awarded for determinstic/algorithmic solutions.
+        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium. The scoring is done in a comparative way, with the lowest-scoring solution receiving a "L", the highest scoring receiving a "H". A high *consistency* is awarded for determinstic solutions. High *transparency* is awarded for solutions that explain the exact grade that was given in terms of rubrics (medium for full rubrics that might not match (i.e. LLM solutions)). High *integration ease* is given to solutions that features solutions that have guides on building and deploying them (medium for small custom programs that are needed).
       ])
     ]),
   )
