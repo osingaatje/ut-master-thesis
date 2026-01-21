@@ -86,10 +86,10 @@ We aim to answer the main research question with the following sub-research ques
 *RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
 = Related work <relatedwork>
-In order to answer research questions *RQ1* until *RQ4*, we have conducted a small-scale study covering roughly 40 works. These works were collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI", and similar for autograder-based related works.
+In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale study covering roughly 40 works. These works are collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI", and similar for autograder-based related works.
 
 == Autograders
-Automatic grading of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @smith2004 @thomas2004. Multiple methods and types of diagrams are researched, including purely algorithmic methods for UML class- and use case diagrams @Bian2020 @Hosseinibaghdadabadi2023 @anas2021 @Jebli2023 @Modi2021 @Ali2007b @AlRawashdeh2014 @Striewe2011 and database Entity-Relation Diagrams @Foss2022 @Foss2022a @Foss2022b @thomas2006 @thomas2004 @thomas2008 @thomas2009 @thomas2011 @smith2013, and Generative AI (GenAI)-based methods @Wang2025 @Bouali2025 @RajiRamachandran2025.
+Automatic grading of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @smith2004 @thomas2004. Multiple methods and types of diagrams are researched, including purely algorithmic methods for UML class- and use case diagrams, database Entity-Relation Diagrams, and Generative AI (GenAI)-based methods.
 
 === Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
 #cite(<smith2004>, form: "prose") provide a five-step framework for assessing "possibly ill-formed or inaccurate diagrams" that include (1) segmentation, (2) assimilation, (3) identification, (4) aggregation, and (5) interpretation. While the first two steps are aimed at translating images or other "raster-based input" into diagrammatic primitives, the latter stages provide a foundation to grade diagrams used by other papers @thomas2009.
@@ -104,7 +104,7 @@ Automatic grading of diagrams seems to be a relatively new field, having started
 
 In conclusion, most autograder strategies recommend structural matching (to identify similar segments of graphs), often in combination with syntactic matching that accounts for misspellings and semantic matching to account for synonyms. Unfortunately, the strategies do not account for integrating ILOs into the grading process explicitly.
 
-=== Non-ML/LLM<subsec:relatedwork-autograder-algorithmic>
+=== Algorithmic <subsec:relatedwork-autograder-algorithmic>
 
 #cite(<Bian2020>, form: "prose") expand their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study. Their main findings are that multiple teacher solutions result in more accurate grades with an average accuracy of more than 95% #cite(<Bian2020>, supplement: "p.10"), that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11").
 
@@ -133,8 +133,10 @@ In conclusion, most existing implementations of autotgraders use some form of gr
 
 // Note to self: replicating Bian 2020 with Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
 
-=== Generative AI / Large Language Model-driven<subsec:relatedwork-autograder-AI>
-There has also been work on using Generative AI / Large Language Models (LLMs) to automatically grade solutions @Bouali2025 @Stikkolorum2019.
+=== Machine Learning / Generative AI / Large Language Model-driven<subsec:relatedwork-autograder-AI>
+There has also been work on using Generative AI / Large Language Models (LLMs) to automatically grade solutions @Wang2025 @Bouali2025 @RajiRamachandran2025 @Stikkolorum2019.
+
+#cite(<Stikkolorum2019>, form: "prose") is one of the first papers that was found that attempts Machine Learning-based autograding, using several machine learning algorithms to compare it to expert grades. Unfortunately, the grading reaches only a maximum accuracy of 42.76% using a 10-point scale. Exact methods and algorithms are not mentioned.
 
 #cite(<Wang2025>, form: "prose") evaluate the feasibility of LLM-based grading with the model ChatGPT-4o, specifically for entire student reports, containing multiple types of UML diagrams. They feed pictures of student-submitted UML diagrams directly into the model along with an explanatory prompt that aims to trigger a Chain-of-Thought process (which helps LLMs "tackle complex arithmetic, commonsense, and symbolic reasoning tasks" @wei2023), and runs the model one time per student, with a temperature of 0.1. It finds that score differences range from -0.25 to +3.75 points, with significantly lower average scores given by the LLM compared to humans. Additionally, there are many occurrences of incorrect grading (wrong identifications, overstrictness, misunderstandings) #cite(<Wang2025>, supplement: "p.18"), which means that, while the authors claim that their solution "demonstrates particular proficiency in the automated evaluation of UML use case diagrams", they do note occurrences of hallucination: "In the evaluation based on UC4, GPT deducts points for missing relationships between specified actors and use cases, but theses relationships existed in the UML use case" #cite(<Wang2025>, supplement: "p.13"). Furthermore, the paper does not express a strong correlation between LLM grading and human grading, at least compared to papers utilising graph matching algorithms @thomas2009 @Hosseinibaghdadabadi2023, nor does it recognise the inherent bias of LLMs @ranjan2024 or their inherent non-determinism (even with a zeroed temperature) @brenndoerfer2025 @atil2025, which make it a sub-optimal solution for consistent, fair grading.
 
@@ -145,12 +147,16 @@ There has also been work on using Generative AI / Large Language Models (LLMs) t
 #cite(<RajiRamachandran2025>, form: "prose"), unlike the previous papers, use a human-in-the-loop design in combination with both purely algorithmic steps, using LLMs only for similarity matching. Using structural matching algorithms similar to papers presented in @subsec:relatedwork-autograder-algorithmic, it achieves a Mean Average Error of only 0.611, aligning very closely to human grading (see @fig:RajiRamachandran2025_Fig3). Unfortunately, the sample size was a self-procured test set of only ten images, which negatively impacts the significance of these results, not to mention that the nondeterminism introduced by the LLMs will impact the consistency of grading, although it is unclear how much.
 
 #figure(
-  box(inset: (left: -20pt), image("pics/RajiRamachandran2025_Fig3.jpg", width: 95%)),
+  box(inset: (left: -10pt), image("pics/RajiRamachandran2025_Fig3.jpg", width: 98%)),
   caption: [ #cite(<RajiRamachandran2025>, form: "prose", supplement: "p.13"): Comparison of expert scores and CodeLLama scores using a combination of `all-MiniLM-L6-v2` and `msmarc-MiniLM` as word similarity models. ],
 )<fig:RajiRamachandran2025_Fig3>
 
 
-In conclusion, while ML/LLM grading has been attempted in recent years, the lacking similarity to human grading compared to graph isomorphism-based solutions, as well as the fundamental non-deterministic behaviour and hallucination problem make it inferior to graph isomorphism solutions for full automatic grading. However, when used particularly for semantic and/or syntactic matching, it may provide similar performance to algorithmic solutions.
+In conclusion, while GenAI-based grading has been attempted in recent years, purely GenAI solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions as well as introducing fundamental non-deterministic behaviour / hallucinations. This makes these types of solutions inferior to graph isomorphism solutions for full automatic grading. However, when used particularly for semantic and/or syntactic matching, it may provide similar performance to algorithmic solutions (although it still gives way to nondeterminstic grading and should be carefully evaluated.
+
+== Conclusion
+
+
 
 = Tools and Techniques <tools-techniques>
 Adopt existing tool(s), make own tool, what frameworks/languages, ...
