@@ -106,7 +106,11 @@ In conclusion, most autograder strategies recommend structural matching (to iden
 
 === Algorithmic <subsec:relatedwork-autograder-algorithmic>
 
-#cite(<Bian2020>, form: "prose") expand their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study. Their main findings are that multiple teacher solutions result in more accurate grades with an average accuracy of more than 95% #cite(<Bian2020>, supplement: "p.10"), that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11").
+#cite(<Bian2020>, form: "prose") expand their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study. Their main findings are that multiple teacher solutions result in more accurate grades with an average accuracy of more than 95% #cite(<Bian2020>, supplement: "p.10"), that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11"). Additionally, their visual feedback system seems to be a nice addition for easily seeing where marks were awarded / taken away (see @fig:Bian2020_Fig9).
+
+#figure(image("pics/Bian2020_Fig9.png", width: 95%),
+  caption: [Visual feedback module from #cite(<Bian2020>, form: "prose", supplement: "Fig.9")]
+  )<fig:Bian2020_Fig9>
 
 #cite(<Hosseinibaghdadabadi2023>, form: "prose") also implements the framework by #cite(<Bian2019>, form: "prose") by comparing UML use case diagrams to one or multiple example solutions, preferring the maximum grade. It uses a graph similarity strategy which matches nodes based on structural matching, along with syntactic and semantic word matching. Syntactic matching with Levenshtein distance, semantic matching with WordNet similarity score (uses HSO, WUP, LIN metrics). It achieves a very high correlation with human grades, with a similarity percentage of 93.31% #cite(<Hosseinibaghdadabadi2023>, supplement: "p.114").
 
@@ -134,7 +138,7 @@ In conclusion, most existing implementations of autotgraders use some form of gr
 // Note to self: replicating Bian 2020 with Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
 
 === Machine Learning / Generative AI / Large Language Model-driven<subsec:relatedwork-autograder-AI>
-There has also been work on using Generative AI / Large Language Models (LLMs) to automatically grade solutions @Wang2025 @Bouali2025 @RajiRamachandran2025 @Stikkolorum2019.
+There has also been work on using Generative AI / Large Language Models (LLMs) to automatically grade solutions @Stikkolorum2019 @Wang2025 @Bouali2025 @RajiRamachandran2025.
 
 #cite(<Stikkolorum2019>, form: "prose") is one of the first papers that was found that attempts Machine Learning-based autograding, using several machine learning algorithms to compare it to expert grades. Unfortunately, the grading reaches only a maximum accuracy of 42.76% using a 10-point scale. Exact methods and algorithms are not mentioned.
 
@@ -191,7 +195,7 @@ TODO: Graduation planning. Phases, goals per phase.
         [Author],                                        [Diagram(s)],   [Ac], [Co], [Tr], [OSS], [ILO], [Int], [UTML],
       ),
 
-      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [?],  [N],   [N],   [?],   [N],
+      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [N],   [N],   [?],   [N],
       [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [?],  [N],   [N],   [?],   [N],
       [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [?],  [N],   [N],   [?], [N],
       [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
