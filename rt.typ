@@ -55,6 +55,9 @@ With _accuracy_, we mean the percentage of points assigned to a submission that 
 
 For this research, we focus on the automatic grading of _UTML_ UML diagrams, a recent, in-house developed diagram format of the University of Twente @utml-internal @utml. However, as UTML is just a representation format and tool for creating UML diagrams, we aim to generalise these results to provide advice on the automatic grading of UML diagrams as a whole.
 
+== Background <bg>
+#highlight([ Take a step back, show autograding from its origins, show different types of autograding. What is auto (auto *matic* / auto *mated*), state different formats (XMI, ...) and how these formats affect the view on the design process as well (IDE integration with XMI into Eclipse etc.), state different types of diagrams (UML, BPMN, ER/DB, MetaEdit / MetaCase, Eclipse Modelling Framework tools, ...) ])
+
 == Research Questions <rqs>
 In order to examin the feasibility of automatically grading UTML UML diagrams, we provide a main research question (*MRQ*):
 
@@ -87,6 +90,7 @@ We aim to answer the main research question with the following sub-research ques
 *RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
 = Related work <relatedwork>
+#highlight([ mention that this is an exploratory view into papers. Exact inclusion/exclusion criteria, timeframe etc. will be mentioned in final thesis. ])
 In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale study covering roughly 40 works. These works are collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI", and similar for autograder-based related works.
 
 == Autograders
