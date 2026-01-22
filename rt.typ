@@ -29,6 +29,7 @@
   margin-y: DOC-MARGIN,
 )
 #set page("a4", margin: DOC-MARGIN, numbering: "1")
+
 #columns(2, gutter: 10pt, [
 
 // highlight styling
@@ -159,19 +160,21 @@ There has also been work on using Generative AI / Large Language Models (LLMs) t
 In conclusion, while GenAI-based grading has been attempted in recent years, purely GenAI solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions as well as introducing fundamental non-deterministic behaviour / hallucinations. This makes these types of solutions inferior to graph isomorphism solutions for full automatic grading. However, when used particularly for semantic and/or syntactic matching, it may provide similar performance to algorithmic solutions (although it still gives way to nondeterminstic grading and should be carefully evaluated.
 
 == Conclusion
-Existing frameworks seem to recommend structural matching in combination with syntactic and semantic matching to still match solutions containing typos and/or synonyms.
-
-Existing implementations mostly use the recommended methods from frameworks. Using determinstic, graph isomorphism algorithms seem to produce the best results. Purely GenAI methods require less effort from teachers, since they do not need to produce sample solution(s), but produce subpar results to graph matching. Using GenAI for semantic matching seems to produce similar results, but does not provide major advantages over algorithmic solutions and can introduce nondeterminism in otherwise determinstic solutions, which reduces consistency.
-
-#highlight([TODO mention techniques to use from the conclusion here? or at Tools&Techniques?])
+In the explored related work, existing frameworks primarily recommend structural matching in combination with syntactic and semantic matching to be able to match solutions containing spelling mistakes and the use of synonyms. Existing implementations mostly use the methods recommended by the frameworks, with the best results stemming from determinstic, graph isomorphism algorithms, albeit at the cost of the teacher having to produce one or more sample solutions. Purely GenAI methods require less effort from teachers, since they do not need to produce sample solution(s), but produce noticeably subpar results to graph matching algorithms. Using hybrid methods, with GenAI for semantic/syntactic matching and graph isomorphism for structural matching, seems to produce similar results to 'pure' graph matching algorithms, but seemingly does not provide major advantages over algorithmic solutions and can additionally introduce nondeterminism in otherwise determinstic solutions, which reduces consistency.
 
 = Tools and Techniques <tools-techniques>
-Adopt existing tool(s), make own tool, what frameworks/languages, ...
+Given existing works, the best approach seems to be to use graph isomorphism algorithms akin to those of #cite(<Bian2020>, form: "prose") and #cite(<thomas2009>, form: "prose"), adopting these solutions to UTML UML diagrams. Using a visual representation such as @fig:Bian2020_Fig9 could prove to be a nice addition, so architectural support for visualisations will be taken into account, which can be implemented, should there be enough time.
+
+Since existing solutions that feature these techniques have not published their source code (see @app:grader-suitability), we will develop our own autograder, named _Seshat_#footnote([ Named after the Egyptian daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
+
+#highlight([ TODO architecture, frameworks, languages ])
 
 = Planning <planning>
-TODO: Graduation planning. Phases, goals per phase.
+#highlight([ TODO: Graduation planning. Phases, goals per phase ])
 
-])
+
+
+]) // 2-column
 
 #pagebreak()
 #bibliography("refs.bib")
