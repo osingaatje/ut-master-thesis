@@ -37,7 +37,7 @@
 
 #abstr(content: 
   [
-    During computer science studies, students are often required to submit UML diagrams. The grading of these diagrams is mainly done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasability of automatically grading UML diagrams, focusing on the UTML variant developed at the University of Twente. We find that #highlight("TODO results") and propose _Seshat_, an algorithmic autograder that combines principles from graph isomorphism with structural, semantic, and syntactic matching #highlight("TODO mention this in paper"). In the final thesis, we compare the most suitable autograder from our related works to human grading.
+    During computer science studies, students are often required to submit UML diagrams. The grading of these diagrams is mainly done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasability of automatically grading UML diagrams, focusing on the UTML variant developed at the University of Twente. We find that graph isomorphism algorithms that account for synonyms and spelling mistakes provide the best results and propose _Seshat_, an algorithmic autograder that combines the aforementioned techniques and adapts them for UTML. In the final thesis, we compare _Seshat_ to human grading for multiple UTML exam submission datasets.
   ]
 )
 
@@ -46,17 +46,22 @@
 
 UML diagrams play a significant role in computer science, as they allow for communicating software designs in a standardised format. During technical studies, students are often required to make UML diagrams for graded assignments or exams.
 
-However, the grading of these diagrams can often be a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies @Ahmed2024, as humans are inherently unreliable, according to #cite(<Meadows2005>, form: "prose"), who pose two possible solutions: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_. Letting the grading process based on a (human) rubric be performed by software@footnote:determinism instead of a human reduces human inconsistencies and the time it takes to grade.
+However, the grading of these diagrams can often be a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies @Ahmed2024, as humans are inherently unreliable graders according to #cite(<Meadows2005>, form: "prose"). They pose two possible solutions: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_. Letting the grading process based on a (human) rubric be performed by software instead of a human reduces human inconsistencies@footnote:determinism and the time it takes to grade.
 
-
-The automatisation of grading diagrams provides an grading marking method that could both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior, performance compared to human grading in terms of *accuracy* and *process transparency*, while improving *consistency*.
+The (partial) automatisation of grading diagrams ('autograding') provides a grading paradigm that can both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior, performance compared to human grading in terms of *accuracy* and *process transparency*, while improving *consistency*.
 
 With _accuracy_, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With _consistency_, we mean both the extent to which similar grades are given to similar submissions, and the difference between consecutive runs (i.e. determinism). With _process transparency_, we mean the extent to which the reasoning for a particular grade is explained. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance. For transparency, it would also be desirable to be able to link Intended Learning Objectives (ILOs) to the autograders, as this would help relate the grading to the objectives of the module @osinga2024.
 
 For this research, we focus on the automatic grading of _UTML_ UML diagrams, a recent, in-house developed diagram format of the University of Twente @utml-internal @utml. However, as UTML is just a representation format and tool for creating UML diagrams, we aim to generalise these results to provide advice on the automatic grading of UML diagrams as a whole.
 
 == Background <bg>
-#highlight([ Take a step back, show autograding from its origins, show different types of autograding. What is auto (auto *matic* / auto *mated*), state different formats (XMI, ...) and how these formats affect the view on the design process as well (IDE integration with XMI into Eclipse etc.), state different types of diagrams (UML, BPMN, ER/DB, MetaEdit / MetaCase, Eclipse Modelling Framework tools, ...) ])
+The idea of letting a computer program (partially) grade tests has been discussed in papers since the 70s: "there is a growing need for automated schemes which will reduce the routine work-load" #cite(<pirie1975>, supplement: "p.13"), with some implementation papers starting to appear around the 80s, primarily focused on grading computer programs @Rees1982.
+
+There are different degrees to automatic grading: fully manual (non-automated), semi-automatic (automated), no manual labour (automatic).
+
+Automatic diagram grading seems to be a relatively new field, with first papers appearing somewhere in the early 2000s @smith2004 @thomas2004.
+
+Diagrams specifically: different types of diagrams explored (UML, Entity Relation diagrams, biomedical diagrams, ...). Different formats: XMI (OMG standard format) often used by the Eclipse Modelling Framework (source), Rose Petal @ibm-rational-rose, PlantUML - open-source textual standard for representing various diagrams including UML and ER diagrams, `.vpp` files used by Visual Paradigm - software that allows for modelling UML, architecture diagrams, business flows etc., UTML @utml-internal - an in-house standard developed at the University of Twente for representing UML diagrams @utml-website @utml-internal.
 
 == Research Questions <rqs>
 In order to examin the feasibility of automatically grading UTML UML diagrams, we provide a main research question (*MRQ*):
@@ -72,7 +77,7 @@ We aim to answer the main research question with the following sub-research ques
 #rq([
 *RQ1*: What existing work can be found for automatically analysing and/or grading UML diagrams?
 - *RQ1a*: What correction models are employed by existing works?
-- *RQ1b*: To what extent can Intended Learning Objectives be translated into different types of autograder correction models?
+- *RQ1b*: To what extent can Intended Learning Objectives #highlight("todo yap") be translated into different types of autograder correction models?
 ])
 
 #rq([
@@ -90,16 +95,13 @@ We aim to answer the main research question with the following sub-research ques
 *RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
 = Related work <relatedwork>
-#highlight([ mention that this is an exploratory view into papers. Exact inclusion/exclusion criteria, timeframe etc. will be mentioned in final thesis. ])
-In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale study covering roughly 40 works. These works are collected from sources such as Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms such as "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI", and similar for autograder-based related works.
+In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale literature study covering roughly 40 works. This literature study aims to provide an exploratory view into the world of autograders, which means that we have not set up formal inclusion and exclusion criteria. These works are collected from Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI".
 
 == Autograders
-Automatic grading of diagrams seems to be a relatively new field, having started somewhere in the early 2000s @smith2004 @thomas2004. Multiple methods and types of diagrams are researched, including purely algorithmic methods for UML class- and use case diagrams, database Entity-Relation Diagrams, and Generative AI (GenAI)-based methods.
+Multiple methods and types of diagrams are researched, including purely algorithmic methods for UML class- and use case diagrams, database Entity-Relation Diagrams, and Generative AI (GenAI)-based methods.
 
 === Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
 #cite(<smith2004>, form: "prose") provide a five-step framework for assessing "possibly ill-formed or inaccurate diagrams" that include (1) segmentation, (2) assimilation, (3) identification, (4) aggregation, and (5) interpretation. While the first two steps are aimed at translating images or other "raster-based input" into diagrammatic primitives, the latter stages provide a foundation to grade diagrams used by other papers @thomas2009.
-
-#cite(<Ali2007>, form: "prose") propose a UML class diagram assessment system using Rose Petal files, but does not mention enough specifics about algorithms to warrant further investigation.
 
 #cite(<batmaz2010>, form: "prose") takes a broader look at the process of grading, identifying and developing techniques to reduce repetitive actions, focusing on database Entity Relation diagrams. The paper suggests a semi-automatic grading system which identifies identical segments between a submission and the solution. Assuming multiple submission revisions are available, it suggests to "not only [use] the reference text but also the intermediate diagrams" for identifying semantic matches #cite(<batmaz2010>, supplement: "p.40").
 
@@ -121,7 +123,7 @@ In conclusion, most autograder strategies recommend structural matching (to iden
 
 #cite(<anas2021>, form: "prose") compares UML class diagram submissions to an example solution. It uses graph similarity scores based on structural matching along with syntactic and semantic matching. Syntactic matching is done with substring matching, semantic matching is done with neighbour similarity ("the comparison of the neighboring classes" #cite(<anas2021>, supplement: "p.1585")), relationship name, type, multiplicity, and inheritance. It achieves a respectable correlation with human grading, with more than 80% is perfectly similar, over 90% >0.85 correlated, and no correlations lower than 0.7.
 
-Multiple papers mention the use of XMI @Modi2021 @Jebli2023, the object notation standard by OMG @xmi, or Rose Petal files @Ali2007b, the standard of IBM Rational Rose @ibm-rational-rose, but fail to mention specifics about matching algorithms or results.
+Multiple papers mention the use of XMI @Modi2021 @Jebli2023, the object notation standard by OMG @xmi, or Rose Petal files @Ali2007 @Ali2007b, the standard of IBM Rational Rose @ibm-rational-rose, but fail to mention specifics about matching algorithms or results.
 
 #cite(<AlRawashdeh2014>, form: "prose") provides an interesting alternative way of grading submissions: by means of combining many UML diagram validators, model checkers, and even LTL properties given by instructors. However, a clear purpose, scope, and results are lacking from the paper.
 
@@ -210,11 +212,11 @@ Since existing solutions that feature these techniques have not published their 
       [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [?],  [N],   [N],   [?], [N],
       [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
       [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
-      [#cite(<Ali2007>, form: "prose")],                 [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
+      [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
       [#cite(<AlRawashdeh2014>, form: "prose")],         [UML State/Sequence],[?],[H],[?],  [N],   [N],   [?], [N],
       [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
       [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[N],[N],[?], [N],
-      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2009 @thomas2009 @thomas2011],[ER],[H],[H],[?],[M],[N],[?], [N],
+      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[?],[M],[N],[?], [N],
 
       [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [L],   [N],   [?], [N],
       [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [H],   [N],   [M], [N],
