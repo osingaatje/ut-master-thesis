@@ -1,5 +1,7 @@
 #import "typst-template-ut/typst-template-paper.typ" : conf, abstr, appendix
 
+#let todo = highlight
+
 #set document(title: [Automatic analysis and grading of UTML UML diagrams])
 
 #let DOC-MARGIN = 1.5cm
@@ -32,8 +34,8 @@
 
 #columns(2, gutter: 10pt, [
 
-// highlight styling
-#set highlight(radius: 2pt)
+// todo styling
+#set todo(radius: 2pt)
 
 #abstr(content: 
   [
@@ -59,7 +61,7 @@ For this research, we focus on the automatic grading of _UTML_ UML diagrams: a n
 == Background <bg>
 The idea of letting a computer program (partially) grade tests has been discussed in papers since the 70s #cite(<pirie1975>, supplement: "p.13"), with some implementation papers starting to appear around the 80s, primarily focused on grading the writing style of computer programs @Rees1982. Interest in specifically diagram grading seems to have started around the early 2000s @smith2004 @thomas2004.
 
-Different types of diagrams exist, including UML diagrams, Entity-Relation diagrams, and biomedical diagrams, among others. Different formats have been used in the process of autograding as well: XMI - the standard diagram interchange format for UML, most commonly used by the Eclipse Modelling Framework @xmi-omg, the Rose Petal format - used by the UML development program IBM Rational Rose @ibm-rational-rose, PlantUML - an open-source textual standard for representing various diagrams including UML and ER diagrams @plantuml, `.vpp` files used by Visual Paradigm @visualparadigm - software that allows for modelling UML, architecture diagrams, business flows etc., UTML - an in-house standard developed at the University of Twente for representing UML diagrams @utml-internal @utml-website.
+Different types of diagrams exist, including UML diagrams, Entity-Relation diagrams, and biomedical diagrams, among others. Different formats exist for storing diagrams: XMI - the standard diagram interchange format for UML, most commonly used by the Eclipse Modelling Framework @xmi-omg, the Rose Petal format - used by the UML development program IBM Rational Rose @ibm-rational-rose, PlantUML - an open-source textual standard for representing various diagrams including UML and ER diagrams @plantuml, Visual Paradigm files - software that allows for modelling UML, architecture diagrams, business flows etc. @visualparadigm, and UTML - an in-house standard developed at the University of Twente for representing UML diagrams @utml-internal @utml-website.
 
 The degree to which automated grading is implemented can vary as well. We divide autograding into the following categories: non-automated (manual), automated (part of the process requires no human input), and (fully) automatic (no human input is required). In this paper, we consider autograders that fall into the categories _automated_ and _automatic_.
 
@@ -92,13 +94,13 @@ We aim to answer the main research question with the following sub-research ques
 *RQ4*: To what extent does the autograder compare to human grading in the context of grading first-year UML exam questions?
 ])
 
-*RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork and @app:grader-suitability, by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
+*RQ1* is answered in @relatedwork, giving us an overview of existing solutions and their grading methodologies. *RQ2* is answered in @relatedwork and @tbl:grader-suitability, by analysing these works for suitability of grading. Finally, *RQ3* and *RQ4* are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
 = Related work <relatedwork>
-In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale literature study covering roughly 40 works. This literature study aims to provide an exploratory view into the world of autograders, which means that we have not set up formal inclusion and exclusion criteria. These works are collected from Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI".
+In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale literature study covering roughly 40 works. This literature study aims to provide merely an exploratory view into the world of autograders, which means that formal inclusion and exclusion criteria are not set up. Works are collected from Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", "diagram evaluation assessment AI".
 
 == Autograders
-Multiple methods and types of diagrams are researched, including purely algorithmic methods for UML class- and use case diagrams, database Entity-Relation Diagrams, and Generative AI (GenAI)-based methods.
+Multiple methods and types of diagrams are researched, including proposed frameworks for autograders, purely algorithmic implementations, and Machine Learning (ML) / Generative AI (GenAI) / Large Language Model (LLM)-based methods.
 
 === Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
 #cite(<smith2004>, form: "prose") provide a five-step framework for assessing "possibly ill-formed or inaccurate diagrams" that include (1) segmentation, (2) assimilation, (3) identification, (4) aggregation, and (5) interpretation. While the first two steps are aimed at translating images or other "raster-based input" into diagrammatic primitives, the latter stages provide a foundation to grade diagrams used by other papers @thomas2009.
@@ -129,7 +131,7 @@ Multiple papers mention the use of XMI @Modi2021 @Jebli2023, the object notation
 
 #cite(<Striewe2011>, form: "prose") continues #cite(<AlRawashdeh2014>, form: "prose")'s property checking trend by focusing on graph queries for evaluation, providing a Domain-Specific Language that looks relatively similar to SQL. While it looks promising, the fact that teachers would have to learn a query language and transform their existing rubrics/example solutions into this format could be a real hurdle, especially given the high similarity to existing grading of graph-isomorphism-based solutions @Bian2020 @Hosseinibaghdadabadi2023 @anas2021. Additionally, the paper does not provide approximate matching that would account for misspelling or synonyms.
 
-#cite(<Foss2022>, form: "author") provide multiple papers on AutoER, a database diagram generator and evaluator that provides direct interaction with a description text @Foss2022 @Foss2022a @Foss2022b. Unfortunately, concrete comparisons to manual grading or source code could not be found.
+#cite(<Foss2022>, form: "author") provide multiple papers on AutoER, a database diagram generator and evaluator that provides direct interaction with a description text @Foss2022 @Foss2022a @Foss2022b. It is more geared towards interactive use, as a feedback model before submission. Unfortunately, concrete comparisons to manual grading and source code could not be found.
 
 #cite(<thomas2004>, form: "author") also provides a selection of paperse on the automatic grading of database diagrams @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011. These papers provide a grading strategy that accounts in its basis for _imprecise_ diagrams (diagrams containing misspellings, duplicate entities, etc.), basing their analysing on comparing ever increasing subsets of the graph ((Minimal) Meaningful Units) based on the work of #cite(<smith2004>, form: "prose"). By #cite(<thomas2009>, form: "year"), #cite(<thomas2009>, form: "author") manage to achieve a correlation to human grading of 92%, along with statistically proving that the autograder grades more consistently than human grading. The graphed grading distribution can be viewed in @fig:thomas2009-results.
 
@@ -144,7 +146,7 @@ In conclusion, most existing implementations of autotgraders use some form of gr
 
 // Note to self: replicating Bian 2020 with Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
 
-=== Machine Learning / Generative AI / Large Language Model-driven<subsec:relatedwork-autograder-AI>
+=== ML- / GenAI- / LLM-driven <subsec:relatedwork-autograder-AI>
 There has also been work on using Generative AI / Large Language Models (LLMs) to automatically grade solutions @Stikkolorum2019 @Wang2025 @Bouali2025 @RajiRamachandran2025.
 
 #cite(<Stikkolorum2019>, form: "prose") is one of the first papers that was found that attempts Machine Learning-based autograding, using several machine learning algorithms to compare it to expert grades. Unfortunately, the grading reaches only a maximum accuracy of 42.76% using a 10-point scale. Exact methods and algorithms are not mentioned.
@@ -168,28 +170,8 @@ In conclusion, while GenAI-based grading has been attempted in recent years, pur
 == Conclusion
 In the explored related work, existing frameworks primarily recommend structural matching in combination with syntactic and semantic matching to be able to match solutions containing spelling mistakes and the use of synonyms. Existing implementations mostly use the methods recommended by the frameworks, with the best results stemming from determinstic, graph isomorphism algorithms, albeit at the cost of the teacher having to produce one or more sample solutions. Purely GenAI methods require less effort from teachers, since they do not need to produce sample solution(s), but produce noticeably subpar results to graph matching algorithms. Using hybrid methods, with GenAI for semantic/syntactic matching and graph isomorphism for structural matching, seems to produce similar results to 'pure' graph matching algorithms, but seemingly does not provide major advantages over algorithmic solutions and can additionally introduce nondeterminism in otherwise determinstic solutions, which reduces consistency.
 
-= Tools and Techniques <tools-techniques>
-Given existing works, the best approach seems to be to use graph isomorphism algorithms akin to those of #cite(<Bian2020>, form: "prose") and #cite(<thomas2009>, form: "prose"), adopting these solutions to UTML UML diagrams. Using a visual representation such as @fig:Bian2020_Fig9 could prove to be a nice addition, so architectural support for visualisations will be taken into account, which can be implemented, should there be enough time.
 
-Since existing solutions that feature these techniques have not published their source code (see @app:grader-suitability), we will develop our own autograder, named _Seshat_#footnote([ Named after the Egyptian daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
-
-#highlight([ TODO architecture, frameworks, languages ])
-
-= Planning <planning>
-#highlight([ TODO: Graduation planning. Phases, goals per phase ])
-
-
-
-]) // 2-column
-
-#pagebreak()
-#bibliography("refs.bib")
-
-#heading(numbering: none, [ Appendices ])
-#show: appendix
-
-= Autograder suitability table <app:grader-suitability>
-#[
+#place(bottom+center, scope: "parent", float: true, [
   #show table.cell.where(body: [N]): t => text(fill: rgb("#CC1212"), strong(t))
   #show table.cell.where(body: [H]): t => text(fill: rgb("#12CC12"), strong(t))
   #show table.cell.where(body: [M]): t => text(fill: rgb("#EA7C32"), strong(t))
@@ -202,40 +184,58 @@ Since existing solutions that feature these techniques have not published their 
   }
 
   #figure(
-    table(columns: (4fr, 2fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+    table(columns: (4fr, 2fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
       inset: 3pt,
-      align: (left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
+      align: (left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
         table.header(
-        [Author],                                        [Diagram(s)],   [Ac], [Co], [Tr], [OSS], [ILO], [Int], [UTML],
+        [Author],                                        [Diagram(s)],   [Ac], [Co], [Tr], [OSS], [ILO], [UTML],
       ),
 
-      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [N],   [N],   [?],   [N],
-      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [?],  [N],   [N],   [?],   [N],
-      [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [?],  [N],   [N],   [?], [N],
-      [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
-      [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
-      [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
-      [#cite(<AlRawashdeh2014>, form: "prose")],         [UML State/Sequence],[?],[H],[?],  [N],   [N],   [?], [N],
-      [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [?],  [N],   [N],   [?], [N],
-      [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[N],[N],[?], [N],
-      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[?],[M],[N],[?], [N],
+      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [M],   [N],  [N],
+      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [M],   [N],  [N],
+      [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [M],   [N],  [N],
+      [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [M],   [N],  [N],
+      [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [M],   [N],  [N],
+      [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [L],   [N],  [N],
+      [#cite(<AlRawashdeh2014>, form: "prose")],    [UML State/Sequence],[?],  [H],  [?],  [M],   [N],  [N],
+      [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [L],   [N],  [N],
+      [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[M],   [N],  [N],
+      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[M],[N],[N],
 
-      [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [L],   [N],   [?], [N],
-      [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [H],   [N],   [M], [N],
-      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [M],  [M],  [H],   [N],   [M], [N],
-      [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [M],  [H],  [L],   [N],   [?], [N],
+      [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [L],   [N],  [N],
+      [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [M],   [N],  [N],
+      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [M],  [M],  [M],   [N],  [N],
+      [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [M],  [H],  [M],   [N],  [N],
     ),
     caption: figure.caption(position: bottom, [
-      #highlight([TODO FIX TRANSPARENCY]) \
-      #highlight([TODO explain integration ease]) \
-      #highlight([TODO explain Transparency]) \
       Autograders and their suitability scores. \
       #align(left, [ 
-        \*Di(_agram type_), Ac(_curacy_), Co(_nsistency_), Tr(_ansparency_), OSS = _availability of source code_, ILO = _ease of linking grading to ILOs_, Int(_egration ease_), UTML _support_. \
+        \*Di(_agram type_), Ac(_curacy_), Co(_nsistency_), Tr(_ansparency_), OSS = how open source is solution, ILO = _ease of linking grading to ILOs_, UTML _support_. \
         #v(2pt)
-        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium. The scoring is done in a comparative way, with the lowest-scoring solution receiving a "L", the highest scoring receiving a "H". A high *consistency* is awarded for determinstic solutions. High *transparency* is awarded for solutions that explain the exact grade that was given in terms of rubrics (medium for full rubrics that might not match (i.e. LLM solutions)). High *integration ease* is given to solutions that features solutions that have guides on building and deploying them (medium for small custom programs that are needed).
+        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium. The scoring is done in a comparative way, with the lowest-scoring solution receiving a "L", the highest scoring receiving a "H". A high *consistency* is awarded for determinstic solutions. High *transparency* is awarded for solutions that explain the exact grade that was given in terms of rubrics (medium for full rubrics that might not match (i.e. LLM solutions)). High *OSS* is given to solutions that completely open-source their work, with lower scores indicating that partial algorithms/methods are available. For GenAI solutions, OSS also takes into account the open source nature of the models used.
       ])
     ]),
-  )
-]
+  )<tbl:grader-suitability>
+])
+
+
+= Tools and Techniques <tools-techniques>
+Given existing works, the best approach seems to be to use graph isomorphism algorithms akin to those of #cite(<Bian2020>, form: "prose") and #cite(<thomas2009>, form: "prose"), adopting these solutions to UTML UML diagrams. Using a visual representation such as @fig:Bian2020_Fig9 could prove to be a nice addition, so architectural support for visualisations will be taken into account, which can be implemented, should there be enough time.
+
+Since existing solutions that feature these techniques have not published their source code (see @tbl:grader-suitability), we will develop our own autograder, named _Seshat_#footnote([ Named after the Egyptian daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
+
+#todo([ TODO architecture, frameworks, languages ])
+
+= Planning <planning>
+#todo([ TODO: Graduation planning. Phases, goals per phase ])
+
+
+
+]) // 2-column
+
+#pagebreak()
+#bibliography("refs.bib")
+
+#heading(numbering: none, [ Appendices ])
+#show: appendix
 
