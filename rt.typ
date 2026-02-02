@@ -105,7 +105,7 @@ Multiple methods and types of diagrams are researched, including proposed framew
 === Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
 #cite(<smith2004>, form: "prose") provide a five-step framework for assessing "possibly ill-formed or inaccurate diagrams" that include (1) segmentation, (2) assimilation, (3) identification, (4) aggregation, and (5) interpretation. While the first two steps are aimed at translating images or other "raster-based input" into diagrammatic primitives, the latter stages provide a foundation to grade diagrams used by other papers @thomas2009.
 
-#cite(<batmaz2010>, form: "prose") takes a broader look at the process of grading, identifying and developing techniques to reduce repetitive actions, focusing on database Entity Relation diagrams. The paper suggests a semi-automatic grading system which identifies identical segments between a submission and the solution. Assuming multiple submission revisions are available, it suggests to "not only [use] the reference text but also the intermediate diagrams" for identifying semantic matches #cite(<batmaz2010>, supplement: "p.40").
+#cite(<batmaz2010>, form: "prose") takes a broader look at the process of grading, identifying and developing techniques to reduce repetitive actions, focusing on database Entity Relation diagrams. The paper suggests a semi-automatic grading system which identifies identical segments between a submission and the solution. Assuming multiple submission revisions are available, it suggests to "not only [use] the reference text but also the intermediate diagrams" for identifying semantic matches #cite(<batmaz2010>, supplement: "p.40"). While multiple solutions are not useful for the purpose of grading only a single submitted diagram after an exam, this might be useful for live feedback.
 
 #cite(<Vachharajani2014>, form: "prose") propose a UML use case assessment architecture. It provides a useful catalogue about edge cases related to (use case) diagram assessment, such as the chance of misspellings, synonyms, abbreviations, directionality of relationships, etc.
 
@@ -220,11 +220,27 @@ In the explored related work, existing frameworks primarily recommend structural
 
 
 = Tools and Techniques <tools-techniques>
-Given existing works, the best approach seems to be to use graph isomorphism algorithms akin to those of #cite(<Bian2020>, form: "prose") and #cite(<thomas2009>, form: "prose"), adopting these solutions to UTML UML diagrams. Using a visual representation such as @fig:Bian2020_Fig9 could prove to be a nice addition, so architectural support for visualisations will be taken into account, which can be implemented, should there be enough time.
+Given existing works, the best approach for maximising accuracy, consistency, and transparency seems to be to use graph isomorphism algorithms akin to those suggested by #cite(<smith2013>, form: "prose"), implemented by #cite(<Bian2020>, form: "prose") and #cite(<thomas2009>, form: "prose"). Using a visual representation such as @fig:Bian2020_Fig9 could prove to be a nice addition, so architectural support for visualisations will be taken into account, which can be implemented, should there be enough time.
 
-Since existing solutions that feature these techniques have not published their source code (see @tbl:grader-suitability), we will develop our own autograder, named _Seshat_#footnote([ Named after the Egyptian daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
+Unfortunately, no solutions seem to support the integration of ILOs into their grading rubric inputs. While we believe that this is a vital point to consider when making rubrics or example solutons @osinga2024, we realise that it may incur extra work for a teacher to add metrics on how much a certain ILO is tested. #todo([ How to incorporate ILO weighting ])
 
-#todo([ TODO architecture, frameworks, languages ])
+Since existing solutions that feature these techniques have not published their source code (see @tbl:grader-suitability), we develop our own autograder, named _Seshat_#footnote([ The Egyptian record-keeping godess and daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
+
+== Architecture
+Autograder needs to
+- take input (might take a while, support for extensions / web interfaces / ...)
+- run algorithm on it (specifically: MMU-based algorithm @thomas2009)
+- produce set of scores according to matched elements etc.
+- format these scores in a certain way (might take a while, support for extensions)
+
+We use a query-based framework, akin to that of the Rust compiler @rustc-book. This choice is made because it encourages decoupling things such as input parsing, running the algorithm, and formatting output. This additionally supports transparency internally in the grading process, as one can easily query intermediate solutions from the grading process.
+
+Additionally, a query-based architecture allows for caching all stages of the process. This would allow us to cache the algorithm outputs, visualisations, and more. Since the process is designed to be completely deterministic, this allows for superior performance, as inputting the same solution multiple times will result in a cache hit, reducing the time it takes to grade.
+
+== Framework(s)
+
+== Language(s) 
+
 
 = Planning <planning>
 #todo([ TODO: Graduation planning. Phases, goals per phase ])
@@ -236,6 +252,6 @@ Since existing solutions that feature these techniques have not published their 
 #pagebreak()
 #bibliography("refs.bib")
 
-#heading(numbering: none, [ Appendices ])
-#show: appendix
+// #heading(numbering: none, [ Appendices ])
+// #show: appendix
 
