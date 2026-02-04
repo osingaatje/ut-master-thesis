@@ -32,6 +32,8 @@
 )
 #set page("a4", margin: DOC-MARGIN, numbering: "1")
 
+#let seshat = text([_Seshat_])
+
 #columns(2, gutter: 10pt, [
 
 // todo styling
@@ -39,7 +41,7 @@
 
 #abstr(content: 
   [
-    During computer science studies, students are often required to submit UML diagrams. The grading of these diagrams is mainly done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasability of automatically grading UML diagrams, focusing on the UTML variant developed at the University of Twente. We find that graph isomorphism algorithms that account for synonyms and spelling mistakes provide the best results and propose _Seshat_, an algorithmic autograder that combines the aforementioned techniques and adapts them for UTML. In the final thesis, we compare _Seshat_ to human grading for multiple UTML exam submission datasets.
+    During computer science studies, students are often required to submit UML diagrams. The grading of these diagrams is mainly done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasability of automatically grading UML diagrams, focusing on the UTML variant developed at the University of Twente. We find that graph isomorphism algorithms that account for synonyms and spelling mistakes provide the best results and propose #seshat, an algorithmic autograder that combines the aforementioned techniques and adapts them for UTML. In the final thesis, we compare #seshat to human grading for multiple UTML exam submission datasets.
   ]
 )
 
@@ -177,17 +179,12 @@ In the explored related work, existing frameworks primarily recommend structural
   #show table.cell.where(body: [M]): t => text(fill: rgb("#EA7C32"), strong(t))
   #show table.cell.where(body: [L]): t => text(fill: rgb("#C84312"), strong(t))
   #show table.cell.where(body: [?]): t => t
-  #show table.cell.where(y: 0): c => { 
-    set block(fill: rgb("#252525"))
-    set text(fill: white)
-    c
-  }
-
+  
   #figure(
     table(columns: (4fr, 2fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
       inset: 3pt,
       align: (left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
-        table.header(
+      table.header(
         [Author],                                        [Diagram(s)],   [Ac], [Co], [Tr], [OSS], [ILO], [UTML],
       ),
 
@@ -224,7 +221,7 @@ Given existing works, the best approach for maximising accuracy, consistency, an
 
 Unfortunately, no solutions seem to support the integration of ILOs into their grading rubric inputs. While we believe that this is a vital point to consider when making rubrics or example solutons @osinga2024, we realise that it may incur extra work for a teacher to add metrics on how much a certain ILO is tested. #todo([ How to incorporate ILO weighting ])
 
-Since existing solutions that feature these techniques have not published their source code (see @tbl:grader-suitability), we develop our own autograder, named _Seshat_#footnote([ The Egyptian record-keeping godess and daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
+Since existing solutions that feature these techniques have not published their source code (see @tbl:grader-suitability), we develop our own autograder, named #seshat#footnote([ The Egyptian record-keeping godess and daughter of _Thoth_, the name of #cite(<osinga2024>, form: "prose")'s autograder. ]).
 
 == Architecture
 Autograder needs to
@@ -235,17 +232,59 @@ Autograder needs to
 
 We use a query-based framework, akin to that of the Rust compiler @rustc-book. This choice is made because it encourages decoupling things such as input parsing, running the algorithm, and formatting output. This additionally supports transparency internally in the grading process, as one can easily query intermediate solutions from the grading process.
 
-Additionally, a query-based architecture allows for caching all stages of the process. This would allow us to cache the algorithm outputs, visualisations, and more. Since the process is designed to be completely deterministic, this allows for superior performance, as inputting the same solution multiple times will result in a cache hit, reducing the time it takes to grade.
+Additionally, a query-based architecture allows for caching all stages of the process, which is only possible since we make the explicit choice to use only deterministic algorithms. This allows for efficiency improvements if we need to refetch some parsed input, or if we need to grade a solution we have already seen before.
 
 == Framework(s)
 
+
 == Language(s) 
+Many languages would be suitable to do this project in: Object-Oriented languages such as Java or JVM-based languages, C\#, or Python could be suitable because of their familiarity to us and the general programmer, increasing the chance that future programmers can extend this tool. Functional languages such as Haskell, Erlang, Elixir or F\# would also be quite suitable, since their functional nature coincides with the deterministic nature of the algorithms. However, multi-paradigm languages such as Go or Rust can strike a balance between the imperative nature of Object-Oriented languages and the overlapping mental model of functional languages and autograding.
+
+We opt for Go, as it is a statically typed and compiled language, which should allow us to create a robust architecture that allows for fast grading. Additionally, it is not Object-Oriented, but still allows for attaching methods to certain data structures, thereby allowing us to express the diagrams as pure structs while still allowing for the familiar dot-syntax (`object.property` or `object.method()`) of Object-Oriented languages. Finally, we opt for Go as it needs not strictly adhere to concurrency models and memory safety such as Rust, but still has a garbage collector, which should make it faster and easier to develop #seshat.
 
 
 = Planning <planning>
-#todo([ TODO: Graduation planning. Phases, goals per phase ])
+We plan to develop #seshat according to the Agile. This means that we divide the work up into increments, and aim to show new deliverables frequently. This prioritises prototyping and frequent feedback, allowing the supervisors to steer the direction of the project effectively. 
 
+We divide these increments up into two weeks. This should allow for enough time inbetween to make significant progress on #seshat and the final paper, while keeping increments small enough to be able to reflect on the progress made often and make adjustments to the plan if necessary. We meet with the supervisor every increment, and a meeting is planned with the co-supervisor every two increments. We invite the co-supervisor to every meeting, but they are free to attend when they wish to see progress and/or give advice. When in doubt, we explicitly ask advice of both supervisors to get a view that spans multiple perspectives.
 
+The general idea is to start off working on the final paper for two increments, mainly focused on formalising the literature review in order to get a bit more background information on how to continue. Afterwards, we move into the implementation phase, where we work on #seshat, prioritising a minimal product that can take UTML submissions and spit out some results. Finally, we compare the solution to existing grading in the last few increments, as well as finalising the paper and letting it be reviewed by peers.
+
+During the development of #seshat, we add to the paper in parallel, documenting design decisions and progress, in addition to keeping a daily journal of our progress to be able to more effectively reflect on the process, which should aid in planning efficiency.
+
+The increments are initially structured in the way defined in @fig:planning.
+#place(bottom+center, scope: "parent", float: true,
+    [
+    #set table(stroke: 0pt)
+    #set table.hline(stroke: 1pt)
+    #set table.vline(stroke: 1pt)
+    #figure(
+    table(
+      columns: (auto,auto,auto,auto,1fr),
+        inset: 3pt,
+        align: (center+horizon, center+horizon, center+horizon, left+horizon, left+horizon),
+        table.header(
+          table.hline(),
+          table.cell(colspan: 4, [ Increment ]),  [ Task ],
+          table.hline(),
+        ),
+          table.vline(x: 0, start: 0, end: 1000), table.vline(x: 4, start: 0, end: 1000), table.vline(start: 0, end: 1000),
+
+          [Wk.], [ 6],[-],[ 7],   [ Literature review ],  table.hline(),
+          [Wk.], [ 8],[-],[ 9],   [ Literature review ], table.hline(),
+          [Wk.], [10],[-],[11],   [ #seshat - general framework ], table.hline(),
+          [Wk.], [12],[-],[13],   [ #seshat - (UTML) input parsing ], table.hline(),
+          [Wk.], [14],[-],[15],   [ #seshat - input parsing ], table.hline(),
+          [Wk.], [16],[-],[17],   [ #seshat - grading/grade formatting ], table.hline(),
+          [Wk.], [18],[-],[19],   [ #seshat - grading/grade formatting ], table.hline(),
+          [Wk.], [20],[-],[21],   [ #seshat - finishing touches / comparison to manual grading ], table.hline(),
+          [Wk.], [22],[-],[23],   [ #seshat - comparison to manual grading ], table.hline(),
+          [Wk.], [24],[-],[25],   [ Paper finishing touches ], table.hline(),
+          [Wk.], [26],[-],[27],   [ Paper finishing touches + peer reviews ], table.hline(),
+    ),
+    caption: [ Increment planning of the final thesis. Note that paper development is done in parallel to the development of #seshat. ]
+  )<fig:planning>]
+)
 
 ]) // 2-column
 
