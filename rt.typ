@@ -166,8 +166,12 @@ There has also been work on using Generative AI / Large Language Models (LLMs) t
   caption: [ #cite(<RajiRamachandran2025>, form: "prose", supplement: "p.13"): Comparison of expert scores and CodeLLama scores using a combination of `all-MiniLM-L6-v2` and `msmarc-MiniLM` as word similarity models. ],
 )<fig:RajiRamachandran2025_Fig3>
 
-
 In conclusion, while GenAI-based grading has been attempted in recent years, purely GenAI solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions as well as introducing fundamental non-deterministic behaviour / hallucinations. This makes these types of solutions inferior to graph isomorphism solutions for full automatic grading. However, when used particularly for semantic and/or syntactic matching, it may provide similar performance to algorithmic solutions (although it still gives way to nondeterminstic grading and should be carefully evaluated.
+
+== Intended Learning Objectives and examination
+#cite(<osinga2024>, form: "prose") mentions that the top-down approach of defining Intended Learning Objectives, translating them into exercises, and then constructing grading rubrics for these exercises seems to produce exercises and grading rubrics that relate most to a module's ILOs. In the name of transparency, one could encode these ILOs into the grading rubric and show these in the final grade, to indicate to students how well they achieved the learning goals of the module. 
+
+While we could find little research on the inclusion of ILOs in grading rubrics, #cite(<dinur2009>, form: "prose") mention that "rubrics are a way of explictly stating the criteria of student work", allowing for a more analytical style of grading, which provides more details than a more global, holistic rubric @allen2006. If ILOs are more explicitly integrated into the grading rubric, and this rubric is of the analytical kind, this would allow students to receive detailed feedback about their competency with respect to the ILOs of the course.
 
 == Conclusion
 In the explored related work, existing frameworks primarily recommend structural matching in combination with syntactic and semantic matching to be able to match solutions containing spelling mistakes and the use of synonyms. Existing implementations mostly use the methods recommended by the frameworks, with the best results stemming from determinstic, graph isomorphism algorithms, albeit at the cost of the teacher having to produce one or more sample solutions. Purely GenAI methods require less effort from teachers, since they do not need to produce sample solution(s), but produce noticeably subpar results to graph matching algorithms. Using hybrid methods, with GenAI for semantic/syntactic matching and graph isomorphism for structural matching, seems to produce similar results to 'pure' graph matching algorithms, but seemingly does not provide major advantages over algorithmic solutions and can additionally introduce nondeterminism in otherwise determinstic solutions, which reduces consistency.
@@ -244,15 +248,13 @@ We opt for Go, as it is a statically typed and compiled language, which should a
 
 
 = Planning <planning>
-We plan to develop #seshat according to the Agile. This means that we divide the work up into increments, and aim to show new deliverables frequently. This prioritises prototyping and frequent feedback, allowing the supervisors to steer the direction of the project effectively. 
+We plan to develop #seshat according to the Agile. This means that we divide the work up into increments, and aim to show new deliverables frequently. This prioritises prototyping and frequent feedback, allowing the supervisors to steer the direction of the project effectively.
 
-We divide these increments up into two weeks. This should allow for enough time inbetween to make significant progress on #seshat and the final paper, while keeping increments small enough to be able to reflect on the progress made often and make adjustments to the plan if necessary. We meet with the supervisor every increment, and a meeting is planned with the co-supervisor every two increments. We invite the co-supervisor to every meeting, but they are free to attend when they wish to see progress and/or give advice. When in doubt, we explicitly ask advice of both supervisors to get a view that spans multiple perspectives.
-
-The general idea is to start off working on the final paper for two increments, mainly focused on formalising the literature review in order to get a bit more background information on how to continue. Afterwards, we move into the implementation phase, where we work on #seshat, prioritising a minimal product that can take UTML submissions and spit out some results. Finally, we compare the solution to existing grading in the last few increments, as well as finalising the paper and letting it be reviewed by peers.
+We divide these increments up into two weeks. This should allow for enough time inbetween to make significant progress on #seshat and the final paper, while keeping increments small enough to be able to reflect on the progress made often enough and make adjustments to the plan if necessary. We meet with the main supervisor every increment. We invite the co-supervisor to every meeting: they are free to attend when they wish to see progress and/or give advice. When in doubt, we explicitly ask advice of both supervisors to get a view that spans multiple perspectives.
 
 During the development of #seshat, we add to the paper in parallel, documenting design decisions and progress, in addition to keeping a daily journal of our progress to be able to more effectively reflect on the process, which should aid in planning efficiency.
 
-The increments are initially structured in the way defined in @fig:planning.
+The increments are initially structured in the way defined in @fig:planning. These are subject to change, as it might turn out there is more research needed to complete certain algorithms or architecture.
 #place(bottom+center, scope: "parent", float: true,
     [
     #set table(stroke: 0pt)
@@ -270,17 +272,17 @@ The increments are initially structured in the way defined in @fig:planning.
         ),
           table.vline(x: 0, start: 0, end: 1000), table.vline(x: 4, start: 0, end: 1000), table.vline(start: 0, end: 1000),
 
-          [Wk.], [ 6],[-],[ 7],   [ Literature review ],  table.hline(),
-          [Wk.], [ 8],[-],[ 9],   [ Literature review ], table.hline(),
-          [Wk.], [10],[-],[11],   [ #seshat - general framework ], table.hline(),
-          [Wk.], [12],[-],[13],   [ #seshat - (UTML) input parsing ], table.hline(),
-          [Wk.], [14],[-],[15],   [ #seshat - input parsing ], table.hline(),
-          [Wk.], [16],[-],[17],   [ #seshat - grading/grade formatting ], table.hline(),
-          [Wk.], [18],[-],[19],   [ #seshat - grading/grade formatting ], table.hline(),
-          [Wk.], [20],[-],[21],   [ #seshat - finishing touches / comparison to manual grading ], table.hline(),
-          [Wk.], [22],[-],[23],   [ #seshat - comparison to manual grading ], table.hline(),
-          [Wk.], [24],[-],[25],   [ Paper finishing touches ], table.hline(),
-          [Wk.], [26],[-],[27],   [ Paper finishing touches + peer reviews ], table.hline(),
+          [Wk.], [ 6],[-],[ 7],   [ #seshat - set up prototype architecture ],  table.hline(),
+          [Wk.], [ 8],[-],[ 9],   [ #seshat - UTML input parsing ], table.hline(),
+          [Wk.], [10],[-],[11],   [ #seshat - internal graph representations ], table.hline(),
+          [Wk.], [12],[-],[13],   [ #seshat - implement algorithms @Bian2020 @thomas2009 @smith2013 ], table.hline(),
+          [Wk.], [14],[-],[15],    [ #seshat - implement algorithms @Bian2020 @thomas2009 @smith2013 ], table.hline(),
+          [Wk.], [16],[-],[17],   [ #seshat - implement algorithms @Bian2020 @thomas2009 @smith2013 ], table.hline(),
+          [Wk.], [18],[-],[19],   [ #seshat - implement algorithms @Bian2020 @thomas2009 @smith2013 ], table.hline(),
+          [Wk.], [20],[-],[21],   [ #seshat - implement algorithms @Bian2020 @thomas2009 @smith2013 ], table.hline(),
+          [Wk.], [22],[-],[23],   [ #seshat - compare to manual grading ], table.hline(),
+          [Wk.], [24],[-],[25],   [ Finalise paper / buffer time ], table.hline(),
+          [Wk.], [26],[-],[27],   [ Finalise paper / peer reviews by colleagues ], table.hline(),
     ),
     caption: [ Increment planning of the final thesis. Note that paper development is done in parallel to the development of #seshat. ]
   )<fig:planning>]
