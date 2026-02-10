@@ -171,8 +171,9 @@ Next to using purely algorithmic methods, there has also been work on using Mach
 
 In conclusion, while AI-based grading has been attempted in recent years, purely AI-driven solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions as well as introducing fundamental non-deterministic behaviour, and a lacking internal consistency. This makes these types of solutions inferior to graph isomorphism solutions in terms of accuracy and consistency. When used only for semantic and/or syntactic matching, it may provide similar accuracy to algorithmic solutions, although it still introduces nondetermism in grading.
 
-== Intended Learning Objectives \ and examination // line break for readability
-#cite(<osinga2024>, form: "prose") mentions that the top-down approach of defining Intended Learning Objectives, translating them into exercises, and then constructing grading rubrics for these exercises seems to produce exercises and grading rubrics that relate most to a module's ILOs. Given that rubrics and exercises are defined in such a way, one could encode these ILOs into the grading rubric and show these in the final grade, to indicate to students how well they achieved the learning goals of the module. 
+// line break for readability
+== Intended Learning Objectives \ and examination
+#cite(<osinga2024>, form: "prose") mentions that the top-down approach of defining Intended Learning Objectives, translating them into exercises, and then constructing grading rubrics for these exercises seems to produce exercises and grading rubrics that relate most to a module's ILOs. Given that rubrics and exercises are defined in such a way, one could encode these ILOs into the grading rubric and show these in the final grade, to indicate to students how well they achieved the learning goals of the module.
 
 While we could find little research on the inclusion of ILOs in grading rubrics, #cite(<dinur2009>, form: "prose") mention that "rubrics are a way of explictly stating the criteria of student work", allowing for a more analytical style of grading, which provides more details than a more global, holistic rubric @allen2006. If ILOs are more explicitly integrated into the grading rubric, and this rubric is of the analytical kind, this would allow students to receive more detailed feedback about their competency with respect to the ILOs of the course, which helps with grading transparency.
 
@@ -243,8 +244,8 @@ To maximise the flexibility of each individual component, we aim to implement a 
 
 Additionally, a query-based architecture allows for caching all stages of the process, which is possible since we make the explicit choice to use only deterministic algorithms. This allows for efficiency improvements if we need to refetch some parsed input, or if we need to grade a solution we have already seen before.
 
-== Language(s) 
-For this project, we opt for Go, as it is a multi-pardigm, statically typed, and compiled language, and it is familiar to the author. This should allow us to leverage both imperative and functional paradigms, create a robust architecture, and allow for fast grading, while limiting the time it takes to implement features. .
+== Language
+For this project, we opt for Go, as it is a multi-pardigm, statically typed, and compiled language. This should allow us to leverage both imperative and functional paradigms, create a robust architecture, and allow for fast grading. Additionally, the author is familiar with it, which should limit the time it takes to implement features.
 
 = Planning <planning>
 We plan to develop #seshat according to the Agile methodology @agilemanifesto. This means that we divide the work up into increments, and aim to show new deliverables frequently. This prioritises prototyping and frequent feedback, allowing the supervisors to steer the direction of the project effectively.
@@ -253,7 +254,7 @@ We divide these increments up into two weeks. This should allow for enough time 
 
 During the development of #seshat, we add to the paper in parallel, documenting design decisions and progress, in addition to keeping a daily journal of our progress to be able to more effectively reflect on the process, which should aid in planning efficiency.
 
-The increments are initially structured in the way defined in @fig:planning. These are subject to change, as it might turn out there is more research needed to complete certain algorithms or architecture.
+The increments are initially structured in the way defined in @fig:planning. Note that these are subject to change, as it might turn out there is more research needed to complete certain algorithms or architecture.
 #place(bottom+center, scope: "parent", float: true, [
     #set table(stroke: 0pt, inset: 0pt)
     #set table.hline(stroke: 1pt)
