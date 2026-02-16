@@ -117,7 +117,7 @@ In conclusion, most autograder strategies recommend structural matching (to iden
 === Algorithmic <subsec:relatedwork-autograder-algorithmic>
 Next to frameworks for autograders, implementations were also discovered during the literature review, of which a subset used purely algorithmic methods. Summaries of these sources are discussed in this section, along with a general summary on algorithmic autograders.
 
-#cite(<Bian2020>, form: "prose") expand their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study. Their main findings are that multiple teacher solutions result in more accurate grades with an average accuracy of more than 95% #cite(<Bian2020>, supplement: "p.10"), that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11"). Additionally, their visual feedback system seems to be a nice addition for easily seeing where marks were awarded / taken away (see @fig:Bian2020_Fig9).
+#cite(<Bian2020>, form: "prose") expand their previous work @Bian2019 (see @subsec:relatedwork-autograder-frameworks) with a case study, using the Levenstein distance between words for syntactic matching, several semantic similarity metrics including HSO, WUP, and LIN, and structural matching based on similar attributes and operations within classes. Their main findings are that multiple teacher solutions result in more accurate grades with an average accuracy of more than 95% #cite(<Bian2020>, supplement: "p.10"), that grading configurations change per exam if you want similar grades to the teacher, and that their autograding "has shown to be more consistent and able to ensure fairness in the grading process" #cite(<Bian2020>, supplement: "p.11"). Additionally, their visual feedback system seems to be a nice addition for easily seeing where marks were awarded / taken away (see @fig:Bian2020_Fig9).
 
 #figure(image("pics/Bian2020_Fig9.png", width: 95%),
   caption: [Visual feedback module from #cite(<Bian2020>, form: "prose", supplement: "Fig.9")]
@@ -182,42 +182,60 @@ In the explored related work, existing frameworks primarily recommend structural
 
 
 #place(bottom+center, scope: "parent", float: true, [
-  #show table.cell.where(body: [N]): t => text(fill: rgb("#CC1212"), strong(t))
-  #show table.cell.where(body: [H]): t => text(fill: rgb("#12CC12"), strong(t))
-  #show table.cell.where(body: [M]): t => text(fill: rgb("#EA7C32"), strong(t))
-  #show table.cell.where(body: [L]): t => text(fill: rgb("#C84312"), strong(t))
+  #let grn = rgb("#12CC12")
+  #let ylw = rgb("#EA7C32")
+  #let red = rgb("#CC1111")
+  #let dark-ylw = rgb("#DD4545")
+
+  #show table.cell.where(body: [L]): t => text(fill: red, strong(t))
+  #show table.cell.where(body: [N]): t => text(fill: dark-ylw, strong(t))
+  #show table.cell.where(body: [M]): t => text(fill: ylw, strong(t))
+  #show table.cell.where(body: [H]): t => text(fill: grn, strong(t))
   #show table.cell.where(body: [?]): t => t
+
+    // fair
+  #show table.cell.where(body: [F]): t => text(fill: grn, strong(t))
+  #show table.cell.where(body: [A]): t => text(fill: grn, strong(t))
+  #show table.cell.where(body: [I]): t => text(fill: grn, strong(t))
+  #show table.cell.where(body: [R]): t => text(fill: grn, strong(t))
+
+  #show table.cell.where(body: [f]): t => text(fill: ylw, strong(t))
+  #show table.cell.where(body: [a]): t => text(fill: ylw, strong(t))
+  #show table.cell.where(body: [i]): t => text(fill: ylw , strong(t))
+  #show table.cell.where(body: [r]): t => text(fill: ylw, strong(t))
+
+  #show table.cell.where(body: [-]): t => text(fill: red, strong(t))
   
   #figure(
-    table(columns: (4fr, 2fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+    table(columns: (auto, auto, 1fr, 1fr, 1fr, auto,auto,auto,auto,1.4fr,1.8fr),
       inset: 3pt,
-      align: (left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
+      align: (left+horizon, left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
       table.header(
-        [Author],                                        [Di\*],         [Ac], [Co], [Tr], [OSS], [ILO],[UTML],
+        [Author],                                        [Di],         [Ac], [Co], [Tr], [F],[A],[I],[R], [ILO],[UTML],
       ),
 
-      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [M],   [N],  [N],
-      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [M],   [N],  [N],
-      [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [M],   [N],  [N],
-      [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [M],   [N],  [N],
-      [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [M],   [N],  [N],
-      [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [L],   [N],  [N],
-      [#cite(<AlRawashdeh2014>, form: "prose")],    [UML State/Sequence],[?],  [H],  [?],  [M],   [N],  [N],
-      [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [L],   [N],  [N],
-      [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[M],   [N],  [N],
-      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[M],[N],[N],
+      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
+      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
+      [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [-],[-],[i],[r],  [N],  [N],
+      [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
+      [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
+      [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [-],[-],[-],[-],  [N],  [N],
+      [#cite(<AlRawashdeh2014>, form: "prose")],      [UML State/Sequence],[?],  [H],  [?],  [-],[-],[I],[-],  [N],  [N],
+      [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [-],[-],[I],[-],  [N],  [N],
+      [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[-],[-],[I],[r],  [N],  [N],
+      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[-],[-],[I],[r],[N],[N],
 
-      [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [L],   [N],  [N],
-      [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [M],   [N],  [N],
-      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [M],  [M],  [M],   [N],  [N],
-      [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [M],  [H],  [M],   [N],  [N],
+      [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [-],[-],[-],[-],   [N],  [N],
+      [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [F],[a],[I],[r],   [N],  [N],
+      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [M],  [M],  [F],[a],[I],[r],   [N],  [N],
+      [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [M],  [H],  [F],[a],[i],[r],   [N],  [N],
     ),
     caption: figure.caption(position: bottom, [
       Autograders and their suitability scores. \
       #align(left, [ 
-        \**Di*(_agram type_), *Ac*(_curacy_), *Co*(_nsistency_), _Grading_ *Tr*(_ansparency_), *OSS* = _how much of the solution is open-source_, *ILO* = _support for linking ILOs to grading_, *UTML* _support_. \
+        \*_What_ *Di*_agram types are supported_, _how high is the_ *Ac*(_curacy_), *Co*(_nsistency_), and _Grading_ *Tr*(_ansparency_), _how_ *F*_indable,_*A*_ccessible,_*I*_nteroperable, and_ *R*_eproduable is the tool_, _can the tool link_ *ILO*_s to grading_, _and how well is_ *UTML* _supported_? \
         #v(2pt)
-        Scoring is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of suitability w.r.t. that particular criterium. The scoring is done in a comparative way, with the lowest-scoring solution receiving a "L" or "N" and the highest scoring receiving a "H". High *consistency* is awarded for determinstic solutions. High *grading transparency* is awarded for solutions that explain the final grade in terms of rubrics (medium for full rubrics that might not match (i.e. AI-driven solutions)). High *OSS* is given to solutions that completely open-source their work, with lower scores indicating that partial algorithms/methods are available. For AI-driven solutions, we also takes into account the open-source nature of the models used.
+        Scoring (except FAIR) is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of each autograder's suitability w.r.t. that particular criterium. The scoring for these rubrics is done in a comparative way, with the lowest-scoring solution receiving a "L" or "N" and the highest scoring receiving a "H". High *accuracy* is awarded for deterministic solutions, with lower values given to nondeterministic programs. High *consistency* is awarded for determinstic solutions. High *grading transparency* is awarded for solutions that explain the final grade in terms of rubrics (medium for full rubrics that might not match (i.e. AI-driven solutions)). *ILO* and *UTML* support is given a "H" or "N" based on inclusion of these features. *FAIR* scoring is done by checking the Findability, Accessibility, Interoperability, and Reusability, inspired by #cite(<Wilkinson2016>, form: "prose", supplement: "Box 2, p.4"). We focus purely on the autograder solutions for this rubric. For example, if the code is findable with a fixed ID or link, the project is available but only through a paywall, the algorithms in the paper are designed to be interoperable with only one diagram format (for example XMI) and only one type of diagram (for example ER diagrams), and the work is partially reproducible (deriving parts of the source code using algorithms in the paper), it gets a score of '#text(fill: grn, [F])#text(fill: red, [a])#text(fill: red, [\_])#text(fill: dark-ylw, [r])'.
       ])
     ]),
   )<tbl:grader-suitability>
