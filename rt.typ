@@ -30,7 +30,7 @@
   margin-x: DOC-MARGIN,
   margin-y: DOC-MARGIN,
 )
-#set page("a4", margin: DOC-MARGIN, numbering: "1")
+#set page("a4", margin: DOC-MARGIN)
 
 #let seshat = text([_Seshat_])
 
@@ -270,10 +270,10 @@ We plan to develop #seshat according to the Agile methodology @agilemanifesto. T
 
 We divide these increments up into two weeks. This should allow for enough time inbetween to make significant progress on #seshat and the final paper, while keeping increments small enough to be able to reflect on the progress made often enough and make adjustments to the plan if necessary. We meet with the main supervisor every increment. We invite the co-supervisor to every meeting: they are free to attend when they wish to see progress and/or give advice. When in doubt, we explicitly ask advice of both supervisors to get a view that spans multiple perspectives.
 
-During the development of #seshat, we add to the paper in parallel, documenting design decisions and progress, in addition to keeping a daily journal of our progress to be able to more effectively reflect on the process, which should aid in planning efficiency.
+During the development of #seshat, we add to the paper in parallel, documenting design decisions and progress.
 
-The increments are initially structured in the way defined in @fig:planning. Note that these are subject to change, as it might turn out there is more research needed to complete certain algorithms or architecture.
-#place(bottom+center, scope: "parent", float: true, [
+The increments are initially structured in the way defined in @fig:planning. Note that these are subject to change, and there is a bit of buffer time planned in, as it might turn out there is more research needed to complete certain algorithms .
+iplace(bottom+center, scope: "parent", float: true, [
     #set table(stroke: 0pt, inset: 0pt)
     #set table.hline(stroke: 1pt)
     #set table.vline(stroke: 1pt)
