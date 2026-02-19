@@ -41,7 +41,7 @@
 
 #abstr(content: 
   [
-    During computer science studies, students are often required to submit diagrams. The grading of these diagrams is currently done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasibility of automatically grading diagrams, focusing on Unified Modelling Lanuage diagrams and the UTML file format used by diagram software at the University of Twente. We examine existing work, which shows that graph isomorphism algorithms which account for the use of synonyms and the presence of spelling mistakes provide the best results, but that existing work does not provide the means necessary to adapt their solutions to the UTML format. Based on these findings, we propose #seshat, an autograder that combines the aforementioned techniques into a generic autograder capable of supporting multiple diagram variants and file formats, with built-in support for UTML. In the final thesis, we realise #seshat and compare it to human grading for multiple UTML exam submission datasets.
+    During computer science studies, students are often required to submit diagrams. The grading of these diagrams is currently done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasibility of automatically grading diagrams, focusing on Unified Modelling Lanuage diagrams and the UTML file format used by the University of Twente. Existing work shows that graph isomorphism algorithms which account for the use of synonyms and the presence of spelling mistakes provide the best results, but that existing autograders are not adaptable UTML format. Based on these findings, we propose #seshat, an autograder that combines the aforementioned techniques into a generic autograder capable of supporting arbitrary diagrams and file formats, including UML diagrams or Entity-Relation diagrams stored in arbitrary formats, with built-in support for UTML. In the final thesis, we realise #seshat and compare it to human grading for multiple UTML exam submission datasets.
   ]
 )
 
@@ -50,23 +50,25 @@
 
 Unified Modelling Language (UML) diagrams, introduced by the Object Management Group @omg-group, play a significant role in computer science, as they allow for communicating software designs in a standardised format. During technical studies, students are often required to make UML diagrams for graded assignments or exams.
 
-However, the grading of these diagrams is often a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies due to various reasons @Ahmed2024, the main one being the inherent inconsistency of human graders @Ahmed2024 @Meadows2005. #cite(<Meadows2005>, form: "prose") pose two possible solutions to the problem of human grading: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_.
+However, the grading of these diagrams is often a costly and lengthy process, involving multiple paid members of staff @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies due to various reasons @Ahmed2024, but mainly the inconsistency of human graders @Ahmed2024 @Meadows2005. #cite(<Meadows2005>, form: "prose") pose two possible solutions to the problem of human grading: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_.
 
 The (partial) automatisation of grading diagrams ('autograding') provides a grading paradigm that can both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior performance compared to human grading in terms of *accuracy*, *grading transparency*, and *consistency*.
 
 With _accuracy_, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With _consistency_, we mean both the extent to which similar grades are given to similar submissions and the difference between consecutive runs (i.e. determinism). With _grading transparency_, we mean the extent to which the reasoning for a particular grade is explained with regards to the rubric for the exercise or to the Intended Learning Objectives (ILOs) of a module. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance (_accuracy_), allows them to see which parts they could improve for future assignments (_grading transparency_), and is minimally unfair (_consistency_).
+
+Specifically for the implementation, we desire an autograder that can _link its grading to ILOs_, as described by the previous paragraph. Furthermore, built-in _UTML support_ is a must, as it is the main file format the University of Twente uses. Finally, an _easily extensible_ autograder would be ideal, since we might want to extend support to other file formats or alter the behaviour of the autograder.
 
 == Background <bg>
 The idea of letting a computer program (partially) grade tests has been discussed in papers since the 70s #cite(<pirie1975>, supplement: "p.13"), with some papers with implementations starting to appear around the 80s, primarily focused on grading the writing style of computer programs @Rees1982. Interest in grading diagrams specifically seems to have started around the early 2000s @smith2004 @thomas2004.
 
 Diagrams themselves have multiple variants for different purposes. UML diagrams, for example, mainly serve to visualise and document software @omg-group, while Entity-Relation diagrams focus on the relations between different components, making it ideal for visualising database designs @Bagui2003.
 
-Different formats exist for storing these diagrams. Examples include XMI - the standard diagram interchange format for UML, most commonly used by the Eclipse Modelling Framework @xmi-omg, the Rose Petal format - used by the UML development program IBM Rational Rose @ibm-rational-rose, PlantUML - an open-source textual standard for representing various diagrams including UML and ER diagrams @plantuml, Visual Paradigm files - software that allows for modelling UML, architecture diagrams, business flows etc. @visualparadigm, and UTML - an in-house standard developed at the University of Twente for representing UML diagrams @utml-internal @utml-website. UTML is a JSON-based format for representing several types of diagrams, including UML class diagrams.
+Different formats exist for storing these diagrams. Examples include XMI - the standard diagram interchange format for UML, most commonly used by the Eclipse Modelling Framework @xmi-omg, the Rose Petal format - used by the UML development program IBM Rational Rose @ibm-rational-rose, PlantUML - an open-source textual standard for representing various diagrams including UML and ER diagrams @plantuml, Visual Paradigm files - software that allows for modelling UML, architecture diagrams, business flows etc. @visualparadigm, and UTML - an in-house developed program and file format used at the University of Twente for representing UML and various other types of diagrams, building on the JSON standard @utml-internal @utml-website.
 
 The degree to which automated grading is implemented can vary as well. We divide autograding into the following categories: _non-automated_ (everything must be done by a human), _automated_ (part of the process requires no human input), and (fully) _automatic_ (no human input is required). In this paper, we only consider autograders that fall into the categories _automated_ and _automatic_.
 
 == Research Questions <rqs>
-In order to examine the feasibility of automatically grading UTML UML diagrams, we provide a main research question (*MRQ*):
+In order to examine the feasibility of automatically grading UML diagrams saved in the UTML format, we provide a main research question (*MRQ*):
 
 #align(center, [
   *To what extent can UML diagrams be graded automatically while maintaining or improving the accuracy, consistency, and grading transparency of human grading?*
@@ -77,26 +79,21 @@ We aim to answer the main research question with the following research question
 #let rq(content) = box(inset: (left: 10pt), content)
 
 #rq([
-*RQ1*: What existing work can be found for automatically analysing and/or grading UML diagrams?
-- *RQ1a*: What correction models are employed by existing works?
+*RQ1*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) accuracy, (2) consistency, (3) grading transparency, (4) extent of linking ILOs to grading instructions, (5) UTML support, and (6) ease of extending the source code to alter functionality?
 ])
 
 #rq([
-*RQ2*: To what extent are existing solutions suitable for use in autograding UTML diagrams with regards to (1) accuracy, (2) consistency, (3) grading transparency, (4) extent of linking ILOs to grading instructions, (5) UTML support, and (6) ease of extending the source code to alter functionality?
+*RQ2*: To what extent can a suitable autograder be constructed from previous work to be able to grade UTML diagrams?
 ])
 
 #rq([
-*RQ3*: To what extent can a suitable autograder be constructed from previous work to be able to grade UTML UML diagrams?
+*RQ3*: To what extent does the suitable autograder compare to human grading in the context of grading first-year UML exam questions?
 ])
 
-#rq([
-*RQ4*: To what extent does the suitable autograder compare to human grading in the context of grading first-year UML exam questions?
-])
-
-*RQ1* and *RQ2* are answered in @relatedwork and @tbl:grader-suitability, by analysing these works for suitability of grading. @tools-techniques explains the plan for building the autograder and @planning outlines the planning for *RQ3* and *RQ4*, which are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
+*RQ1* is answered in @relatedwork, by analysing these works for suitability of grading. Existing works are categorised according to the requirements outlined by *RQ1* in @tbl:grader-suitability. @tools-techniques explains the plan for building the autograder and @planning outlines the planning for research questions *RQ2* and *RQ3*, which are to be answered in the final thesis, where we grade UTML diagrams using an implementation based on related work and compare it to human grading.
 
 = Related work <relatedwork>
-In order to answer research questions *RQ1* and *RQ2*, we conduct a small-scale literature study covering roughly 40 works. It aims to provide an exploratory view into the world of autograders, which means that formal inclusion and exclusion criteria are not set up. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". For ILO research, terms were used such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) was used to a depth of 1.
+In order to answer research questions *RQ1*, we conduct a small-scale literature study covering roughly 40 works.  It aims to provide an exploratory view into the world of autograders, which means that formal inclusion and exclusion criteria are not set up. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), using terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". For ILO research, terms were used such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) was used to a depth of 1.
 
 == Autograders
 Multiple methods and types of diagrams are researched, including proposed frameworks for autograders, purely algorithmic implementations, and AI-based methods (using Machine Learning (ML) / Generative AI (GenAI) techniques). Additionally, work on integrating ILOs is researched.
@@ -258,7 +255,7 @@ Since existing solutions do not provide the features necessary, nor their source
   )<fig:arch>
 ])
 
-#place(bottom+center, scope: "column", dy: -2.9em, float: true, [
+#place(bottom+center, scope: "column", float: true, [
     #set table(stroke: 0pt, inset: 0pt)
     #set table.hline(stroke: 1pt)
     #set table.vline(stroke: 1pt)
