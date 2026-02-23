@@ -93,10 +93,10 @@ We aim to answer the main research question with the following research question
 *RQ1* is answered in @relatedwork, by analysing existing work for suitability of grading. These works are categorised according to the requirements outlined by *RQ1* and presented in @tbl:grader-suitability. @tools-techniques explains the plan for building the autograder and @planning outlines the planning, together offering a basis for *RQ2* and *RQ3*, which we aim to answer in the final thesis.
 
 = Related work <relatedwork>
-In order to answer research questions *RQ1*, we conduct a small-scale literature study covering roughly 40 works.  It aims to provide an exploratory view into the world of autograders and ILOs, which is why we omit formal inclusion and exclusion criteria. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), with related work for autograders being searched with terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". For papers on ILO and ILO integration into rubrics, terms were used such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) was used to a depth of 1.
+In order to answer research questions *RQ1*, we conduct a small-scale literature study covering roughly 40 works.  It aims to provide an exploratory view into the world of autograders and ILOs, which is why we omit formal inclusion and exclusion criteria. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")), with related work for autograders being searched with terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". For papers on ILOs and ILO integration into rubrics, terms were used such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) was used to a depth of 1.
 
 == Autograders
-Multiple types of papers on autogrades are researched, which we categorise into frameworks for autograders, purely algorithmic autograders, and AI-driven autograders (using Machine Learning (ML) / Generative AI (GenAI) techniques). Findings on autograder implementations are summarised in @tbl:grader-suitability.
+Multiple types of papers on autogrades are researched, which we categorise into frameworks for autograders, purely algorithmic autograders, and AI-driven autograders (using Machine Learning (ML) / Generative AI (Gen AI) techniques). Findings on autograder implementations are summarised in @tbl:grader-suitability.
 
 === Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
 Autograder frameworks dictate certain designs or methodologies for building autograders. We present summaries of the explored frameworks and provide a general summary of all frameworks.
@@ -148,7 +148,7 @@ In conclusion, most existing implementations of autograders use some graph isomo
 
 // Note to self: replicating Bian 2020 with Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
 
-=== ML- / GenAI-driven <subsec:relatedwork-autograder-AI>
+=== ML- / Gen AI-driven <subsec:relatedwork-autograder-AI>
 Next to using purely algorithmic methods, some papers experiment with Machine Learning / Generative AI (collectively: 'AI-driven solutions') to automatically grade submissions, and even mention some hybrid AI-driven / algorithmic solutions. We provide summaries of the explored sources below, along with a general conclusion on AI-driven autograders.
 
 #cite(<Stikkolorum2019>, form: "prose"), one of the earliest found sources, attempts Machine Learning-based autograding using several machine learning algorithms to compare submissions to expert grades. Unfortunately, the grading only reaches a maximum accuracy of 42.76%, while rounding off scores to a 10-point integer scale. Exact methods and algorithms are not mentioned.
