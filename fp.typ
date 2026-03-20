@@ -270,9 +270,16 @@ The autograder is written in Go, using no external libraries except for logging 
 == Features
 #seshat can grade arbitrary diagrams, as long as a conversion is made between the diagram format and #seshat's internal representation.
 
-Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the internal representation level, meaning they automatically apply to all diagram formats #seshat supports.
-- edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation. #todo([refactor text])
+UTML limits that #seshat fixes:
+- you cannot connect edges to other edges. This is useful for denoting association classes (TODO EXAMPLE? `test/correct/association-class-simplified.utml` in the git repo)
+  - #seshat fixes this by including a check for missing connections for an edge, and connects the loose source edge to another target edge. If a source edge is not connected to two nodes, it tries to connect it to the closest target edge, as long as the distance to the target edge is not more than 10% of the target edge's length. We believe that this 10% length check provides a little bit of wiggle room for students while still resulting in correctly assumed edge-to-edge connections.
 
+- UML includes the start / end position of an edge, but this can be either an absolute coordinate (when an edge is not connected to a vertex) or a location on a vertex, if it _is_ connected to one.
+    - #seshat converts these offsets into absolute positions, so that it is easier internally to perform computations with the positions, such as figuring out the distance to other points.
+
+=== Error correction
+Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports.
+- edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation.
 
 ]) // 2-column
 
