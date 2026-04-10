@@ -39,11 +39,9 @@
 // todo styling
 #set todo(radius: 2pt)
 
-#abstr(content: 
-  [
+#abstr([
     During computer science studies, students are often required to submit diagrams. The grading of these diagrams is currently done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasibility of automatically grading diagrams, focusing on Unified Modelling Language diagrams and the UTML file format used by the University of Twente. Existing work shows that graph isomorphism algorithms which account for the use of synonyms and the presence of spelling mistakes provide the best results, but autograders utilising this strategy do not provide their source code. Based on these findings, we propose #seshat, an open-source, generic autograder that combines the aforementioned techniques and is capable of supporting arbitrary diagrams and file formats, with built-in support for UTML. In the final thesis, we realise #seshat and compare it to human grading for multiple UTML exam submission datasets.
-  ]
-)
+])
 
 = Introduction <intro>
 // Current state of grading + autograding, University of Twente is looking into ways to save time and money in grading by automating (parts of) it.

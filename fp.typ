@@ -41,11 +41,9 @@
 // todo styling
 #set todo(radius: 2pt)
 
-#abstr(content: 
-  [
+#abstr([
     During computer science studies, students are often required to submit diagrams. The grading of these diagrams is currently done by humans, resulting in a costly, lengthy, and error-prone process. In this paper, we investigate the theoretical feasibility of automatically grading diagrams, focusing on Unified Modelling Language diagrams and the UTML file format used by the University of Twente. Existing work shows that graph isomorphism algorithms which account for the use of synonyms and the presence of spelling mistakes provide the best results, but autograders utilising this strategy do not provide their source code. Based on these findings, we propose #seshat, an open-source, generic autograder that combines the aforementioned techniques and is capable of supporting arbitrary diagrams and file formats, with built-in support for UTML. In the final thesis, we realise #seshat and compare it to human grading for multiple UTML exam submission datasets.
-  ]
-)
+])
 
 = Introduction <intro>
 // Current state of grading + autograding, University of Twente is looking into ways to save time and money in grading by automating (parts of) it.
@@ -280,6 +278,18 @@ UTML limits that #seshat fixes:
 === Error correction
 Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports.
 - edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation.
+
+=== Grading process
+
+#seshat grades with the following plan:
+1. take the teacher's graph ($r$) and a student submission ($s$)
+2. analyse semantic and syntactic equivalence of all combination of $r$s vertices and $s$s vertices
+
+3. for each vertex $v_r in r$, take the best syntactically / semantically matching vertex $v_s in s$, provided that $v_r$ and $v_s$ match 'well enough' (thresholds). We put these pairs $v_r arrow v_s$ into graphs ($g_v_r arrow g_v_s$)
+
+4. repeat for each pair $g_v_r arrow g_v_s$ until no progress is made:
+  1. get a list of all edges $e_r in r$ that connect to a vertex in `refMU`, and a list of all edges in `sub` that connect to `subMU`
+  2. for each new vertex that appears in the `ref` edge set
 
 ]) // 2-column
 
