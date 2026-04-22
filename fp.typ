@@ -272,15 +272,25 @@ UTML limits that #seshat fixes:
 - you cannot connect edges to other edges. This is useful for denoting association classes (TODO EXAMPLE? `test/correct/association-class-simplified.utml` in the git repo)
   - #seshat fixes this by including a check for missing connections for an edge, and connects the loose source edge to another target edge. If a source edge is not connected to two nodes, it tries to connect it to the closest target edge, as long as the distance to the target edge is not more than 10% of the target edge's length. We believe that this 10% length check provides a little bit of wiggle room for students while still resulting in correctly assumed edge-to-edge connections.
 
-- UML includes the start / end position of an edge, but this can be either an absolute coordinate (when an edge is not connected to a vertex) or a location on a vertex, if it _is_ connected to one.
+- UTML includes the start / end position of an edge, but this can be either an absolute coordinate (when an edge is not connected to a vertex) or a location on a vertex, if it _is_ connected to one.
     - #seshat converts these offsets into absolute positions, so that it is easier internally to perform computations with the positions, such as figuring out the distance to other points.
+
+=== Parsing
+This step transforms a diagram file into an in-memory object that #seshat can understand. For example, for UTML, it merely parses the UTML JSON file and adds some metadata.
+
+=== Transformation into internal representation
+In order to be able to grade diagrams, #seshat uses an internal representation that has a very loose definition of a diagram: a diagram is just a collection of vertices and edges. 
+
+Vertices have an ID, a title, some values (fields or methods), certain properties such as Visibility (public/private/...) and Type (Class/Interface/...), and have visual properties such as location and size.
+
+Edges can be connected to one or two vertices, edges, or nothing. They also have an ID, along with `EdgeEndProperties` for the start and end of the vertex (arrow style and optional text), as well as the general `EdgeProperties`, which contains the style of the line (dotted edge or a solid edge). Finally, each edge has `VisualProperties` as well that define the edge's starting location and ending location.
 
 === Error correction
 Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports.
 - edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation.
+- edge 'anchoring': if an edge is 'floating' (meaning its start or end is not connected to another vertex or edge), #seshat will look for close enough edges or vertices and connect it. This encodes spacial closeness as an actual connection.
 
 === Grading process
-
 #seshat grades with the following plan:
 1. take the teacher's graph ($r$) and a student submission ($s$)
 2. analyse semantic and syntactic equivalence of all combination of $r$s vertices and $s$s vertices
@@ -288,9 +298,14 @@ Additionally, several error-correcting features exist to allow maximum leniency 
 3. for each vertex $v_r in r$, take the best syntactically / semantically matching vertex $v_s in s$, provided that $v_r$ and $v_s$ match 'well enough' (thresholds). We put these pairs $v_r arrow v_s$ into graphs ($g_v_r arrow g_v_s$)
 
 4. repeat for each pair $g_v_r arrow g_v_s$ until no progress is made:
-  1. get a list of all edges $e_r in r$ that connect to a vertex in `refMU`, and a list of all edges in `sub` that connect to `subMU`
-  2. for each new vertex that appears in the `ref` edge set
+  1. get a list of all edges in $r$ that connect to a vertex in $g_v_r$ ($E_r$), and a list of all edges in $s$ that connect to $g_v_s$ ($E_s$)
+  2. $forall e_r in E_r$ get the starting and ending vertices (if they exist), collect them into $V_r$. Do the same for $E_s$ (new vertices are $V_s$).
+    - make a mapping of the best semantic matches between the new vertices (called `newFixedIds`)
+  3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
 
+= Results
+- To compare against M2_2025_TCS, I will likely have to adjust the grading to not penalise extra classes and/or fields, just purely give points for the things that are present, like specified in the rubric.
+  
 ]) // 2-column
 
 #pagebreak()
