@@ -285,12 +285,12 @@ Vertices have an ID, a title, some values (fields or methods), certain propertie
 
 Edges can be connected to one or two vertices, edges, or nothing. They also have an ID, along with `EdgeEndProperties` for the start and end of the vertex (arrow style and optional text), as well as the general `EdgeProperties`, which contains the style of the line (dotted edge or a solid edge). Finally, each edge has `VisualProperties` as well that define the edge's starting location and ending location.
 
-=== Error correction
+=== Error correction<sec:err-corr>
 Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports.
 - edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation.
 - edge 'anchoring': if an edge is 'floating' (meaning its start or end is not connected to another vertex or edge), #seshat will look for close enough edges or vertices and connect it. This encodes spacial closeness as an actual connection.
 
-=== Grading process
+=== Grading process<sec:grading-process>
 #seshat grades with the following plan:
 1. take the teacher's graph ($r$) and a student submission ($s$)
 2. analyse semantic and syntactic equivalence of all combination of $r$s vertices and $s$s vertices
@@ -302,6 +302,17 @@ Additionally, several error-correcting features exist to allow maximum leniency 
   2. $forall e_r in E_r$ get the starting and ending vertices (if they exist), collect them into $V_r$. Do the same for $E_s$ (new vertices are $V_s$).
     - make a mapping of the best semantic matches between the new vertices (called `newFixedIds`)
   3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
+
+== Testing
+#seshat is tested with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
+
+#seshat implements automated testing for large parts of its program, mainly for the parsing, conversion, and error correction stages of the program.
+
+For the initial stage of parsing UTML into our own `ParseResultUTML` data structure, we employ P-testing @Zaytsev2018. This means that we verify that, for each file in our test data and both official data sets, the program produces the exact same JSON structure as is inputted. One noteable exception is that, for `attributes` and `methods`, the UTML files sometimes lack these fields, they are `null`, or they contain an an empty array (`[]`). Because this is semantically equivalent in our context, we explicitly treat a `null`/`[]` or a missing `attributes`/`methods` field as the same.
+
+For the conversion from UTML into the internal representation, we use a form of N-testing @Zaytsev2018: we parse a UTML file into `ParseResultUTML`, then convert it into our `InternalGraph`, and then perform checks comparing the parse result and internal representation. We validate whether the vertex and edge IDs remain the same, and whether edges are still connected to their respective vertices or edges, to name a few.
+
+For special features such as connecting edge ends and swapping labels (see @sec:err-corr) we perform unit testing with fixed examples, which test both a couple of happy paths (where the program should modify the graph) and control paths (where the program should not change the graph).
 
 = Results
 - To compare against M2_2025_TCS, I will likely have to adjust the grading to not penalise extra classes and/or fields, just purely give points for the things that are present, like specified in the rubric.
