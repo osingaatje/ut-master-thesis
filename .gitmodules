@@ -3,4 +3,4 @@
 	url = git@github.com:osingaatje/ut-master-thesis.git
 [submodule "typst-template-ut"]
 	path = typst-template-ut
-	url = git@github.com:osingaatje/typst-template-ut.git
+	url = ssh://git@codeberg.org/drwr/typst-template-ut.git
