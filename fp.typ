@@ -46,6 +46,9 @@
 ])
 
 = Introduction <intro>
+
+#todo("Add picture of UML diagram :)")
+
 // Current state of grading + autograding, University of Twente is looking into ways to save time and money in grading by automating (parts of) it.
 
 Unified Modelling Language (UML) diagrams, introduced by the Object Management Group @omg-group, play a significant role in computer science, as they allow for communicating software designs in a standardised format. During technical studies, students are often required to make UML diagrams for graded assignments or exams.
@@ -242,13 +245,9 @@ In the explored related work, existing frameworks primarily recommend structural
 
 
 = Seshat <solution>
-We implement #seshat, a generic autograder capable of autograding any type of diagram, as long as one builds a transformation step from that diagram into #seshat's internal representation. Offers built-in support for UTML.
+We implement #seshat, a generic autograder capable of automatically analysing and grading any type of diagram, as long as one builds a transformation step from that diagram into #seshat's internal representation. For the purposes of this paper, we offer built-in support for UTML.
 
-Uses the techniques from @relatedwork and @tbl:grader-suitability which seem to give the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching and #todo([semantic/syntactic algorithms?]) for semantic and syntactic matching.
-
-#hl([integrate into paper: visualisations with .dot is supported (more as a preview of how the internal structure looks)])
-
-#hl([ILO integration is supported with ... rubric options (per element, for specific elements, ...)]). When utilised, this offers additional insights for students into how well they achieved certain ILOs.
+#seshat uses the techniques from @relatedwork and @tbl:grader-suitability which seem to give the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching with a maximum distance of 2, and `all-MiniLM-L6-v2` for semantic matching. For semantic matching, we first tried out Princeton's WordNet, as it can also perform semantic similarity checks, but these scores #hl("were not producing semantic equivalence where it was needed - it matches too strictly according to hierarchy and can only handle single words, so examples in the dataset of 'ChargingPort' v.s. 'ChargingStation' would be split into two words, and Station/Port are not related in a significant enough way according to classification hierarchies. TODO explain more").
 
 == Architecture and Language
 #place(top+center, float: true, scope: "column", [
@@ -263,7 +262,7 @@ In order to achieve this, we implement a query-based architecture akin to that o
 
 This architecture also allows us to cache all stages of the grading process if its split up into separate queries, which does not change behaviour given that every query is determinstic.
 
-The autograder is written in Go, using no external libraries except for logging and CLI creation.
+The autograder is written in Go.
 
 == Features
 #seshat can grade arbitrary diagrams, as long as a conversion is made between the diagram format and #seshat's internal representation.
@@ -274,6 +273,11 @@ UTML limits that #seshat fixes:
 
 - UTML includes the start / end position of an edge, but this can be either an absolute coordinate (when an edge is not connected to a vertex) or a location on a vertex, if it _is_ connected to one.
     - #seshat converts these offsets into absolute positions, so that it is easier internally to perform computations with the positions, such as figuring out the distance to other points.
+
+
+#hl([visualising the internal representation with a .dot file is supported (as a (somewhat functional) preview of how the internal structure looks)])
+
+#hl([ILO integration is supported with ... rubric options (per element, for specific elements, ...)]). When utilised, this can offers additional insights for students into how well they achieved certain ILOs, assuming the grading rubric is accurately coupled to the ILOs of a module.
 
 === Parsing
 This step transforms a diagram file into an in-memory object that #seshat can understand. For example, for UTML, it merely parses the UTML JSON file and adds some metadata.
