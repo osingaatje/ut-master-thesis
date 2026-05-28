@@ -293,6 +293,9 @@ Edges can be connected to one or two vertices, edges, or nothing. They also have
 Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports.
 - edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation.
 - edge 'anchoring': if an edge is 'floating' (meaning its start or end is not connected to another vertex or edge), #seshat will look for close enough edges or vertices and connect it. This encodes spacial closeness as an actual connection.
+- edge recombination: some people make multiple inheritance by combining separate 'loose' edgesinto something that visually looks correct, but internally does not match. 
+
+Grand example: `DATASETS/2025_M2_BIT/q/1/154286.json` (features all possible error corrections).
 
 === Grading process<sec:grading-process>
 #seshat grades with the following plan:
