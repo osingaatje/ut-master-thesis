@@ -261,39 +261,28 @@ In order to achieve this, we implement a query-based architecture akin to that o
 
 This architecture also allows us to cache all stages of the grading process if its split up into separate queries, which does not change behaviour given that every query is determinstic.
 
-The autograder is written in Go.
+The autograder is entirely written in Go @golang. A minimal CLI is included to offer a minimal textual interface and showcase the query architecture.
 
 == Features
-#seshat can grade arbitrary diagrams, as long as a conversion is made between the diagram format and #seshat's internal representation.
-
-UTML limits that #seshat fixes:
-- you cannot connect edges to other edges. This is useful for denoting association classes (TODO EXAMPLE? `test/correct/association-class-simplified.utml` in the git repo)
-  - #seshat fixes this by including a check for missing connections for an edge, and connects the loose source edge to another target edge. If a source edge is not connected to two nodes, it tries to connect it to the closest target edge, as long as the distance to the target edge is not more than 10% of the target edge's length. We believe that this 10% length check provides a little bit of wiggle room for students while still resulting in correctly assumed edge-to-edge connections.
-
-- UTML includes the start / end position of an edge, but this can be either an absolute coordinate (when an edge is not connected to a vertex) or a location on a vertex, if it _is_ connected to one.
-    - #seshat converts these offsets into absolute positions, so that it is easier internally to perform computations with the positions, such as figuring out the distance to other points.
-
-
-#hl([visualising the internal representation with a .dot file is supported (as a (somewhat functional) preview of how the internal structure looks)])
-
-#hl([ILO integration is supported with ... rubric options (per element, for specific elements, ...)]). When utilised, this can offers additional insights for students into how well they achieved certain ILOs, assuming the grading rubric is accurately coupled to the ILOs of a module.
-
-#hl([TODO explain grading configuration (JSON file), repair options, point additions or deductions based on vertex / edge / type / association / ... + link to git for examples (grader config.json in each dataset)])
+This section describes the feature set of #seshat by walking the reader through the process of grading a dataset. During this tour, features are explained in the order of the grading process.
 
 === Parsing
-This step transforms a diagram file into an in-memory object that #seshat can understand. For example, for UTML, it merely parses the UTML JSON file and adds some metadata.
+This step transforms a diagram file into an in-memory object that #seshat can understand. For example, for UTML, it merely parses the UTML file (.utml/.json) and adds some metadata such as the file name.
 
 === Transformation into internal representation
-In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice was made to make the reparation and grading algorithms not dependent on one specific diagram standard. This theoretically allows other diagram standards to be graded with the same tooling, as long as a transformation is defined from that diagram standard into #seshat's internal representation.
+In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice is made to separate the reparation and grading algorithms from any one specific diagram format. This has the benefit of being able to integrate new diagram formats into #seshat by merely writing a translation from a particular format into an internal representation.
 
-This internal graph definition is made to be as loosely defined as possible while still allowing for easy analysis. The structure defines a bit of metadata such as the filename, and a collection of vertices and edges. Each vertex and edge has a unique identifier.
+To support as many diagram formats as possible, this internal graph definition is very loosely defined. It does not contain semantic concepts such as inheritance or multiplicities, as it only aims to capture the literal shapes and text. This has the upside of being able to store possibly broken submissions without having to work around the graph definition, allowing #seshat to explicitly check the well-formedness at a defined stage after the transformation into the internal graph structure, at the cost of having to manually implement these types of checks.
 
-Vertices contain a title, some values (fields or methods), certain semantic properties such as visibility (public/private/...) and type (Class/Interface/...), and visual properties such as location and size.
+The structure defines a bit of metadata such as the filename, and a collection of vertices and edges. Each vertex and edge has a unique identifier. Vertices additionally contain a title, some values (fields or methods), certain semantic properties such as visibility (public/private/...) and type (Class/Interface/...), and visual properties such as location and size. Edges are always directed and connect to zero, one, or two vertices or edges. Next to an identifier, they have semantic properties for the starting and ending point of the edge, such as arrow style and text, as well as the general semantic properties, which defines the style of the edge (dotted or solid). Finally, each edge has visual properties that define the edge's path. This path can be of any length, allowing for complex paths.
 
-Edges are always directed and connect to zero, one, or two vertices or edges. They have semantic properties for the starting and ending point of the edge, such as arrow style and text, as well as the general semantic properties, which defines the style of the edge (dotted or solid). Finally, each edge has visual properties that define the edge's path. This path can be of any length, allowing for complex paths.
-
+This structure allows for defining several more features than UTML supports, namely:
+- it allows for edge-to-edge connections (used in association classes), which UTML does not natively support. For an example, see the 'Record' association class in @fig:submission-154286.
+- it only represents locations with absolute positions. UTML, for example, represents label locations as offsets from their parent edge, and edge locations based on offsets from the vertices that they connect to (if an edge connects to a vertex). This would make it quite a bit more difficult to make reparations such as connecting edge ends or swapping labels on edges.
 
 === Error correction<sec:err-corr>
+After a diagram is converted into #seshat's internal representation, it is time to correct some mistakes in the diagram. This stage also allows for encoding semantic meaning into the diagram if the original format did not allow it. For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase can still connect edges to other edges if they are visually close.
+
 Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports. 
 
 We will take @fig:submission-154286 and @fig:submission-154286-corrected as examples during the explanation of the error correction features.
@@ -312,6 +301,7 @@ This is a problem for automatic grading, because #seshat does not consider the v
 
 ==== Directed Edge Recombination
 - edge recombination: some people make multiple inheritance by combining separate 'loose' edgesinto something that visually looks correct, but internally does not match.
+
 
 // figures for grading / error correction
 #place(bottom+center, float: true, scope:"parent", [
@@ -351,6 +341,8 @@ This is a problem for automatic grading, because #seshat does not consider the v
 ])
 
 === Grading process<sec:grading-process>
+#seshat grades diagrams at the internal representation level, which means that it can grade arbitrary diagrams, as long as a conversion is made between the diagram format and #seshat's internal representation.
+
 #seshat grades with the following plan:
 1. take the teacher's graph ($r$) and a student submission ($s$)
 2. analyse semantic and syntactic equivalence of all combination of $r$s vertices and $s$s vertices
@@ -362,6 +354,21 @@ This is a problem for automatic grading, because #seshat does not consider the v
   2. $forall e_r in E_r$ get the starting and ending vertices (if they exist), collect them into $V_r$. Do the same for $E_s$ (new vertices are $V_s$).
     - make a mapping of the best semantic matches between the new vertices (called `newFixedIds`)
   3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
+
+
+
+#hl([TODO explain grading configuration: it includes repair options, allows for specifying how many point are added or deducted based on vertex/edge type/properties/associations / ... + link to git for examples (grader config.json in each dataset)])
+
+#hl([ILO integration is supported with ... rubric options (per element, for specific elements, ...)]). When utilised, this can offers additional insights for students into how well they achieved certain ILOs, assuming the grading rubric is accurately coupled to the ILOs of a module.
+
+#hl([Test results output in either CSV (summary of final grades per file), in JSON (detailed grading per file) or both at the same time.])
+
+
+=== Visualisation<sec:visualise>
+
+#hl([visualising the internal representation with a .dot file is supported (as a (somewhat functional) preview of how the internal structure looks)])
+
+#hl([Visualisation of grading results in .dot file is also supported, but is limited because GraphViz styling is limited])
 
 == Testing
 #seshat is tested with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
