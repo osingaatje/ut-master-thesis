@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg123" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" sodipodi:docname="154286-DOTRENDER-combinedEdges-annotated.svg" inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="2087.896px"
+	 height="1291.435px" viewBox="295.649 51.652 2087.896 1291.435" enable-background="new 295.649 51.652 2087.896 1291.435"
+	 xml:space="preserve">
+<sodipodi:namedview  id="namedview123" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:zoom="1.0708415" inkscape:cx="1836.8732" inkscape:cy="467.85636" inkscape:window-y="0" inkscape:current-layer="svg123" inkscape:window-width="2048" inkscape:window-height="1220" inkscape:showpageshadow="2" inkscape:deskcolor="#d1d1d1" inkscape:window-maximized="1" inkscape:document-units="pt" inkscape:pageopacity="0.0" inkscape:window-x="0" inkscape:pagecheckerboard="0">
+	</sodipodi:namedview>
+<title  id="title1">parse_result</title>
+<g id="node1">
+	<title  id="title2">________ (id &apos;9&apos;) Record ________
+RecordID : int (private)</title>
+	<polygon id="polygon2" fill="none" stroke="#000000" points="1369.709,1282.436 1369.709,1324.036 1584.399,1324.036 
+		1584.399,1282.436 	"/>
+	<text id="text2" transform="matrix(1 0 0 1 1377.7058 1299.0356)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;9&apos;) Record ________</text>
+	<text id="text3" transform="matrix(1 0 0 1 1410.7678 1315.8357)" font-family="'TimesNewRomanPSMT'" font-size="14">RecordID : int (private)</text>
+</g>
+<g id="node2">
+	<title  id="title3">________ (id &apos;2&apos;) Dedicated team ________
+DedicatedTeamID : int (private)</title>
+	<polygon id="polygon3" fill="none" stroke="#000000" points="606.29,222.679 606.29,264.278 868,264.278 868,222.679 	"/>
+	<text id="text4" transform="matrix(1 0 0 1 614.2848 239.2783)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;2&apos;) Dedicated team ________</text>
+	<text id="text5" transform="matrix(1 0 0 1 647.2545 256.0785)" font-family="'TimesNewRomanPSMT'" font-size="14">DedicatedTeamID : int (private)</text>
+</g>
+<g id="node26">
+	<title  id="title5">EID &apos;3&apos;</title>
+	<polygon id="polygon5" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1007.63,224.078 1007.63,260.078 
+		1062.5,260.078 1062.5,224.078 	"/>
+	<text id="text6" transform="matrix(1 0 0 1 1015.6356 246.2782)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;3&apos;</text>
+</g>
+<title  id="title6">________ (id &apos;2&apos;) Dedicated team ________
+DedicatedTeamID : int (private)-&gt;EID &apos;3&apos;</title>
+<path id="path6" fill="none" stroke="#000000" d="M868,242.279c50.553,0,110.613,0,139.855,0"/>
+<text id="text7" transform="matrix(1 0 0 1 1000.3373 218.4784)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- made by</text>
+<text id="text8" transform="matrix(1 0 0 1 875.8848 235.0784)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node32">
+	<title  id="title8">EID &apos;8&apos;</title>
+	<polygon id="polygon8" fill="none" stroke="#000000" stroke-dasharray="1,5" points="861.255,336.928 861.255,372.928 
+		916.125,372.928 916.125,336.928 	"/>
+	<text id="text9" transform="matrix(1 0 0 1 869.2502 359.1282)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;8&apos;</text>
+</g>
+<title  id="title9">________ (id &apos;2&apos;) Dedicated team ________
+DedicatedTeamID : int (private)-&gt;EID &apos;8&apos;</title>
+<path id="path9" fill="none" stroke="#000000" d="M764.455,266.973c25.707,18.359,73.543,52.531,97.938,69.955"/>
+<text id="text10" transform="matrix(1 0 0 1 869.2501 331.5681)" font-family="'TimesNewRomanPSMT'" font-size="14">has -&gt;</text>
+<text id="text11" transform="matrix(1 0 0 1 792.2352 283.5798)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node39">
+	<title  id="title11">EID &apos;5&apos;</title>
+	<polygon id="polygon11" fill="none" stroke="#000000" stroke-dasharray="1,5" points="688.162,362.088 688.162,398.088 
+		743.032,398.088 743.032,362.088 	"/>
+	<text id="text12" transform="matrix(1 0 0 1 696.1575 384.2882)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;5&apos;</text>
+</g>
+<title  id="title12">________ (id &apos;2&apos;) Dedicated team ________
+DedicatedTeamID : int (private)-&gt;EID &apos;5&apos;</title>
+<path id="path12" fill="none" stroke="#000000" d="M710.421,364.652c5.308-19.612,21.066-77.85,26.725-98.761"/>
+<text id="text13" transform="matrix(1 0 0 1 706.7181 417.1299)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- participates in</text>
+<text id="text14" transform="matrix(1 0 0 1 699.9836 279.7148)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<g id="node3">
+	<title  id="title14">________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)</title>
+	<polygon id="polygon14" fill="none" stroke="#000000" points="1665.206,403.863 1665.206,445.463 1904.006,445.463 
+		1904.006,403.863 	"/>
+	<text id="text15" transform="matrix(1 0 0 1 1673.208 420.4633)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;10&apos;) Resources ________</text>
+	<text id="text16" transform="matrix(1 0 0 1 1704.4653 437.2632)" font-family="'TimesNewRomanPSMT'" font-size="14">Available : boolean (private)</text>
+</g>
+<g id="node22">
+	<title  id="title16">EID &apos;26&apos;</title>
+	<polygon id="polygon16" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1534.77,506.65 1534.77,542.65 
+		1596.64,542.65 1596.64,506.65 	"/>
+	<text id="text17" transform="matrix(1 0 0 1 1542.7754 528.8496)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;26&apos;</text>
+</g>
+<g id="edge1">
+	<title  id="title17">________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)-&gt;EID &apos;26&apos;</title>
+	<path id="path17" fill="none" stroke="#000000" d="M1735.076,445.823c-37.49,16.021-111.244,47.531-142.355,60.826"/>
+</g>
+<g id="node27">
+	<title  id="title18">EID &apos;27&apos;</title>
+	<polygon id="polygon18" fill="none" stroke="#000000" stroke-dasharray="1,5" points="2051.146,577.163 2051.146,613.163 
+		2113.016,613.163 2113.016,577.163 	"/>
+	<text id="text18" transform="matrix(1 0 0 1 2059.1519 599.3633)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;27&apos;</text>
+</g>
+<g id="edge11">
+	<title  id="title19">________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)-&gt;EID &apos;27&apos;</title>
+	<path id="path19" fill="none" stroke="#000000" d="M1821.686,445.913c59.18,33.92,173.95,99.71,229.2,131.37"/>
+</g>
+<g id="node37">
+	<title  id="title20">EID &apos;24&apos;</title>
+	<polygon id="polygon20" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1709.846,578.333 1709.846,614.333 
+		1771.716,614.333 1771.716,578.333 	"/>
+	<text id="text20" transform="matrix(1 0 0 1 1717.8418 600.5332)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;24&apos;</text>
+</g>
+<g id="edge31">
+	<title  id="title21">________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)-&gt;EID &apos;24&apos;</title>
+	<path id="path21" fill="none" stroke="#000000" d="M1779.236,445.713c-8.67,33.93-25.57,100.16-33.77,132.28"/>
+</g>
+<g id="node38">
+	<title  id="title22">EID &apos;25&apos;</title>
+	<polygon id="polygon22" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1890.936,576.433 1890.936,612.433 
+		1952.806,612.433 1952.806,576.433 	"/>
+	<text id="text22" transform="matrix(1 0 0 1 1898.9319 598.6332)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;25&apos;</text>
+</g>
+<g id="edge33">
+	<title  id="title23">________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)-&gt;EID &apos;25&apos;</title>
+	<path id="path23" fill="none" stroke="#000000" d="M1801.716,445.823c27.17,33.6,79.71,98.59,105.35,130.3"/>
+</g>
+<g id="node43">
+	<title  id="title24">EID &apos;28&apos;</title>
+	<polygon id="polygon24" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1561.786,580.103 1561.786,616.103 
+		1623.656,616.103 1623.656,580.103 	"/>
+	<text id="text24" transform="matrix(1 0 0 1 1569.7817 602.3032)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;28&apos;</text>
+</g>
+<g id="edge41">
+	<title  id="title25">________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)-&gt;EID &apos;28&apos;</title>
+	<path id="path25" fill="none" stroke="#000000" d="M1761.076,445.933c-38.03,34.37-112.34,101.54-148.14,133.89"/>
+</g>
+<g id="node4">
+	<title  id="title26">________ (id &apos;19&apos;) CloudService ________
+CloiudServiceID : int (private)</title>
+	<polygon id="polygon26" fill="none" stroke="#000000" points="2117.541,741.492 2117.541,783.092 2375.011,783.092 
+		2375.011,741.492 	"/>
+	<text id="text26" transform="matrix(1 0 0 1 2125.5383 758.0917)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;19&apos;) CloudService ________</text>
+	<text id="text27" transform="matrix(1 0 0 1 2160.1555 774.8916)" font-family="'TimesNewRomanPSMT'" font-size="14">CloiudServiceID : int (private)</text>
+</g>
+<g id="node5">
+	<title  id="title27">________ (id &apos;17&apos;) VirtualMachine ________
+VirtualMachineID : int (private)</title>
+	<polygon id="polygon27" fill="none" stroke="#000000" points="1563.266,742.263 1563.266,783.863 1833.156,783.863 
+		1833.156,742.263 	"/>
+	<text id="text28" transform="matrix(1 0 0 1 1571.8064 758.8633)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;17&apos;) VirtualMachine ________</text>
+	<text id="text29" transform="matrix(1 0 0 1 1608.2419 775.6632)" font-family="'TimesNewRomanPSMT'" font-size="14">VirtualMachineID : int (private)</text>
+</g>
+<g id="node6">
+	<title  id="title29">________ (id &apos;7&apos;) Developer ________
+DeveloperID : int (private)</title>
+	<polygon id="polygon29" fill="none" stroke="#000000" points="955.947,1076.936 955.947,1118.536 1188.507,1118.536 
+		1188.507,1076.936 	"/>
+	<text id="text30" transform="matrix(1 0 0 1 963.9456 1093.5356)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;7&apos;) Developer ________</text>
+	<text id="text31" transform="matrix(1 0 0 1 997.0076 1110.3354)" font-family="'TimesNewRomanPSMT'" font-size="14">DeveloperID : int (private)</text>
+</g>
+<g id="node41">
+	<title  id="title31">EID &apos;11&apos;</title>
+	<polygon id="polygon31" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1458.337,1051.748 1458.337,1087.748 
+		1520.207,1087.748 1520.207,1051.748 	"/>
+	<text id="text32" transform="matrix(1 0 0 1 1466.6018 1073.9482)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;11&apos;</text>
+</g>
+<title  id="title32">________ (id &apos;7&apos;) Developer ________
+DeveloperID : int (private)-&gt;EID &apos;11&apos;</title>
+<path id="path32" fill="none" stroke="#000000" d="M1188.817,1099.773c91.682-10.207,213.396-23.764,269.677-30.025"/>
+<text id="text33" transform="matrix(1 0 0 1 1462.6617 1046.9656)" font-family="'TimesNewRomanPSMT'" font-size="14">attends -&gt;</text>
+<text id="text34" transform="matrix(1 0 0 1 1208.3167 1087.7483)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<g id="node7">
+	<title  id="title34">________ (id &apos;4&apos;) Member ________
+MemberID : int (private)</title>
+	<polygon id="polygon34" fill="none" stroke="#000000" points="567.685,521.85 567.685,563.45 789.375,563.45 789.375,521.85 	"/>
+	<text id="text35" transform="matrix(1 0 0 1 575.6815 538.4496)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;4&apos;) Member ________</text>
+	<text id="text36" transform="matrix(1 0 0 1 608.7435 555.2495)" font-family="'TimesNewRomanPSMT'" font-size="14">MemberID : int (private)</text>
+</g>
+<g id="node25">
+	<title  id="title36">EID &apos;21&apos;</title>
+	<polygon id="polygon36" fill="none" stroke="#000000" stroke-dasharray="1,5" points="785.835,671.908 785.835,707.908 
+		847.705,707.908 847.705,671.908 	"/>
+	<text id="text37" transform="matrix(1 0 0 1 793.8301 694.1083)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;21&apos;</text>
+</g>
+<title  id="title37">________ (id &apos;4&apos;) Member ________
+MemberID : int (private)-&gt;EID &apos;21&apos;</title>
+<path id="path37" fill="none" stroke="#000000" d="M736.315,563.45c14.919,20.37,66.45,90.741,80.455,109.865"/>
+<text id="text38" transform="matrix(1 0 0 1 816.77 666.5381)" font-family="'TimesNewRomanPSMT'" font-size="14">becomes a -&gt;</text>
+<text id="text39" transform="matrix(1 0 0 1 729.3799 579.2959)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node31">
+	<title  id="title39">EID &apos;6&apos;</title>
+	<polygon id="polygon39" fill="none" stroke="#000000" stroke-dasharray="1,5" points="493.814,616.103 493.814,652.103 
+		548.684,652.103 548.684,616.103 	"/>
+	<text id="text40" transform="matrix(1 0 0 1 501.8093 638.3032)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;6&apos;</text>
+</g>
+<title  id="title40">________ (id &apos;4&apos;) Member ________
+MemberID : int (private)-&gt;EID &apos;6&apos;</title>
+<path id="path40" fill="none" stroke="#000000" d="M657.755,563.45c-28.728,14.037-81.731,39.937-108.925,53.225"/>
+<text id="text41" transform="matrix(1 0 0 1 506.3574 608.7014)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- has</text>
+<text id="text42" transform="matrix(1 0 0 1 587.2635 583.4116)" font-family="'TimesNewRomanPSMT'" font-size="14">0..1</text>
+<g id="node35">
+	<title  id="title42">EID &apos;10&apos;</title>
+	<polygon id="polygon42" fill="none" stroke="#000000" stroke-dasharray="1,5" points="737.062,845.678 737.062,881.678 
+		798.932,881.678 798.932,845.678 	"/>
+	<text id="text43" transform="matrix(1 0 0 1 745.0679 867.8782)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;10&apos;</text>
+</g>
+<title  id="title43">________ (id &apos;4&apos;) Member ________
+MemberID : int (private)-&gt;EID &apos;10&apos;</title>
+<path id="path43" fill="none" stroke="#000000" d="M683.063,563.45c8.556,44.714,45.986,240.341,53.999,282.229"/>
+<text id="text44" transform="matrix(1 0 0 1 740.7178 841.0881)" font-family="'TimesNewRomanPSMT'" font-size="14">classified as -&gt;</text>
+<text id="text45" transform="matrix(1 0 0 1 671.0837 607.0332)" font-family="'TimesNewRomanPSMT'" font-size="14">0..*</text>
+<g id="node40">
+	<title  id="title45">EID &apos;7&apos;</title>
+	<polygon id="polygon45" fill="none" stroke="#000000" stroke-dasharray="1,5" points="569.022,671.267 569.022,707.267 
+		623.882,707.267 623.882,671.267 	"/>
+	<text id="text46" transform="matrix(1 0 0 1 577.0173 693.4666)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;7&apos;</text>
+</g>
+<title  id="title46">________ (id &apos;4&apos;) Member ________
+MemberID : int (private)-&gt;EID &apos;7&apos;</title>
+<path id="path46" fill="none" stroke="#000000" d="M664.255,563.45c-12.463,23.207-46.233,86.086-57.965,107.935"/>
+<text id="text47" transform="matrix(1 0 0 1 574.7054 669.1217)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- has</text>
+<text id="text48" transform="matrix(1 0 0 1 623.8818 599.3635)" font-family="'TimesNewRomanPSMT'" font-size="14">0..1</text>
+<g id="node8">
+	<title  id="title48">________ (id &apos;15&apos;) SoftwareLicense ________
+SoftwareLicenseID : int (private)</title>
+	<polygon id="polygon48" fill="none" stroke="#000000" points="1259.804,573.633 1259.804,615.233 1535.134,615.233 
+		1535.134,573.633 	"/>
+	<text id="text49" transform="matrix(1 0 0 1 1267.7996 590.2333)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;15&apos;) SoftwareLicense ________</text>
+	<text id="text50" transform="matrix(1 0 0 1 1304.3616 607.0332)" font-family="'TimesNewRomanPSMT'" font-size="14">SoftwareLicenseID : int (private)</text>
+</g>
+<g id="node9">
+	<title  id="title50">________ (id &apos;0&apos;) Client ________
+ClientID : int (private)</title>
+	<polygon id="polygon50" fill="none" stroke="#000000" points="943.735,69.912 943.735,111.512 1152.215,111.512 1152.215,69.912 	
+		"/>
+	<text id="text51" transform="matrix(1 0 0 1 951.735 86.5117)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;0&apos;) Client ________</text>
+	<text id="text52" transform="matrix(1 0 0 1 984.797 103.3118)" font-family="'TimesNewRomanPSMT'" font-size="14">ClientID : int (private)</text>
+</g>
+<g id="node24">
+	<title  id="title52">EID &apos;1&apos;</title>
+	<polygon id="polygon52" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1119.725,151.658 1119.725,187.658 
+		1174.595,187.658 1174.595,151.658 	"/>
+	<text id="text53" transform="matrix(1 0 0 1 1127.7301 173.8582)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;1&apos;</text>
+</g>
+<g id="edge5">
+	<title  id="title53">________ (id &apos;0&apos;) Client ________
+ClientID : int (private)-&gt;EID &apos;1&apos;</title>
+	<path id="path53" fill="none" stroke="#000000" d="M1052.396,111.512c20.77,12.466,51.746,31.049,70.774,42.467"/>
+	<text id="text54" transform="matrix(1 0 0 1 1103.4469 199.4137)" font-family="'TimesNewRomanPSMT'" font-size="14">commisions -&gt;</text>
+	<text id="text55" transform="matrix(1 0 0 1 1012.0104 132.7454)" font-family="'TimesNewRomanPSMT'" font-size="14">0..1</text>
+</g>
+<g id="node10">
+	<title  id="title55">________ (id &apos;6&apos;) TeamLead ________
+TeamLeadID : int (private)</title>
+	<polygon id="polygon55" fill="none" stroke="#000000" points="868.955,412.326 868.955,453.926 1103.065,453.926 1103.065,412.326 
+			"/>
+	<text id="text56" transform="matrix(1 0 0 1 877.5668 428.9258)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;6&apos;) TeamLead ________</text>
+	<text id="text57" transform="matrix(1 0 0 1 910.5022 445.7258)" font-family="'TimesNewRomanPSMT'" font-size="14">TeamLeadID : int (private)</text>
+</g>
+<g id="node23">
+	<title  id="title57">EID &apos;9&apos;</title>
+	<polygon id="polygon57" fill="none" stroke="#000000" stroke-dasharray="1,5" points="861.255,492.973 861.255,528.973 
+		916.125,528.973 916.125,492.973 	"/>
+	<text id="text58" transform="matrix(1 0 0 1 869.2502 515.1731)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;9&apos;</text>
+</g>
+<title  id="title58">________ (id &apos;6&apos;) TeamLead ________
+TeamLeadID : int (private)-&gt;EID &apos;9&apos;</title>
+<path id="path58" fill="none" stroke="#000000" d="M986.154,451.934c-18.787,11.289-52.253,31.388-70.03,42.066"/>
+<text id="text59" transform="matrix(1 0 0 1 869.2505 489.3898)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- is a</text>
+<text id="text60" transform="matrix(1 0 0 1 1022.3246 472.0747)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node11">
+	<title  id="title60">________ (id &apos;11&apos;) Allocation ________
+AllocationID : int (private)</title>
+	<polygon id="polygon60" fill="none" stroke="#000000" points="993.997,656.508 993.997,698.108 1234.347,698.108 1234.347,656.508 
+			"/>
+	<text id="text61" transform="matrix(1 0 0 1 1002.6357 673.1082)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;11&apos;) Allocation ________</text>
+	<text id="text62" transform="matrix(1 0 0 1 1038.5518 689.9082)" font-family="'TimesNewRomanPSMT'" font-size="14">AllocationID : int (private)</text>
+</g>
+<g id="node28">
+	<title  id="title62">EID &apos;22&apos;</title>
+	<polygon id="polygon62" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1247.737,450.785 1247.737,486.785 
+		1309.607,486.785 1309.607,450.785 	"/>
+	<text id="text63" transform="matrix(1 0 0 1 1255.7427 472.9845)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;22&apos;</text>
+</g>
+<title  id="title63">________ (id &apos;11&apos;) Allocation ________
+AllocationID : int (private)-&gt;EID &apos;22&apos;</title>
+<path id="path63" fill="none" stroke="#000000" d="M1125.5,656.508c29.449-41.275,94.926-133.062,121.817-170.754"/>
+<text id="text64" transform="matrix(1 0 0 1 1243.6567 448.4375)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- assigned to</text>
+<text id="text65" transform="matrix(1 0 0 1 1143.0001 651.5)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node30">
+	<title  id="title65">EID &apos;23&apos;</title>
+	<polygon id="polygon65" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1091.809,781.323 1091.809,817.323 
+		1153.669,817.323 1153.669,781.323 	"/>
+	<text id="text66" transform="matrix(1 0 0 1 1099.8047 803.5233)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;23&apos;</text>
+</g>
+<title  id="title66">________ (id &apos;11&apos;) Allocation ________
+AllocationID : int (private)-&gt;EID &apos;23&apos;</title>
+<path id="path66" fill="none" stroke="#000000" d="M1116.71,699.293c1.427,19.402,4.683,63.722,6.03,82.03"/>
+<text id="text67" transform="matrix(1 0 0 1 1024.7302 775.6631)" font-family="'TimesNewRomanPSMT'" font-size="14">carried out by -&gt;</text>
+<text id="text68" transform="matrix(1 0 0 1 1119.7246 720.9719)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node12">
+	<title  id="title68">________ (id &apos;14&apos;) Profile ________
+EmploymentDate : Date (private)</title>
+	<polygon id="polygon68" fill="none" stroke="#000000" points="311.307,690.667 311.307,732.267 530.667,732.267 530.667,690.667 	
+		"/>
+	<text id="text69" transform="matrix(1 0 0 1 319.3055 707.2666)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;14&apos;) Profile ________</text>
+	<text id="text70" transform="matrix(1 0 0 1 327.1053 724.0667)" font-family="'TimesNewRomanPSMT'" font-size="14">EmploymentDate : Date (private)</text>
+</g>
+<g id="node13">
+	<title  id="title70">________ (id &apos;1&apos;) Project ________
+budget : int (private)</title>
+	<polygon id="polygon70" fill="none" stroke="#000000" points="1166.035,221.278 1166.035,262.878 1379.945,262.878 
+		1379.945,221.278 	"/>
+	<text id="text71" transform="matrix(1 0 0 1 1174.0277 237.8782)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;1&apos;) Project ________</text>
+	<text id="text72" transform="matrix(1 0 0 1 1215.2518 254.6782)" font-family="'TimesNewRomanPSMT'" font-size="14">budget : int (private)</text>
+</g>
+<g id="node29">
+	<title  id="title72">EID &apos;2&apos;</title>
+	<polygon id="polygon72" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1489.167,221.279 1489.167,257.279 
+		1544.037,257.279 1544.037,221.279 	"/>
+	<text id="text73" transform="matrix(1 0 0 1 1497.1721 243.4785)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;2&apos;</text>
+</g>
+<g id="edge15">
+	<title  id="title73">________ (id &apos;1&apos;) Project ________
+budget : int (private)-&gt;EID &apos;2&apos;</title>
+	<path id="path73" fill="none" stroke="#000000" d="M1380.275,242.078c39.105,0,84.006,0,108.892,0"/>
+	<text id="text74" transform="matrix(1 0 0 1 1450.4983 233.2114)" font-family="'TimesNewRomanPSMT'" font-size="14">has -&gt;</text>
+	<text id="text75" transform="matrix(1 0 0 1 1385.2748 237.8784)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+</g>
+<g id="node33">
+	<title  id="title75">EID &apos;13&apos;</title>
+	<polygon id="polygon75" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1450.498,313.568 1450.498,349.568 
+		1512.368,349.568 1512.368,313.568 	"/>
+	<text id="text76" transform="matrix(1 0 0 1 1458.4937 335.7684)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;13&apos;</text>
+</g>
+<title  id="title76">________ (id &apos;1&apos;) Project ________
+budget : int (private)-&gt;EID &apos;13&apos;</title>
+<path id="path76" fill="none" stroke="#000000" d="M1323.855,263.278c31.652,13.675,100.83,43.565,126.644,54.722"/>
+<text id="text77" transform="matrix(1 0 0 1 1465.4542 294.3082)" font-family="'TimesNewRomanPSMT'" font-size="14">uses -&gt;</text>
+<text id="text78" transform="matrix(1 0 0 1 1319.8547 277.0784)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node14">
+	<title  id="title78">________ (id &apos;5&apos;) Role ________
+nameOfTheRole : String (private)</title>
+	<polygon id="polygon78" fill="none" stroke="#000000" points="392.375,775.663 392.375,817.263 598.485,817.263 598.485,775.663 	
+		"/>
+	<text id="text79" transform="matrix(1 0 0 1 403.0748 792.2632)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;5&apos;) Role ________</text>
+	<text id="text80" transform="matrix(1 0 0 1 400.3712 809.0632)" font-family="'TimesNewRomanPSMT'" font-size="14">nameOfTheRole : String (private)</text>
+</g>
+<g id="node15">
+	<title  id="title80">________ (id &apos;16&apos;) Workstation ________
+WorkStationID : int (private)</title>
+	<polygon id="polygon80" fill="none" stroke="#000000" points="1293.745,742.263 1293.745,783.863 1544.205,783.863 
+		1544.205,742.263 	"/>
+	<text id="text81" transform="matrix(1 0 0 1 1302.4288 758.8633)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;16&apos;) Workstation ________</text>
+	<text id="text82" transform="matrix(1 0 0 1 1337.6954 775.6632)" font-family="'TimesNewRomanPSMT'" font-size="14">WorkStationID : int (private)</text>
+</g>
+<g id="node16">
+	<title  id="title82">________ (id &apos;12&apos;) Deliverable ________
+type : String (private)</title>
+	<polygon id="polygon82" fill="none" stroke="#000000" points="1647,218.479 1647,260.078 1893.55,260.078 1893.55,218.479 	"/>
+	<text id="text83" transform="matrix(1 0 0 1 1654.9923 235.0784)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;12&apos;) Deliverable ________</text>
+	<text id="text84" transform="matrix(1 0 0 1 1709.8131 251.8784)" font-family="'TimesNewRomanPSMT'" font-size="14">type : String (private)</text>
+</g>
+<g id="node17">
+	<title  id="title84">________ (id &apos;3&apos;) Internal information ________
+teamName : String (private)</title>
+	<polygon id="polygon84" fill="none" stroke="#000000" points="311.307,443.012 311.307,484.612 598.697,484.612 598.697,443.012 	
+		"/>
+	<text id="text85" transform="matrix(1 0 0 1 319.3033 459.6117)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;3&apos;) Internal information ________</text>
+	<text id="text86" transform="matrix(1 0 0 1 376.2739 476.4116)" font-family="'TimesNewRomanPSMT'" font-size="14">teamName : String (private)</text>
+</g>
+<g id="node34">
+	<title  id="title86">EID &apos;4&apos;</title>
+	<polygon id="polygon86" fill="none" stroke="#000000" stroke-dasharray="1,5" points="532.403,307.737 532.403,343.737 
+		587.263,343.737 587.263,307.737 	"/>
+	<text id="text87" transform="matrix(1 0 0 1 540.3989 329.9377)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;4&apos;</text>
+</g>
+<title  id="title87">________ (id &apos;3&apos;) Internal information ________
+teamName : String (private)-&gt;EID &apos;4&apos;</title>
+<path id="path87" fill="none" stroke="#000000" d="M442.477,442.364c23.823-24.778,72.724-75.63,95.177-98.985"/>
+<text id="text88" transform="matrix(1 0 0 1 497.3998 331.5682)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- has</text>
+<text id="text89" transform="matrix(1 0 0 1 473.8616 438.2983)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node18">
+	<title  id="title89">________ (id &apos;18&apos;) TestingDevice ________
+TestingDeviceID : int (private)</title>
+	<polygon id="polygon89" fill="none" stroke="#000000" points="1846.482,741.492 1846.482,783.092 2109.372,783.092 
+		2109.372,741.492 	"/>
+	<text id="text90" transform="matrix(1 0 0 1 1855.0901 758.0917)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;18&apos;) TestingDevice ________</text>
+	<text id="text91" transform="matrix(1 0 0 1 1891.5256 774.8916)" font-family="'TimesNewRomanPSMT'" font-size="14">TestingDeviceID : int (private)</text>
+</g>
+<g id="node19">
+	<title  id="title91">________ (id &apos;13&apos;) BasicInformation ________
+name : String (private)</title>
+	<polygon id="polygon91" fill="none" stroke="#000000" points="378.935,69.912 378.935,111.512 652.661,111.512 652.661,69.912 	"/>
+	<text id="text92" transform="matrix(1 0 0 1 384.4258 86.5117)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;13&apos;) BasicInformation ________</text>
+	<text id="text93" transform="matrix(1 0 0 1 452.4775 103.3119)" font-family="'TimesNewRomanPSMT'" font-size="14">name : String (private)</text>
+</g>
+<g id="node36">
+	<title  id="title93">EID &apos;0&apos;</title>
+	<polygon id="polygon93" fill="none" stroke="#000000" stroke-dasharray="1,5" points="784.885,72.712 784.885,108.712 
+		839.755,108.712 839.755,72.712 	"/>
+	<text id="text94" transform="matrix(1 0 0 1 792.8802 94.9119)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;0&apos;</text>
+</g>
+<title  id="title94">________ (id &apos;13&apos;) BasicInformation ________
+name : String (private)-&gt;EID &apos;0&apos;</title>
+<path id="path94" fill="none" stroke="#000000" d="M652.305,90.712c50.12,0,101.75,0,132.38,0"/>
+<text id="text95" transform="matrix(1 0 0 1 789.3746 69.9116)" font-family="'TimesNewRomanPSMT'" font-size="14">&lt;- has</text>
+<text id="text96" transform="matrix(1 0 0 1 660.2701 86.5117)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="node20">
+	<title  id="title96">________ (id &apos;20&apos;) ResponsiblePerson ________
+DateOfAllocation : Date (private)</title>
+	<polygon id="polygon96" fill="none" stroke="#000000" points="1009.764,918.493 1009.764,960.093 1297.574,960.093 
+		1297.574,918.493 	"/>
+	<text id="text97" transform="matrix(1 0 0 1 1017.7592 935.0931)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;20&apos;) ResponsiblePerson ________</text>
+	<text id="text98" transform="matrix(1 0 0 1 1059.0105 951.8931)" font-family="'TimesNewRomanPSMT'" font-size="14">DateOfAllocation : Date (private)</text>
+</g>
+<g id="node21">
+	<title  id="title98">________ (id &apos;8&apos;) TrainingSessions ________
+title : String (private)</title>
+	<polygon id="polygon98" fill="none" stroke="#000000" points="1755.586,967.936 1755.586,1009.536 2026.286,1009.536 
+		2026.286,967.936 	"/>
+	<text id="text99" transform="matrix(1 0 0 1 1763.9589 984.5356)" font-family="'TimesNewRomanPSMT'" font-size="14">________ (id &apos;8&apos;) TrainingSessions ________</text>
+	<text id="text100" transform="matrix(1 0 0 1 1831.6449 1001.3355)" font-family="'TimesNewRomanPSMT'" font-size="14">title : String (private)</text>
+</g>
+<g id="edge2">
+	<title  id="title100">EID &apos;26&apos;-&gt;________ (id &apos;15&apos;) SoftwareLicense ________
+SoftwareLicenseID : int (private)</title>
+	<path id="path100" fill="none" stroke="#000000" d="M1535.134,523.908c-25.11,10.729-85.728,36.63-116.159,49.631"/>
+</g>
+<title  id="title101">EID &apos;9&apos;-&gt;________ (id &apos;4&apos;) Member ________
+MemberID : int (private)</title>
+<path id="path101" fill="none" stroke="#000000" d="M861.255,528.461c-18.53,3.656-52.339,10.331-71.88,14.189"/>
+<text id="text101" transform="matrix(1 0 0 1 795.9181 557.9309)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="edge6">
+	<title  id="title102">EID &apos;1&apos;-&gt;________ (id &apos;1&apos;) Project ________
+budget : int (private)</title>
+	<path id="path102" fill="none" stroke="#000000" d="M1166.035,177.903c19.251,11.559,50.672,30.432,71.63,43.022"/>
+	<text id="text102" transform="matrix(0.9991 0 0 1 1234.8676 212.3629)" font-family="'TimesNewRomanPSMT'" font-size="12">1..*</text>
+</g>
+<title  id="title103">EID &apos;21&apos;-&gt;________ (id &apos;20&apos;) ResponsiblePerson ________
+DateOfAllocation : Date (private)</title>
+<path id="path103" fill="none" stroke="#000000" d="M846.757,708.768c28.281,36.728,132.795,172.49,163.007,211.732"/>
+<text id="text103" transform="matrix(1 0 0 1 1015.6357 908.2733)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<title  id="title104">EID &apos;3&apos;-&gt;________ (id &apos;1&apos;) Project ________
+budget : int (private)</title>
+<path id="path104" fill="none" stroke="#000000" d="M1062.5,242.078c21.306,0,68.142,0,103.345,0"/>
+<text id="text104" transform="matrix(1 0 0 1 1158.8447 237.8782)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="edge12">
+	<title  id="title105">EID &apos;27&apos;-&gt;________ (id &apos;19&apos;) CloudService ________
+CloiudServiceID : int (private)</title>
+	<path id="path105" fill="none" stroke="#000000" d="M2113.436,613.133c54.46,31.22,166.28,95.31,224.5,128.68"/>
+</g>
+<title  id="title106">EID &apos;22&apos;-&gt;________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)</title>
+<path id="path106" fill="none" stroke="#000000" d="M1311.37,459.612c60.681-3.832,289.084-18.258,353.836-22.349"/>
+<text id="text106" transform="matrix(1 0 0 1 1641.342 437.2634)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<g id="edge16">
+	<title  id="title107">EID &apos;2&apos;-&gt;________ (id &apos;12&apos;) Deliverable ________
+type : String (private)</title>
+	<path id="path107" fill="none" stroke="#000000" d="M1544.357,239.279c23.52,0,64.697,0,102.643,0"/>
+	<text id="text107" transform="matrix(1 0 0 1 1620.8567 235.0786)" font-family="'TimesNewRomanPSMT'" font-size="14">0..1</text>
+</g>
+<title  id="title108">EID &apos;23&apos;-&gt;________ (id &apos;20&apos;) ResponsiblePerson ________
+DateOfAllocation : Date (private)</title>
+<path id="path108" fill="none" stroke="#000000" d="M1131.222,817.263c1.1,22.751,3.737,77.167,4.899,101.23"/>
+<text id="text108" transform="matrix(1 0 0 1 1114.1725 902.9934)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<title  id="title109">EID &apos;6&apos;-&gt;________ (id &apos;14&apos;) Profile ________
+EmploymentDate : Date (private)</title>
+<path id="path109" fill="none" stroke="#000000" d="M495.43,652.103c-13.475,9.659-39.528,28.33-53.81,38.563"/>
+<text id="text109" transform="matrix(1 0 0 1 427.4642 678.3481)" font-family="'TimesNewRomanPSMT'" font-size="14">0..1</text>
+<title  id="title110">EID &apos;8&apos;-&gt;________ (id &apos;6&apos;) TeamLead ________
+TeamLeadID : int (private)</title>
+<path id="path110" fill="none" stroke="#000000" d="M914.785,374.143c13.266,9.474,40.029,28.592,54.031,38.595"/>
+<text id="text110" transform="matrix(1 0 0 1 963.5137 403.8633)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<title  id="title111">EID &apos;13&apos;-&gt;________ (id &apos;10&apos;) Resources ________
+Available : boolean (private)</title>
+<path id="path111" fill="none" stroke="#000000" d="M1512.688,349.568c30.03,12.515,109.674,45.699,146.491,61.04"/>
+<text id="text111" transform="matrix(1 0 0 1 1647.0005 394.9185)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<title  id="title112">EID &apos;4&apos;-&gt;________ (id &apos;2&apos;) Dedicated team ________
+DedicatedTeamID : int (private)</title>
+<path id="path112" fill="none" stroke="#000000" d="M559.833,310.404c10.967-11.407,34.811-36.204,46.457-48.316"/>
+<text id="text112" transform="matrix(1 0 0 1 574.7053 278.5553)" font-family="'TimesNewRomanPSMT'" font-size="14">1</text>
+<title  id="title113">EID &apos;10&apos;-&gt;________ (id &apos;7&apos;) Developer ________
+DeveloperID : int (private)</title>
+<path id="path113" fill="none" stroke="#000000" d="M761.885,881.678c28.71,28.888,163.398,164.407,194.062,195.257"/>
+<text id="text113" transform="matrix(1 0 0 1 958.1847 1069.7482)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<title  id="title114">EID &apos;0&apos;-&gt;________ (id &apos;0&apos;) Client ________
+ClientID : int (private)</title>
+<path id="path114" fill="none" stroke="#000000" d="M843.18,90.712c22.755,0,64.617,0,100.315,0"/>
+<text id="text114" transform="matrix(1 0 0 1 914.7848 86.5117)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<g id="edge32">
+	<title  id="title115">EID &apos;24&apos;-&gt;________ (id &apos;17&apos;) VirtualMachine ________
+VirtualMachineID : int (private)</title>
+	<path id="path115" fill="none" stroke="#000000" d="M1736.056,614.813c-7.96,31.2-24.03,94.14-32.44,127.07"/>
+</g>
+<g id="edge34">
+	<title  id="title116">EID &apos;25&apos;-&gt;________ (id &apos;18&apos;) TestingDevice ________
+TestingDeviceID : int (private)</title>
+	<path id="path116" fill="none" stroke="#000000" d="M1936.716,612.803c25.47,31.5,77.33,95.64,104.32,129.01"/>
+</g>
+<title  id="title117">EID &apos;5&apos;-&gt;________ (id &apos;4&apos;) Member ________
+MemberID : int (private)</title>
+<path id="path117" fill="none" stroke="#000000" d="M673.084,523.946c7.25-26.786,26.833-99.17,33.634-124.304"/>
+<text id="text117" transform="matrix(1 0 0 1 688.1622 512.8782)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<title  id="title118">EID &apos;7&apos;-&gt;________ (id &apos;5&apos;) Role ________
+nameOfTheRole : String (private)</title>
+<path id="path118" fill="none" stroke="#000000" d="M594.262,707.267c-13.359,13.83-51.833,53.656-66.073,68.397"/>
+<text id="text118" transform="matrix(1 0 0 1 510.1284 763.0631)" font-family="'TimesNewRomanPSMT'" font-size="14">0..1</text>
+<title  id="title119">EID &apos;11&apos;-&gt;________ (id &apos;8&apos;) TrainingSessions ________
+title : String (private)</title>
+<path id="path119" fill="none" stroke="#000000" d="M1520.207,1069.748c49.058-16.873,152.079-52.337,235.38-81.013"/>
+<text id="text119" transform="matrix(1 0 0 1 1717.8419 990.7455)" font-family="'TimesNewRomanPSMT'" font-size="14">1..*</text>
+<g id="node42">
+	<title  id="title120">EID &apos;12&apos;</title>
+	<polygon id="polygon120" fill="none" stroke="#000000" stroke-dasharray="1,5" points="1453.822,1179 1453.822,1215 1515.692,1215 
+		1515.692,1179 	"/>
+	<text id="text120" transform="matrix(1 0 0 1 1461.8271 1201.2001)" font-family="'TimesNewRomanPSMT'" font-size="14">EID &apos;12&apos;</text>
+</g>
+<g id="edge39">
+	<title  id="title121">EID &apos;11&apos;-&gt;EID &apos;12&apos;</title>
+	<path id="path121" fill="none" stroke="#000000" stroke-dasharray="1,5" d="M1486.097,1087.748c-0.95,24.78-2.63,68.68-3.57,93.42"
+		/>
+</g>
+<g id="edge40">
+	<title  id="title122">EID &apos;12&apos;-&gt;________ (id &apos;9&apos;) Record ________
+RecordID : int (private)</title>
+	<path id="path122" fill="none" stroke="#000000" stroke-dasharray="1,5" d="M1484.072,1215.24c-0.74,19.62-1.91,50.75-2.68,71.35"
+		/>
+</g>
+<g id="edge42">
+	<title  id="title123">EID &apos;28&apos;-&gt;________ (id &apos;16&apos;) Workstation ________
+WorkStationID : int (private)</title>
+	<path id="path123" fill="none" stroke="#000000" d="M1580.512,616.675c-12.266,23.411-54.603,104.192-67.61,129.017"/>
+</g>
+<path id="path127" fill="#FF0000" d="M603.03,391.492c-13.335,4.279-26.189,9.836-39.004,15.443
+	c-11.891,5.36-23.812,10.647-35.837,15.701l1.973,4.531l0,0c11.885-5.359,23.713-10.845,35.635-16.122
+	c3.644-1.547,7.266-3.148,10.933-4.642c9.03-3.678,18.23-6.968,27.663-9.458L603.03,391.492z"/>
+<path id="path128" fill="#FF0000" d="M536.358,407.945c-3.84,3.075-6.917,6.9-9.782,10.863c-1.451,2.37-3.155,4.635-4.355,7.154
+	c-0.306,0.641-0.654,1.286-0.772,1.986c-0.134,0.797-0.387,1.732,0.029,2.425c0.672,1.119,1.976,1.706,2.963,2.559
+	c1.159,0.064,2.317,0.192,3.478,0.194c1.529,0,3.055-0.12,4.583-0.184c2.182-0.091,4.363-0.198,6.544-0.28
+	c7.537-0.284,8.597-0.281,16.203-0.459l-0.106-4.845l0,0c-9.592,0.196-19.184,0.385-28.779,0.375
+	c0.199,0.561,0.519,1.093,0.596,1.683c0.021,0.164-0.336,0.536-0.329,0.371c0.038-0.885,1.085-2.615,1.388-3.151
+	c1.098-1.94,1.687-2.787,2.91-4.677c2.709-3.736,5.621-7.324,9.391-10.053L536.358,407.945z"/>
+<path id="path130" fill="#FF0000" d="M1634.441,243.464c-5.785,0.13-11.572,0.119-17.357,0.221l0.101,5.353l0,0
+	c5.752-0.115,11.505-0.088,17.257,0.054L1634.441,243.464L1634.441,243.464z"/>
+<path id="path131" fill="#FF2A2A" d="M1450.498,252.032c6.11,0.396,12.234,0.464,18.353,0.617c8.638,0.215,6.861,0.174,15.278,0.469
+	l0.12-4.19l0,0c-2.458-0.055-4.916-0.083-7.373-0.163c-5.111-0.167-9.912-0.403-15-0.824c-3.466-0.287-5.699-0.535-8.963-1.073
+	c-0.614-0.101-1.222-0.24-1.832-0.36L1450.498,252.032z"/>
+<polygon fill="#FFFFFF" stroke="#000000" points="1749.826,450.098 1761.076,445.241 1759.657,457.412 "/>
+<path id="path132" fill="#FFD42A" d="M1693.563,455.784c-4.251,2.174-8.485,4.384-12.72,6.59c-6.709,3.686-13.87,6.332-21.07,8.862
+	c-9.51,3.055-18.637,7.101-27.73,11.202c-9.49,4.303-18.85,8.863-28.51,12.775c-9.483,3.619-19.102,6.878-28.766,9.979
+	c-6.427,1.588-12.745,3.436-18.957,5.729c-8.624,3.391-17.295,6.663-25.812,10.316c-8.628,3.752-17.197,7.638-25.77,11.514
+	c-9.99,4.526-19.852,9.334-29.723,14.115c-9.03,4.469-18.088,8.892-27.079,13.441c-3.537,1.745-7.03,3.575-10.546,5.362l1.102,2.154
+	l0,0c3.505-1.804,6.989-3.646,10.52-5.398c8.962-4.572,18.001-9,27.022-13.453c9.857-4.763,19.691-9.58,29.664-14.093
+	c8.569-3.851,17.136-7.707,25.747-11.463c8.474-3.648,17.099-6.92,25.694-10.271c6.19-2.267,12.492-4.053,18.876-5.679
+	c9.699-3.171,19.358-6.482,28.903-10.09c9.698-3.905,19.088-8.471,28.597-12.807c9.034-4.069,18.104-8.074,27.557-11.092
+	c7.306-2.566,14.568-5.259,21.388-8.975c4.188-2.166,8.367-4.351,12.583-6.461L1693.563,455.784z"/>
+<path fill="#FFD42A" d="M1532.63,709.57c7.09-13.71,14.94-27.01,22.61-40.41c7.71-13.3,15.35-26.63,22.34-40.33
+	c5.95-12.01,11.82-24.07,16.96-36.46c4.63-10.78,9.63-21.4,14.89-31.88c3.83-7.5,8.55-14.58,13.9-21.08
+	c3.29-4.78,7.69-8.38,12.33-11.76c0.97-0.63,1.91-1.29,2.9-1.88c2.66-1.56,4.68-2.43,7.4-3.92c4.3-2.35,8.35-4.96,12.35-7.8
+	c9.02-7.03,18.28-13.76,27.5-20.53c9.34-6.72,19.31-12.49,29.16-18.42c5.36-3.32,11.08-6.07,16.38-9.5c2.01-1.3,4.51-3.27,6.4-4.7
+	c5.05-3.88,9.97-7.93,15.02-11.81c0.87-0.75,1.08-0.95,1.3-1.13c0.22-0.19,0.45-0.36,1.35-1.07l2.59,3.31
+	c-1.72,1.34-0.81,0.6-2.7,2.21c-5.06,3.87-10.02,7.87-15.05,11.78c-2.25,1.71-4.43,3.44-6.81,4.97c-5.29,3.42-11.01,6.14-16.37,9.45
+	c-9.75,5.86-19.59,11.59-28.84,18.21c-9.25,6.78-18.52,13.52-27.55,20.58c-4.16,2.95-8.36,5.67-12.83,8.12
+	c-2.33,1.29-4.74,2.38-7.04,3.74c-0.92,0.55-1.8,1.17-2.71,1.76c-4.36,3.18-8.49,6.54-11.58,11.04
+	c-5.18,6.23-9.72,13.07-13.43,20.28c-5.23,10.39-10.19,20.91-14.79,31.6c-5.2,12.48-11.11,24.63-17.12,36.73
+	c-7.02,13.76-14.69,27.14-22.45,40.5c-7.75,13.55-15.72,26.99-22.87,40.88L1532.63,709.57z"/>
+<path id="path134" fill="#FFD42A" d="M1765.356,476.748c-2.513,15.458-4.975,30.924-7.344,46.405
+	c-4.388,26.53-9.024,53.01-14.39,79.361c-5.214,23.287-11.387,46.344-17.367,69.441c-3.012,11.003-6.223,21.946-9.228,32.951
+	c-1.262,4.865-2.849,9.64-4.301,14.451l5.357,1.614l0,0c1.463-4.862,3.077-9.682,4.326-14.604
+	c2.978-11.037,6.11-22.028,9.113-33.059c5.915-23.208,12.08-46.359,17.318-69.732c5.381-26.434,10.026-53,14.49-79.602
+	c2.411-15.497,4.898-30.98,7.596-46.43L1765.356,476.748z"/>
+<path id="path135" fill="#FFD42A" d="M2029.953,719.234c-11.755-11.321-21.968-24.075-32.228-36.725
+	c-10.854-13.015-21.351-26.339-31.351-40.022c-4.416-6.875-10.299-12.576-15.29-18.992c-4.119-6.526-8.7-12.74-13.195-19.008
+	c-4.735-6.248-9.971-12.029-15.369-17.697c-7.683-6.784-13.739-14.965-19.662-23.253c-5.208-7.469-10.78-14.664-16.795-21.497
+	c-3.2-4.17-7.035-7.779-10.803-11.422c-3.703-2.959-6.833-6.53-10.346-9.695c-4.262-3.313-7.845-7.326-11.47-11.294
+	c-3.61-3.896-7.328-7.667-10.689-11.781c-3.117-3.92-5.935-8.05-9.137-11.909c-2.492-3.685-5.576-6.877-8.502-10.202
+	c-0.812-1.263-1.762-2.417-2.601-3.662l-4.656,3.166l0,0c0.984,1.435,2.053,2.793,3.045,4.223c2.905,3.266,5.936,6.422,8.401,10.055
+	c3.195,3.847,5.984,7.981,9.111,11.877c3.43,4.19,7.209,8.044,10.892,12.011c3.748,4.104,7.469,8.239,11.86,11.682
+	c3.467,3.113,6.522,6.67,10.195,9.558c3.66,3.543,7.394,7.044,10.517,11.087c5.907,6.673,11.384,13.701,16.488,21.009
+	c6.065,8.502,12.266,16.905,20.122,23.882c5.214,5.488,10.285,11.073,14.873,17.11c4.54,6.326,9.163,12.6,13.32,19.191
+	c4.971,6.367,10.816,12.022,15.253,18.817c10.098,13.721,20.688,27.082,31.591,40.171c10.375,12.806,20.7,25.704,32.469,37.28
+	L2029.953,719.234z"/>
+<path id="path136" fill="#FFD42A" d="M1853.182,462.984c9.532,6.28,19.608,11.684,29.362,17.608
+	c10.528,6.114,21.177,11.99,31.477,18.487c14.507,10.465,28.714,21.303,43.782,30.963c13.188,8.898,27.664,15.508,41.874,22.546
+	c8.57,4.092,16.881,8.687,25.323,13.025c5.298,2.448,10.203,5.675,15.263,8.582c2.898,1.865,5.872,3.601,8.975,5.099l2.42-5.07l0,0
+	c-2.989-1.408-5.823-3.109-8.61-4.881c-5.14-2.949-10.117-6.238-15.506-8.705c-8.484-4.313-16.831-8.896-25.43-12.982
+	c-14.044-6.919-28.352-13.418-41.374-22.203c-15.094-9.642-29.286-20.518-43.778-31.021c-10.31-6.548-20.991-12.433-31.558-18.551
+	c-9.516-5.78-19.34-11.066-28.623-17.218L1853.182,462.984z"/>
+<path id="path137" fill="#FFD42A" d="M2109.372,613.582c8.667,4.632,17.457,8.973,26.382,13.091
+	c12.905,5.422,26.208,9.659,38.744,15.943c9.433,5.62,18.77,11.407,27.581,17.967c11.783,9.129,24.099,17.526,36.134,26.309
+	c9.603,6.838,19.96,12.464,30.066,18.492c6.62,4.453,13.578,8.362,20.265,12.706c8.869,6.037,18.125,11.464,26.938,17.585
+	c1.122,0.751,2.244,1.502,3.366,2.253l3.089-4.634l0,0c-1.098-0.729-2.196-1.457-3.294-2.185
+	c-8.876-6.122-18.18-11.573-27.07-17.675c-6.745-4.393-13.748-8.373-20.457-12.828c-9.981-5.902-20.203-11.418-29.659-18.17
+	c-12.039-8.742-24.366-17.086-36.086-26.266c-9.062-6.77-18.656-12.774-28.408-18.5c-12.611-6.247-25.942-10.556-38.898-15.989
+	c-8.771-4.072-17.412-8.353-25.904-12.979L2109.372,613.582z"/>
+<path id="path139" fill="#FF0000" d="M1402.772,1131.589c10.454-4.315,19.873-10.497,29.32-16.615
+	c4.35-3.001,8.869-5.739,13.312-8.598l-2.997-4.623l0,0c-4.423,2.889-8.927,5.649-13.277,8.65
+	c-9.331,6.049-18.633,12.167-29.037,16.274L1402.772,1131.589z"/>
+<path id="path140" fill="#FF0000" d="M1433.496,1100.542c5.462-0.922,10.946-1.697,16.416-2.57l-0.864-5.425l0,0
+	c-5.409,0.861-10.832,1.612-16.249,2.417L1433.496,1100.542z"/>
+<path id="path141" fill="#FF0000" d="M1452.533,1093.784c-2.711,6.029-5.175,12.162-7.783,18.235
+	c-1.503,3.623-2.683,7.364-3.857,11.102l5.304,1.645l0,0c1.09-3.561,2.188-7.124,3.624-10.565
+	c2.616-6.072,5.096-12.203,7.881-18.201L1452.533,1093.784z"/>
+<polygon fill="#FFFFFF" stroke="#000000" points="1771.023,454.051 1779.707,445.405 1782.853,457.248 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="1722.719,446.346 1734.95,445.599 1729.482,456.565 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="1803.144,458.143 1802.355,445.914 1813.34,451.345 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="1825.979,457.726 1822.436,445.995 1834.366,448.792 "/>
+<line fill="none" x1="1535.87" y1="712.05" x2="1532.63" y2="709.57"/>
+</svg>
