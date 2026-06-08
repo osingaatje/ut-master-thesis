@@ -246,7 +246,9 @@ In the explored related work, existing frameworks primarily recommend structural
 = Seshat <solution>
 We implement #seshat, a generic autograder capable of automatically analysing and grading any type of diagram, as long as one builds a transformation step from that diagram into #seshat's internal representation. For the purposes of this paper, we offer built-in support for UTML.
 
-#seshat uses the techniques from @relatedwork and @tbl:grader-suitability which seem to give the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching with a maximum distance of 2, and `all-MiniLM-L6-v2` for semantic matching. For semantic matching, we first tried out Princeton's WordNet, as it can also perform semantic similarity checks, but these scores #hl("were not producing semantic equivalence where it was needed - it matches too strictly according to hierarchy and can only handle single words, so examples in the dataset of 'ChargingPort' v.s. 'ChargingStation' would be split into two words, and Station/Port are not related in a significant enough way according to classification hierarchies. TODO explain more").
+#seshat uses the techniques from @relatedwork and @tbl:grader-suitability which seem to give the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching with a maximum distance of 2, and `all-MiniLM-L6-v2` for semantic matching.
+
+We first tried out Princeton's WordNet, as it can also perform semantic similarity checks, but these scores did not reflect the semantic similarity after testing with several self-synthesised examples and some dataset examples. WordNet matches strictly according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched, even though they are semantically similar given the exercise description, while dataset examples such as 
 
 == Architecture and Language
 #place(top+center, float: true, scope: "column", [
@@ -280,28 +282,31 @@ This structure allows for defining several more features than UTML supports, nam
 - it allows for edge-to-edge connections (used in association classes), which UTML does not natively support. For an example, see the 'Record' association class in @fig:submission-154286.
 - it only represents locations with absolute positions. UTML, for example, represents label locations as offsets from their parent edge, and edge locations based on offsets from the vertices that they connect to (if an edge connects to a vertex). This would make it quite a bit more difficult to make reparations such as connecting edge ends or swapping labels on edges.
 
-=== Error correction<sec:err-corr>
-After a diagram is converted into #seshat's internal representation, it is time to correct some mistakes in the diagram. This stage also allows for encoding semantic meaning into the diagram if the original format did not allow it. For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase can still connect edges to other edges if they are visually close.
-
-Additionally, several error-correcting features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports. 
+=== Error correction<subsec:err-corr>
+After a diagram is converted into #seshat's internal representation, it is time to correct some mistakes in the diagram. This stage also allows for encoding semantic meaning into the diagram if the original format does not allow for it. For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase allows for connecting edges to other edges if they are sufficiently visually close. These error-correcting / semantic encoding features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports. 
 
 We will take @fig:submission-154286 and @fig:submission-154286-corrected as examples during the explanation of the error correction features.
 
 ==== Edge Label Swapping
-Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable' in @fig:submission-154286.
+Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable', which has swapped labels 'has ->' and '0..1', in @fig:submission-154286.
 
-This is a problem for automatic grading, because #seshat does not consider the visual representation of the submission. When a student drags around labels, the internal structure does not match what the student is seeing, which would produce an incorrect grade for a visually correct looking solution.
+Having swapped labels is a problem for automatic grading, because #seshat does not consider the visual representation of the submission. When a student drags around labels, and the diagram tooling does not automatically swap the labels in its internal file structure, this structure does not match what the student is seeing, which would put students at an unfair disadvantage.
 
-#seshat includes an option `swap_edge_labels` for this
-
-- edge label swapping: if a student adds labels to an edge, but then drags around either the starting, middle, or end label to another place, it might look visually correct, but the underlying representation does not match the visual representation.
+#seshat includes an option `swap_edge_labels` for this, which looks for labels with large offsets and swaps them if possible. The distance at which this occurs is configurable as a percentage of the length of an edge.
 
 ==== Edge 'Anchoring'
-- edge 'anchoring': if an edge is 'floating' (meaning its start or end is not connected to another vertex or edge), #seshat will look for close enough edges or vertices and connect it. This encodes spacial closeness as an actual connection.
+Some diagram software, such as UTML, does not allow connecting edges to other edges, which is mandatory syntax for concepts such as UML association classes. Alternatively, students may drag arrows close to vertices or edges but not connect them directly, for several possible reasons including the time crunch of an exam.
+
+This is a problem for autograders, since _technically_, that edge is not connected to a vertex, meaning that students will get points deducted for a solution that human graders will think is _acceptable_.
+
+In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to display it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
 
 ==== Directed Edge Recombination
-- edge recombination: some people make multiple inheritance by combining separate 'loose' edgesinto something that visually looks correct, but internally does not match.
+In diagrams, it is not uncommon to have a set of multiple vertices connect to one 'main' vertex. This happens especially often when drawing multiple inheritance classes in UML. However, diagram software might not make it easy to draw these in a visually pleasing manner, or students might choose to draw separate edges which capture the semantics visually, but which is not represented in the underlying diagram format. A good example of this is presented in @fig:submission-154286, where classes ranging from 'SoftwareLicense' until 'CloudService' connect to 'Resources'.
 
+This is a major problem for autograding, as the representation mismatch will cause autograders to grade the individual edges, instead of the semantic concept (for example, multiple-inheritance).
+
+#seshat includes an option `simplify-directed-edges` for this, which looks for multiple edge-to-edge connections that end in a directed edge (an edge with some kind of arrow or diamond on one side) which connects to a vertex. The effect of this recombination is demonstrated in @fig:submission-154286-corrected.
 
 // figures for grading / error correction
 #place(bottom+center, float: true, scope:"parent", [
@@ -313,37 +318,37 @@ This is a problem for automatic grading, because #seshat does not consider the v
   )<fig:submission-154286>
 
   #figure(caption: [154286.json lines 96-111, showing internally flipped labels. From the graph of @fig:submission-154286.], [ ```JSON
-      ...
-      "middleLabel": { // middleLabel denotes the center of the edge
-        "offset": { //...but the offset places it at the location of 'endLabel'
-          "x": 45,
-          "y": -6
-        },
-        "edgeLocation": 1,
-        "value": "0..1"
-      },
-      "endLabel": { // endLabel denotes the end of the edge
-        "offset": { //...but the offset places it at the location of 'middleLabel'
-          "x": -70,
-          "y": -6
-        },
-        "edgeLocation": 2,
-        "value": "has ->"
-      },
-      ...
+...
+"middleLabel": { // middleLabel denotes the center of the edge
+  "offset": { //...but the offset places it at the location of 'endLabel'
+    "x": 45,
+    "y": -6
+  },
+  "edgeLocation": 1,
+  "value": "0..1"
+},
+"endLabel": { // endLabel denotes the end of the edge
+  "offset": { //...but the offset places it at the location of 'middleLabel'
+    "x": -70,
+    "y": -6
+  },
+  "edgeLocation": 2,
+  "value": "has ->"
+},
+...
 ```])<fig:submission-154286-json-snippet>
-
 ])
+
 #place(top+center, float: true, scope: "parent", [
   #figure(image("pics/grading/154286-DOTRENDER-combinedEdges-annotated.svg", width: 100%),
-  caption: [A GraphViz view of the corrected internal representation of submission 154286]
+  caption: [A GraphViz view of the corrected internal representation of submission 154286. Note that due to the limitations of GraphViz we show edges as two edges with a fake node inbetween. Edge paths are correctly stored internally.]
   )<fig:submission-154286-corrected>
 ])
 
 === Grading process<sec:grading-process>
 #seshat grades diagrams at the internal representation level, which means that it can grade arbitrary diagrams, as long as a conversion is made between the diagram format and #seshat's internal representation.
 
-#seshat grades with the following plan:
+#seshat grades with the following general graph comparison algorithm:
 1. take the teacher's graph ($r$) and a student submission ($s$)
 2. analyse semantic and syntactic equivalence of all combination of $r$s vertices and $s$s vertices
 
@@ -355,23 +360,23 @@ This is a problem for automatic grading, because #seshat does not consider the v
     - make a mapping of the best semantic matches between the new vertices (called `newFixedIds`)
   3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
 
+5. Once no further progress is made, we give them a score based on how many vertices and edges have been mapped.
+  1. Take the highest-scoring solution as basis.
+  2. Try to combine as many other matching subgraphs, given that they map only edges and vertices that are not mapped already yet.
 
+After the last step, we have one final mapping which decides which vertices of the reference solution likely map to the student submission.
 
-#hl([TODO explain grading configuration: it includes repair options, allows for specifying how many point are added or deducted based on vertex/edge type/properties/associations / ... + link to git for examples (grader config.json in each dataset)])
+After arriving on a final mapping, we apply a grading configuration: we hand out additions or deductions in points based on vertex or edge presence, absence, or incorrectness, and for specific parts of vertices or edges.
 
-#hl([ILO integration is supported with ... rubric options (per element, for specific elements, ...)]). When utilised, this can offers additional insights for students into how well they achieved certain ILOs, assuming the grading rubric is accurately coupled to the ILOs of a module.
-
-#hl([Test results output in either CSV (summary of final grades per file), in JSON (detailed grading per file) or both at the same time.])
-
+This grading configuration also specifies the reparation options specified in @subsec:err-corr. This allows a teacher / grader to specify stricter or looser corrections for a particular dataset, if #seshat performs undesired repairs.
 
 === Visualisation<sec:visualise>
+#seshat includes a GraphViz export of its internal structure. This allows for easily viewing how different reparation options affect a solution. A JSON export is also possible, which outputs the exact internal representation of the graph.
 
-#hl([visualising the internal representation with a .dot file is supported (as a (somewhat functional) preview of how the internal structure looks)])
-
-#hl([Visualisation of grading results in .dot file is also supported, but is limited because GraphViz styling is limited])
+An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect, however, this is present in the JSON export.
 
 == Testing
-#seshat is tested with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
+When developing an autograder, it is vitally important to verify the internal validity of this tool. with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
 
 #seshat implements automated testing for large parts of its program, mainly for the parsing, conversion, and error correction stages of the program.
 
@@ -379,7 +384,7 @@ For the initial stage of parsing UTML into our own `ParseResultUTML` data struct
 
 For the conversion from UTML into the internal representation, we use a form of N-testing @Zaytsev2018: we parse a UTML file into `ParseResultUTML`, then convert it into our `InternalGraph`, and then perform checks comparing the parse result and internal representation. We validate whether the vertex and edge IDs remain the same, and whether edges are still connected to their respective vertices or edges, to name a few.
 
-For special features such as connecting edge ends and swapping labels (see @sec:err-corr) we perform unit testing with fixed examples, which test both a couple of happy paths (where the program should modify the graph) and control paths (where the program should not change the graph).
+For special features such as connecting edge ends and swapping labels (see @subsec:err-corr) we perform unit testing with fixed examples, which test both a couple of happy paths (where the program should modify the graph) and control paths (where the program should not change the graph).
 
 = Results
 - To compare against M2_2025_TCS, I will likely have to adjust the grading to not penalise extra classes and/or fields, just purely give points for the things that are present, like specified in the rubric.
