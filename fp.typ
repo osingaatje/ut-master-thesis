@@ -36,6 +36,7 @@
 )
 #set page("a4", margin: DOC-MARGIN)
 
+#set text(hyphenate: true)
 
 #columns(2, gutter: 10pt, [
 
@@ -271,49 +272,47 @@ This section describes the feature set of #seshat by walking the reader through 
 === Parsing
 The parsing step transforms a diagram file into an structure that #seshat can understand. For UTML, it merely parses the JSON UTML structure and adds some metadata such as the file name.
 
-=== Transformation into internal representation
+=== Transformation into \ internal representation
 In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice is made to separate the grading from any one specific diagram format, a mistake made in some other autograders (see @tbl:grader-suitability). Separating the grading from a diagram format has the benefit of being able to easily integrate new diagram formats into #seshat by merely writing a translation from a particular format into an internal representation.
 
-To support as many diagram formats as possible, this internal graph definition is very loosely defined. It does not contain semantic concepts such as inheritance or multiplicities, as it only aims to capture the literal shapes and text. This allows #seshat to store possibly broken submissions without breaking the internal graph format. This is beneficial as it allows us to explicitly check the well-formedness of a graph at a defined stage, or ignore certain broken aspects of graphs, which helps in the perceived _leniency_ of the autograder and should bring it closer to human grading.
+To support as many diagram formats as possible, this internal graph definition is very loosely defined. It contains as little semantic concepts as possible (inheritance, multiplicities, etc.) as it aims to capture the literal shapes and text. This allows #seshat to store possibly broken submissions, which allows us to explicitly check the well-formedness of a graph at a defined stage, or ignore certain broken aspects of graphs, which helps in the perceived _leniency_ of the autograder and should bring it closer to human grading.
 
 The structure is defined by some metadata such as the filename and a collection of vertices and edges. Each vertex and edge has a unique identifier. Vertices additionally contain a title, some values (fields or methods), certain optional semantic properties such as visibility (public/private/protected/...) and type (Class/Interface/...), and visual properties such as location and size. Edges are always directed and can connect at either end to a vertex, edge or nothing. Next to an identifier, they have stylistic properties for the starting and ending point of the edge, such as arrow style and text, as well as general stylistic properties, such as the style of the edge (dotted or solid). Finally, each edge has visual properties that define the edge's path. This path can be of any length, allowing for complex paths.
 
-With this structure, we allow for edge-to-edge connections (as can be seen with the 'Record' class in @fig:submission-154286-corrected), which some diagram tools such as UTML do not natively support. Furthermore, all locations are represented as absolute 2D vectors, which makes visualisation and reparation steps quite easy.
-
 === Error correction<subsec:err-corr>
-After a diagram is converted into #seshat's internal representation, #seshat can try to correct specific kinds of mistakes made in the diagram creation process. This coincedentaly also allows for encoding semantic meaning into the diagram if the original format did not allow for it. 
+After a diagram is converted into #seshat's internal representation, #seshat tries to correct specific kinds of mistakes made in the diagram creation process, depending on which options are enabled and how they are configured. This also allows for encoding semantic meaning into the diagram if the original diagram format does not allow for expressing certain semantics. 
 
-For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase can correct for this, given that edges are sufficiently visually close. These error-correcting / semantic encoding features exist to allow maximum leniency in grading and exist on the internal representation level, meaning they automatically apply to all diagram formats #seshat supports. 
+For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase can correct for this, given that edges are sufficiently visually close. These error-correcting and/or semantic encoding features exist to allow maximum leniency in grading and exist on the internal representation level, meaning they automatically apply to all diagram formats #seshat supports. 
 
-We take submission 154286 as an example (@fig:submission-154286), as well as its corrected version in @fig:submission-154286-corrected during the explanation of the error correction features.
+For visualising error corrections, we refer to submission 154286, shown in @fig:submission-154286, as well as its corrected version, shown in @fig:submission-154286-corrected.
 
 ==== Edge Label Swapping
-Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable', which has swapped labels 'has ->' and '0..1', in @fig:submission-154286.
+Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable', which has swapped labels 'has ->' and '0..1', in @fig:submission-154286 and @lst:submission-154286-json-snippet.
 
-Having swapped labels is a problem for automatic grading, because #seshat does not consider the visual representation of the submission. When a student drags around labels, and the diagram tooling does not automatically swap the labels in its internal file structure, this structure does not match what the student is seeing, which would put students at an unfair disadvantage.
+Having swapped labels is a problem for automatic grading, because #seshat does not consider the visual representation of the submission. When a student drags around labels and the diagram tooling does not automatically swap the labels internally, the file structure does not match the visual structure, which would make #seshat grade a diagram 'incorrectly' according to student and teacher expectations, putting students at an unfair disadvantage.
 
-#seshat includes an option `swap_edge_labels` for this, which looks for labels with large offsets and swaps them if possible. The distance at which this occurs is configurable as a percentage of the length of an edge.
+#seshat includes an option `swap_edge_labels` for this, which looks for labels with large offsets towards another position on the edge and swaps them if possible. The distance at which this occurs is configurable as a percentage of the length of an edge.
 
 ==== Edge 'Anchoring'
-Some diagram software, such as UTML, does not allow connecting edges to other edges, which is mandatory syntax for concepts such as UML association classes. Alternatively, students may drag arrows close to vertices or edges but not connect them directly, for several possible reasons including the time crunch of an exam.
+Some diagram software, such as UTML, sadly does not allow connecting edges to other edges, which is mandatory syntax for concepts such as UML association classes. Alternatively, students may drag arrows close to vertices or edges but not connect them directly for several possible reasons, including time limitations of exams.
 
-This is a problem for autograders, since _technically_, that edge is not connected to a vertex, meaning that students will get points deducted for a solution that human graders will think is _acceptable_.
+This is a problem for autograders, since _technically_, those edges are not connected to anything, meaning that students will get points deducted for a solution that looks visually correct.
 
-In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to display it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
+In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to support it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
 
 ==== Directed Edge Recombination
-In diagrams, it is not uncommon to have a set of multiple vertices connect to one 'main' vertex. This happens especially often when drawing multiple inheritance classes in UML. However, diagram software might not make it easy to draw these in a visually pleasing manner, or students might choose to draw separate edges which capture the semantics visually, but which is not represented in the underlying diagram format. A good example of this is presented in @fig:submission-154286, where classes ranging from 'SoftwareLicense' until 'CloudService' connect to 'Resources'.
+In diagrams, it is not uncommon to have a set of multiple vertices connect to one 'main' vertex. This happens especially often when drawing multiple inheritance classes in UML. However, diagram software might not make it easy to draw these in a visually pleasing manner, or students might choose to draw separate edges which capture the semantics visually, but which is not represented in the underlying diagram format. A good example of this is presented in @fig:submission-154286, where classes ranging from 'SoftwareLicense' until 'CloudService' connect to 'Resources'. However, these edges are drawn individually as straight edges, and any given edge does not connect an inheriting class to the inherited class.
 
 This is a major problem for autograding, as the representation mismatch will cause autograders to grade the individual edges, instead of the semantic concept (for example, multiple-inheritance).
 
-#seshat includes an option `simplify-directed-edges` for this, which looks for multiple edge-to-edge connections that end in a directed edge (an edge with some kind of arrow or diamond on one side) which connects to a vertex. The effect of this recombination is demonstrated in @fig:submission-154286-corrected.
+#seshat includes an option `simplify-directed-edges` for this, which looks for multiple edge-to-edge connections that end in a directed edge (an edge with some kind of arrow or diamond on one side). The effect of this recombination is demonstrated in @fig:submission-154286-corrected.
 
 // figures for grading / error correction
 #place(bottom+center, float: true, scope:"parent", [
   #figure(image("pics/grading/154286-annotated.png", width: 100%),
   caption: [
     A student submission #cite(<seshat>, supplement: [`2025_M2_BIT/q/1/154286.json`]) containing several inconsistencies (marked #text(fill: red, [ red ]) and #text(fill: darkyellow, [yellow])): \
-    'Internal Information' has a disconnected edge. The edge between 'Project' and 'Deliverable' has internally swapped labels (see @fig:submission-154286-json-snippet). The edge of 'Record' is not connected to the 'attends ->' edge between 'Developer' and 'TrainingSession'. The inherited classes of 'Resources' are all separate edges, and most edges are not connected to the inheriting classes.
+    'Internal Information' has a disconnected edge. The edge between 'Project' and 'Deliverable' has internally swapped labels (see @lst:submission-154286-json-snippet). The edge of 'Record' is not connected to the 'attends ->' edge between 'Developer' and 'TrainingSession'. The inherited classes of 'Resources' are all separate edges, and most edges are not connected to the inheriting classes.
   ]
   )<fig:submission-154286>
 
@@ -336,7 +335,7 @@ This is a major problem for autograding, as the representation mismatch will cau
   "value": "has ->"
 },
 ...
-```])<fig:submission-154286-json-snippet>
+```])<lst:submission-154286-json-snippet>
 ])
 
 #place(top+center, float: true, scope: "parent", [
@@ -346,18 +345,17 @@ This is a major problem for autograding, as the representation mismatch will cau
 ])
 
 === Grading process<sec:grading-process>
-#seshat grades diagrams at the internal representation level, which means that it can grade arbitrary diagrams, as long as a conversion is made between the diagram format and #seshat's internal representation.
+After the internal representation is repaired, it can be graded. This is done based on graph comparisons / isomorphism: a teacher solution is compared to a student solution by trying to make a mapping of teacher vertices and edges to those drawn by the student. #seshat grades with the following general graph comparison algorithm:
 
-#seshat grades with the following general graph comparison algorithm:
-1. take the teacher's graph ($r$) and a student submission ($s$)
-2. analyse semantic and syntactic equivalence of all combination of $r$s vertices and $s$s vertices
+1. take the teacher's graph ($r$) and a student submission ($s$). Vertices in a graph $g$ are denoted by $V_g$. Edges in $g$ are denoted by $E_g$.
+2. analyse the semantic and syntactic equivalence of all $(v_r,v_s), v_r in V_r, v_s in V_s$ and score it in a range of 0 (no similarity) to 1 (perfect similarity), i.e. $"score"(v_r,v_s) arrow [0..1]$.
 
-3. for each vertex $v_r in r$, take the best syntactically / semantically matching vertex $v_s in s$, provided that $v_r$ and $v_s$ match 'well enough' (thresholds). We put these pairs $v_r arrow v_s$ into graphs ($g_v_r arrow g_v_s$)
+3. take $"max(score("v_r,v_s"))" forall v_r in V_r, v_s in V_s$, given that the score is higher than the threshold (defined in the grading instructions). Put these pairs $v_r arrow v_s$ into a minimal subgraph pair ($g_v_r, g_v_s$)
 
-4. repeat for each pair $g_v_r arrow g_v_s$ until no progress is made:
-  1. get a list of all edges in $r$ that connect to a vertex in $g_v_r$ ($E_r$), and a list of all edges in $s$ that connect to $g_v_s$ ($E_s$)
-  2. $forall e_r in E_r$ get the starting and ending vertices (if they exist), collect them into $V_r$. Do the same for $E_s$ (new vertices are $V_s$).
-    - make a mapping of the best semantic matches between the new vertices (called `newFixedIds`)
+4. repeat for each pair $g_v_r, g_v_s$ until no progress is made:
+  1. get a list of $e_r in E_r$ that connect to $v_r in g_v_r$ ($E_g_v_r$), and a list of $e_s in E_s$ that connect to $v_s in g_v_s$ ($E_g_v_s$).
+  2. $forall e_r in E_r$ get the starting and ending vertices of $e_r$ (if they exist), collect them into $V_g_v_r$. Do the same for $E_s$ ($V_g_v_s$).
+    - make a mapping of $"max(score("v_r,v_s"))", v_r in V_g_v_r, v_s in V_g_v_s$ into `newFixedIds`.
   3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
 
 5. Once no further progress is made, we give them a score based on how many vertices and edges have been mapped.
