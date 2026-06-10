@@ -244,11 +244,11 @@ In the explored related work, existing frameworks primarily recommend structural
 
 
 = Seshat <solution>
-We implement #seshat, a generic autograder capable of automatically analysing and grading any type of diagram, as long as one builds a transformation step from that diagram into #seshat's internal representation. For the purposes of this paper, we offer built-in support for UTML.
+In order to automatically grade student submissions, we develop #seshat @seshat: a generic autograder capable of automatically analysing and grading theoretically any type of diagram. For the purposes of this paper, we offer built-in support for UTML.
 
-#seshat uses the techniques from @relatedwork and @tbl:grader-suitability which seem to give the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching with a maximum distance of 2, and `all-MiniLM-L6-v2` for semantic matching.
+#seshat uses the techniques from @relatedwork and @tbl:grader-suitability which gave the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching, and `all-MiniLM-L6-v2` @all-minilm-l6-v2 for semantic matching.
 
-We first tried out Princeton's WordNet, as it can also perform semantic similarity checks, but these scores did not reflect the semantic similarity after testing with several self-synthesised examples and some dataset examples. WordNet matches strictly according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched, even though they are semantically similar given the exercise description, while dataset examples such as 
+We first tried out Princeton's WordNet @princeton-wordnet, as it also performs semantic similarity checks, but these scores did not reflect the expected semantic similarity after testing with several self-synthesised examples and some example synonyms from the datasets. WordNet matches strictly according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched since 'Port' is in a different WordNet category than 'Station', even though in the exercise they are semantically similar, while examples such as 'Team Member' and 'Virtual Machine' got a semantic match, while sharing no semantic similarity within any of the datasets.
 
 == Architecture and Language
 #place(top+center, float: true, scope: "column", [
@@ -257,35 +257,35 @@ We first tried out Princeton's WordNet, as it can also perform semantic similari
   )<fig:arch>
 ])
 
-#seshat needs to take input (from either exam exports, a list of files, or via some other format), transform the input into an internal graph representation, run comparison algorithms on it defined in @subsec:relatedwork-autograder-algorithmic which produces a set of scores (a 'grade'), and format this grade in a certain way. The exact methodology, algorithms, and visualisations are likely to change, which is why we want to maximally decouple these parts.
+The goal of #seshat is to take input (from either exam exports, a list of files, or via some other format), transform the input into an internal graph representation, run comparison algorithms on it defined in @subsec:relatedwork-autograder-algorithmic which produces a set of scores (a 'grade'), and format this grade in a certain way. The exact methodology, algorithms, and visualisations are likely to change, which is why we aim to maximally decouple these parts.
 
 In order to achieve this, we implement a query-based architecture akin to that of the Rust compiler @rustc-book (an example is given in @fig:arch). This encourages decoupling each stage of the process, and additionally increases transparency internally in the grading process, as one can easily query intermediate solutions from the grading process. Testing components is also inherently made easier due to the split-up functionality.
 
-This architecture also allows us to cache all stages of the grading process if its split up into separate queries, which does not change behaviour given that every query is determinstic.
+This architecture also allows us to cache all stages of the grading process if they are split up into separate queries, which should allow for some improvements in grading speed. Note that this is only possible because the autograder only contains determinstic algorithms.
 
 The autograder is entirely written in Go @golang. A minimal CLI is included to offer a minimal textual interface and showcase the query architecture.
 
 == Features
-This section describes the feature set of #seshat by walking the reader through the process of grading a dataset. During this tour, features are explained in the order of the grading process.
+This section describes the feature set of #seshat by walking the reader through the process of grading a dataset. Features are explained in the order of the grading process.
 
 === Parsing
-This step transforms a diagram file into an in-memory object that #seshat can understand. For example, for UTML, it merely parses the UTML file (.utml/.json) and adds some metadata such as the file name.
+The parsing step transforms a diagram file into an structure that #seshat can understand. For UTML, it merely parses the JSON UTML structure and adds some metadata such as the file name.
 
 === Transformation into internal representation
-In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice is made to separate the reparation and grading algorithms from any one specific diagram format. This has the benefit of being able to integrate new diagram formats into #seshat by merely writing a translation from a particular format into an internal representation.
+In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice is made to separate the grading from any one specific diagram format, a mistake made in some other autograders (see @tbl:grader-suitability). Separating the grading from a diagram format has the benefit of being able to easily integrate new diagram formats into #seshat by merely writing a translation from a particular format into an internal representation.
 
-To support as many diagram formats as possible, this internal graph definition is very loosely defined. It does not contain semantic concepts such as inheritance or multiplicities, as it only aims to capture the literal shapes and text. This has the upside of being able to store possibly broken submissions without having to work around the graph definition, allowing #seshat to explicitly check the well-formedness at a defined stage after the transformation into the internal graph structure, at the cost of having to manually implement these types of checks.
+To support as many diagram formats as possible, this internal graph definition is very loosely defined. It does not contain semantic concepts such as inheritance or multiplicities, as it only aims to capture the literal shapes and text. This allows #seshat to store possibly broken submissions without breaking the internal graph format. This is beneficial as it allows us to explicitly check the well-formedness of a graph at a defined stage, or ignore certain broken aspects of graphs, which helps in the perceived _leniency_ of the autograder and should bring it closer to human grading.
 
-The structure defines a bit of metadata such as the filename, and a collection of vertices and edges. Each vertex and edge has a unique identifier. Vertices additionally contain a title, some values (fields or methods), certain semantic properties such as visibility (public/private/...) and type (Class/Interface/...), and visual properties such as location and size. Edges are always directed and connect to zero, one, or two vertices or edges. Next to an identifier, they have semantic properties for the starting and ending point of the edge, such as arrow style and text, as well as the general semantic properties, which defines the style of the edge (dotted or solid). Finally, each edge has visual properties that define the edge's path. This path can be of any length, allowing for complex paths.
+The structure is defined by some metadata such as the filename and a collection of vertices and edges. Each vertex and edge has a unique identifier. Vertices additionally contain a title, some values (fields or methods), certain optional semantic properties such as visibility (public/private/protected/...) and type (Class/Interface/...), and visual properties such as location and size. Edges are always directed and can connect at either end to a vertex, edge or nothing. Next to an identifier, they have stylistic properties for the starting and ending point of the edge, such as arrow style and text, as well as general stylistic properties, such as the style of the edge (dotted or solid). Finally, each edge has visual properties that define the edge's path. This path can be of any length, allowing for complex paths.
 
-This structure allows for defining several more features than UTML supports, namely:
-- it allows for edge-to-edge connections (used in association classes), which UTML does not natively support. For an example, see the 'Record' association class in @fig:submission-154286.
-- it only represents locations with absolute positions. UTML, for example, represents label locations as offsets from their parent edge, and edge locations based on offsets from the vertices that they connect to (if an edge connects to a vertex). This would make it quite a bit more difficult to make reparations such as connecting edge ends or swapping labels on edges.
+With this structure, we allow for edge-to-edge connections (as can be seen with the 'Record' class in @fig:submission-154286-corrected), which some diagram tools such as UTML do not natively support. Furthermore, all locations are represented as absolute 2D vectors, which makes visualisation and reparation steps quite easy.
 
 === Error correction<subsec:err-corr>
-After a diagram is converted into #seshat's internal representation, it is time to correct some mistakes in the diagram. This stage also allows for encoding semantic meaning into the diagram if the original format does not allow for it. For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase allows for connecting edges to other edges if they are sufficiently visually close. These error-correcting / semantic encoding features exist to allow maximum leniency in grading. These exist on the *internal representation level*, meaning they automatically apply to _all_ diagram formats #seshat supports. 
+After a diagram is converted into #seshat's internal representation, #seshat can try to correct specific kinds of mistakes made in the diagram creation process. This coincedentaly also allows for encoding semantic meaning into the diagram if the original format did not allow for it. 
 
-We will take @fig:submission-154286 and @fig:submission-154286-corrected as examples during the explanation of the error correction features.
+For example, since UTML does not allow edge-to-edge connections, the 'reparation' phase can correct for this, given that edges are sufficiently visually close. These error-correcting / semantic encoding features exist to allow maximum leniency in grading and exist on the internal representation level, meaning they automatically apply to all diagram formats #seshat supports. 
+
+We take submission 154286 as an example (@fig:submission-154286), as well as its corrected version in @fig:submission-154286-corrected during the explanation of the error correction features.
 
 ==== Edge Label Swapping
 Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable', which has swapped labels 'has ->' and '0..1', in @fig:submission-154286.
@@ -312,8 +312,8 @@ This is a major problem for autograding, as the representation mismatch will cau
 #place(bottom+center, float: true, scope:"parent", [
   #figure(image("pics/grading/154286-annotated.png", width: 100%),
   caption: [
-    A student submission (BIT 2025 submission 154286) containing several inconsistencies (marked #text(fill: red, [ red ]) and #text(fill: darkyellow, [yellow])): \
-    'Internal Information' has a disconnected edge. The edge between 'Project' and 'Deliverable' has internally swapped labels (see @fig:submission-154286-json-snippet). The edge of 'Record' is not connected to the 'attends ->' edge between 'Developer' and 'TrainingSession'. The inherited classes of 'Resources' are all separate edges, and most edges are not connected to the inherited classes.
+    A student submission #cite(<seshat>, supplement: [`2025_M2_BIT/q/1/154286.json`]) containing several inconsistencies (marked #text(fill: red, [ red ]) and #text(fill: darkyellow, [yellow])): \
+    'Internal Information' has a disconnected edge. The edge between 'Project' and 'Deliverable' has internally swapped labels (see @fig:submission-154286-json-snippet). The edge of 'Record' is not connected to the 'attends ->' edge between 'Developer' and 'TrainingSession'. The inherited classes of 'Resources' are all separate edges, and most edges are not connected to the inheriting classes.
   ]
   )<fig:submission-154286>
 
@@ -340,7 +340,7 @@ This is a major problem for autograding, as the representation mismatch will cau
 ])
 
 #place(top+center, float: true, scope: "parent", [
-  #figure(image("pics/grading/154286-DOTRENDER-combinedEdges-annotated.svg", width: 100%),
+  #figure(image("pics/grading/154286-DOTRENDER-combinedEdges-annotated.svg", width: 110%),
   caption: [A GraphViz view of the corrected internal representation of submission 154286. Note that due to the limitations of GraphViz we show edges as two edges with a fake node inbetween. Edge paths are correctly stored internally.]
   )<fig:submission-154286-corrected>
 ])
@@ -376,7 +376,7 @@ This grading configuration also specifies the reparation options specified in @s
 An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect, however, this is present in the JSON export.
 
 == Testing
-When developing an autograder, it is vitally important to verify the internal validity of this tool. with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
+When developing an autograder, it is vitally important to verify the internal validity of this tool. We check this with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
 
 #seshat implements automated testing for large parts of its program, mainly for the parsing, conversion, and error correction stages of the program.
 
