@@ -358,35 +358,69 @@ After the internal representation is repaired, it can be graded. This is done ba
     - make a mapping of $"max(score("v_r,v_s"))", v_r in V_g_v_r, v_s in V_g_v_s$ into `newFixedIds`.
   3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
 
-5. Once no further progress is made, we give them a score based on how many vertices and edges have been mapped.
-  1. Take the highest-scoring solution as basis.
-  2. Try to combine as many other matching subgraphs, given that they map only edges and vertices that are not mapped already yet.
+5. Once no further progress is made, we score the subgraphs $(g_v_r, g_v_s)$ based on how many vertices and edges have been mapped.
+6. We take the highest-scoring subgraph pair as basis and add as many other matching subgraphs, given that the edges and vertices of other subgraph pairs do not appear in the final combined solution yet.
 
-After the last step, we have one final mapping which decides which vertices of the reference solution likely map to the student submission.
+After the last step, we have one final mapping $(g_v_r, g_v_s)_"fin"$ which decides which vertices of the reference solution likely map to the student submission.
 
-After arriving on a final mapping, we apply a grading configuration: we hand out additions or deductions in points based on vertex or edge presence, absence, or incorrectness, and for specific parts of vertices or edges.
+After arriving on a final mapping, we apply the user-supplied grading configuration: we hand out additions or deductions in points based on vertex or edge presence, absence, or incorrectness, and for specific parts of vertices or edges such as vertex attributes or edge arrow style.
 
 This grading configuration also specifies the reparation options specified in @subsec:err-corr. This allows a teacher / grader to specify stricter or looser corrections for a particular dataset, if #seshat performs undesired repairs.
 
 === Visualisation<sec:visualise>
-#seshat includes a GraphViz export of its internal structure. This allows for easily viewing how different reparation options affect a solution. A JSON export is also possible, which outputs the exact internal representation of the graph.
+After arriving on a grade, #seshat needs to show this to the user. Two built-in methods exist: an export to a `.csv` file, containing only the final grades per input file, and an export to `.json` files, one per input file, explaining in detail how #seshat calculated the grade.
 
-An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect, however, this is present in the JSON export.
+#hl("Add example .csv / .json export")
+
+There is also a demo graph export of a grade, which shows in red, yellow, and green which vertices / edges were incorrect, superfluous, or correct.
+
+#hl("add example graded graph")
+
+There also exists a GraphViz export function for #seshat's internal structure. This allows for easily viewing how different reparation options affect a solution. A JSON export of the graph is also possible, which outputs the exact internal representation of the graph. An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect, however, this is present in the JSON export.
 
 == Testing
-When developing an autograder, it is vitally important to verify the internal validity of this tool. We check this with a variety of tests. Because this program has a significant parsing part, not unlike compilers, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
+When developing an autograder, it is vitally important to verify its correctness and expected behaviour. We implement a variety of automated tests to ensure this. Because #seshat includes a lot of parsing and graph corrections, not unlike compilers and Syntax Tree / Control Flow Graph analysis, we take inspiration from the terms used for compiler testing, as mentioned in #cite(<Zaytsev2018>, form: "prose").
 
-#seshat implements automated testing for large parts of its program, mainly for the parsing, conversion, and error correction stages of the program.
+#seshat is tested in an automated fashion for all large features it possesses: for parsing, conversion into the internal graph structure, repairing the internal graph, and for grading.
 
-For the initial stage of parsing UTML into our own `ParseResultUTML` data structure, we employ P-testing @Zaytsev2018. This means that we verify that, for each file in our test data and both official data sets, the program produces the exact same JSON structure as is inputted. One noteable exception is that, for `attributes` and `methods`, the UTML files sometimes lack these fields, they are `null`, or they contain an an empty array (`[]`). Because this is semantically equivalent in our context, we explicitly treat a `null`/`[]` or a missing `attributes`/`methods` field as the same.
+For the initial stage of parsing UTML into our own in-memory data structure, we employ P-testing @Zaytsev2018. This means that we verify that, for each file in our test data the data sets, #seshat should produce the exact same JSON structure as is inputted. One noteable exception is UTML's `attributes` and `methods` fields. the UTML files sometimes either lack these fields, they are `null`, or they contain an an empty array (`[]`). Because this is semantically equivalent in our context, we explicitly treat `null`/`[]` or a missing `attributes`/`methods` field as the same.
 
 For the conversion from UTML into the internal representation, we use a form of N-testing @Zaytsev2018: we parse a UTML file into `ParseResultUTML`, then convert it into our `InternalGraph`, and then perform checks comparing the parse result and internal representation. We validate whether the vertex and edge IDs remain the same, and whether edges are still connected to their respective vertices or edges, to name a few.
 
 For special features such as connecting edge ends and swapping labels (see @subsec:err-corr) we perform unit testing with fixed examples, which test both a couple of happy paths (where the program should modify the graph) and control paths (where the program should not change the graph).
 
-= Results
+= Threats to valididty
+The internal validity of this paper may be affected by a few factors. 
+
+Firstly, selection bias in the researched papers and reporting bias in those papers may affect the perceived performance of certain types of autograders, which could negatively affect the choice of algorithms used for #seshat. As we aim to provide a _comprehensive_ overview, not an exhaustive one, selection bias becomes more important, especially when using snowballing, as one can easily fall into multiple papers about a specific sub-strategy and lose the overall picture. This is also why we keep snowballing at a minimum.
+
+Secondly, the manner in which humans have constructed the rubrics in the dataset is inherently biased towards human graders, which generally do not apply it to the letter (which we will see in @results). When implementing a grading rubric that _does_ follows the rubric to a tee, we risk losing the leniency of human interpretation.
+
+Thirdly, the datasets do not provide details about which humans graded which submissions, when those submissions were graded, which reasoning was behind each of the grades, along with a variety of other factors. Especially the reasoning behind a grade would have been useful to discern the different types of grading deductions, which would help with result quality. However, since we only get a final grade to work with, we have to guess why grades were constructed by humans, and aim to achieve a similar leniency and error correction. This process is additionally prone to bias from the author.
+
+= Results<results>
+/discussion?
+
+== BIT 2024
+#hl([results])
+
+== TCS 2025
+=== Question 5
 - To compare against M2_2025_TCS, I will likely have to adjust the grading to not penalise extra classes and/or fields, just purely give points for the things that are present, like specified in the rubric.
-  
+
+=== Question 6
+#hl([results])
+
+== BIT 2025
+#hl([results])
+
+
+= Discussion
+#hl([ add ])
+
+= Conclusion
+#hl([ add ])
+
 ]) // 2-column
 
 #pagebreak()
