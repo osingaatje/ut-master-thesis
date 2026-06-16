@@ -410,6 +410,10 @@ Thirdly, the datasets do not provide details about which humans graded which sub
 
 === Question 6
 #hl([results])
+There are a significant number of cases where the human grading differs more than a point from #seshat's grades. This is, from manual inspection on random samples, always a case of *human grading being too strict*. Examples include:
+- 1027332: got almost everything right from the rubric except multiplicity of chesspieces, got only 2 points out of 5.
+*TODO a few more examples*
+note: my grading rubric of Q6 needs to be a bit more strict to award only 5 points if everything matches.
 
 == BIT 2025
 #hl([results])
@@ -418,12 +422,22 @@ Thirdly, the datasets do not provide details about which humans graded which sub
 = Discussion
 #hl([ add ])
 
+Autograder offers another paradigm of grading: instead of grading rubrics, think about possible solutions and graph these solutions. The example solution *is* the rubric.
+
+This works very well for exercises with defined solutions (ex.: 2025 TCS question 6), but requires an exponential number of alternative solutions if the exercise is less strictly defined and more alternative solutions are possible (such as 2024/2025 BIT (? I think)).
+However, less defined solutions work inherently worse with automatic / automated grading.
+
+One could take the rubric and make an autograder that strictly follows this rubric. This could handle alternatives a bit better (this association can also be a composition) - but this is emulateable in the current graph isomorphism strategy: make both edge or vertex variants and don'tdeduct points for missing edges, or deduct some points but add double the points for present edges.
+
+
 = Conclusion
 - student diagrams are often broken: solutions must incorporate several error corrections in order to make automated / automatic grading feasible
 - autograders are a way to improve grading consistency, transparency, and fairness compared to human grading, given the right algortihms. #seshat is perfectly consistent, transparent, and fair.
 - now the challenge for teachers becomes to design unambiguous exercises and to encode grading rubrics into #seshat.
 - best algorithm set seems to be a combination of graph isomorphi algorithm, syntactic equivalence algorithm, and semantic equivalence algorithm. Best implementations for our cases = custom graph mapping algorithm + Levenshtein + All-miniLM-L6-v2.
 - results = #hl([??])
+
+- #seshat offers a new way of viewing diagram grading: example solutions become the rubric, and the focus shifts to developing clearer exercises to minimise the number of possible solutions. Clear exercises are more easily automatable because they require less alternative graphs. This is a benefit to both students and teachers: teachers get a positive nudge towards developing exercises that are clearer for students and get rewarded with more accurate autograding and students get clearer exercises. (there is something to be said about disambiguating statements in communication, that is a nice skill, but it is not inherently related to diagram creation. I think it is good to separate the two, because the exercises are not labeled 'make diagram and communicate with stakeholders')
 
 #hl([ add more ])
 
