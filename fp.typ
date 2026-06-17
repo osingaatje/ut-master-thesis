@@ -399,7 +399,13 @@ Secondly, the manner in which humans have constructed the rubrics in the dataset
 Thirdly, the datasets do not provide details about which humans graded which submissions, when those submissions were graded, which reasoning was behind each of the grades, along with a variety of other factors. Especially the reasoning behind a grade would have been useful to discern the different types of grading deductions, which would help with result quality. However, since we only get a final grade to work with, we have to guess why grades were constructed by humans, and aim to achieve a similar leniency and error correction. This process is additionally prone to bias from the author.
 
 = Results<results>
-/discussion?
+For gathering the results, we:
+1. made a best-guess sample solution based on the rubric 
+2. made a grading configuration (how many points to add/deduct for present/absent vertices/edges etc.) based on the rubric provided by each dataset (the rubric is in a separate text file, or included in the results.csv)
+3. used #seshat to grade the diagrams of the dataset with our sample solution and our grading instructions
+4. #hl("TODO") refined the sample solution and grading configuration approximately two times based on the human grading, to make the average score align more with humans.
+
+Raw scores, rubrics, and the results are all present in the git repo @seshat.
 
 == BIT 2024
 #hl([results])
