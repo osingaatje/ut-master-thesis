@@ -1,4 +1,6 @@
 #import "typst-template-ut/typst-template-paper.typ" : conf, abstr, appendix
+#import "@preview/lilaq:0.6.0" as lq
+
 
 #let darkyellow = color.rgb("#B3A638")
 
@@ -408,20 +410,104 @@ For gathering the results, we:
 Raw scores, rubrics, and the results are all present in the git repo @seshat.
 
 == BIT 2024
-#hl([results])
+#let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
+#let (bit2024c, bit2024d) = (bit2024data.map(r => r.at(0)), bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+//#show lq.selector(lq.tick-label): set text(0.3em)
+#lq.diagram(
+  width: 90%, 
+  title: [BIT 2024], ylabel: [score difference], xlabel: [submission],
+  legend: (position: center + bottom),
+  margin: (top: 20%),
+
+  xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate(), 
+    subticks: none,
+  ),
+
+  lq.bar(
+    range(bit2024d.len()), bit2024d.map(r => r.at(1)-r.at(0)),
+    fill: blue,
+    label: [#seshat - human ]
+  ),
+
+//  lq.plot(
+//    range(bit2024s.len()), bit2024s,
+//    label: [#seshat],
+//    color: red, stroke: 1pt, mark-size: 6pt,
+//  )
+)
 
 == TCS 2025
 === Question 5
+#let tcs2025q5data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
+#let (tcs2025q5c, tcs2025q5d) = (tcs2025q5data.map(r => r.at(0)), tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+#lq.diagram(
+  width: 90%, 
+  title: [TCS 2025 q.5], ylabel: [score difference], xlabel: [submission],
+  legend: (position: center + bottom),
+  margin: (top: 20%),
+
+  xaxis: ( ticks: none,
+    subticks: none,
+  ),
+
+  lq.bar(
+    range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)),
+    fill: blue,
+    label: [#seshat - human ]
+  ),
+)
+
 - To compare against M2_2025_TCS, I will likely have to adjust the grading to not penalise extra classes and/or fields, just purely give points for the things that are present, like specified in the rubric.
 
 === Question 6
-#hl([results])
+#let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
+#let (tcs2025q6c, tcs2025q6d) = (tcs2025q6data.map(r => r.at(0)), tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+#lq.diagram(
+  width: 90%, 
+  title: [TCS 2025 q.6], ylabel: [score difference], xlabel: [submission],
+  legend: (position: center + bottom),
+  margin: (top: 20%),
+
+  xaxis: ( ticks: none,
+    subticks: none,
+  ),
+
+  lq.bar(
+    range(tcs2025q6d.len()), tcs2025q6d.map(r => r.at(1)-r.at(0)),
+    fill: blue,
+    label: [#seshat - human ]
+  ),
+)
+
+
 There are a significant number of cases where the human grading differs more than a point from #seshat's grades. This is, from manual inspection on random samples, always a case of *human grading being too strict*. Examples include:
 - 1027332: got almost everything right from the rubric except multiplicity of chesspieces, got only 2 points out of 5.
 *TODO a few more examples*
 note: my grading rubric of Q6 needs to be a bit more strict to award only 5 points if everything matches.
 
 == BIT 2025
+#let bit2025data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
+#let (bit2025dc, bit2025d) = (bit2025data.map(r => r.at(0)), bit2025data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+#lq.diagram(
+  width: 90%, 
+  title: [BIT 2025 q.1], ylabel: [score difference], xlabel: [submission],
+  legend: (position: center + bottom),
+  margin: (top: 20%),
+
+  xaxis: ( ticks: none,
+    subticks: none,
+  ),
+
+  lq.bar(
+    range(bit2025d.len()), bit2025d.map(r => r.at(1)-r.at(0)),
+    fill: blue,
+    label: [#seshat - human ]
+  ),
+)
 #hl([results])
 
 
