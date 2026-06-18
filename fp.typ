@@ -99,10 +99,10 @@ We aim to answer the main research question with the following research question
 *RQ1* is answered in @relatedwork, by analysing existing work for suitability of grading. These works are categorised according to the requirements outlined by *RQ1* and presented in @tbl:grader-suitability. @solution explains the features and reasoning behind #seshat. @results offers perspectives into its performance compared to human grading, after which we discuss and conclude in #hl([SECTION TODO]).
 
 = Related work <relatedwork>
-In order to answer research questions *RQ1*, we conduct a small-scale literature mapping study @Soaita2019, covering roughly 40 works. We aim to provide an comprehensive, but not exhaustive, view into the world of autograders and ILOs, which is why we omit formal inclusion and exclusion criteria. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")). Autograder material is queried with terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". Material regarding ILOs and ILO integration into rubrics was searched with terms such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) is used, to a depth of 1.
+In order to answer research questions *RQ1*, we conduct a small-scale literature mapping study @Soaita2019. We aim to provide an comprehensive, but not exhaustive, view into the world of autograders and ILOs, which is why we omit formal inclusion and exclusion criteria. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")). Autograder material is queried with terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". Material regarding ILOs and ILO integration into rubrics was searched with terms such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) is used, to a depth of 1. After starting with roughly 40-45 works and removing the non-relevant or less noteworthy papers, we arrive at a compact set of sources that offer a general view of autograding across literature.
 
 == Autograders
-Multiple technologies and strategies for autograding exist, which we categorise into the following categories: frameworks for autograders, purely algorithmic autograder implementations, and AI-driven autograder implementations (autograders using Machine Learning (ML) or Generative AI (Gen AI) techniques). Findings on implementations are summarised in @tbl:grader-suitability.
+Multiple technologies and strategies for autograding exist, which we categorise into the following categories: frameworks for autograders, purely algorithmic autograder implementations, and Generative AI (GenAI) or Machine Learning (ML) implementations. Findings on implementations are summarised in @tbl:grader-suitability.
 
 === Frameworks / Theoretical<subsec:relatedwork-autograder-frameworks>
 Autograder frameworks dictate certain designs or methodologies for building autograders. We present summaries of the most relevant explored frameworks, and provide a general summary at the end.
@@ -153,8 +153,8 @@ In conclusion, most existing implementations of autograders use some graph isomo
 
 // Note to self: replicating Bian 2020 with Smith 2004 steps with advice from Thomas2004-2011 would be a good bet.
 
-=== ML- / Gen AI-driven <subsec:relatedwork-autograder-AI>
-Next to using purely algorithmic methods, some papers experiment with Machine Learning / Generative AI (collectively: 'AI-driven solutions') to automatically grade submissions, and even mention some hybrid AI-driven / algorithmic solutions. We provide summaries of the explored sources below, along with a general conclusion on AI-driven autograders.
+=== Machine Learning / Generative AI <subsec:relatedwork-autograder-AI>
+Next to using purely algorithmic methods, some papers experiment with Machine Learning / Generative AI (ML/GenAI) to automatically grade submissions. There are even some hybrid ML and algorithmic solutions. We provide summaries of the explored sources below, along with a general conclusion on ML/GenAI autograders.
 
 #cite(<Stikkolorum2019>, form: "prose"), one of the earliest found sources, attempts Machine Learning-based autograding using several machine learning algorithms to compare submissions to expert grades. Unfortunately, the grading only reaches a maximum accuracy of 42.76%, while rounding off scores to a 10-point integer scale. Exact methods and algorithms are not mentioned.
 
@@ -171,10 +171,10 @@ Next to using purely algorithmic methods, some papers experiment with Machine Le
   )<fig:RajiRamachandran2025_Fig3>
 ])
 
-#cite(<RajiRamachandran2025>, form: "prose"), unlike the previous papers, use a human-in-the-loop design in combination with both purely algorithmic steps, using LLMs only for semantic and syntactic matching. Using structural matching algorithms similar to papers presented in @subsec:relatedwork-autograder-algorithmic, it achieves a Mean Average Error of only 0.611, aligning very closely to human grading (see @fig:RajiRamachandran2025_Fig3). Unfortunately, the data set contains only ten self-procured images, which negatively impacts the significance of these results, not to mention that the nondeterminism introduced by the LLMs will impact the consistency of grading, although it is unclear to what extent.
+#cite(<RajiRamachandran2025>, form: "prose"), unlike the previous papers, use a human-in-the-loop design in combination with both purely algorithmic steps, using LLMs only for semantic and syntactic matching. Using structural matching algorithms similar to papers presented in @subsec:relatedwork-autograder-algorithmic, it achieves a Mean Average Error of only 0.611, aligning very closely to human grading (see @fig:RajiRamachandran2025_Fig3). Unfortunately, the data set contains only ten self-procured diagrams, which negatively impacts the significance of these results, not to mention that the nondeterminism introduced by the LLMs will impact the consistency of grading, although it is unclear to what extent.
 
 
-In conclusion, while AI-based grading has been attempted in recent years, purely AI-driven solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions as well as introducing non-deterministic and biased behaviour, while providing no consistency guarantees. This makes these types of solutions inferior to graph isomorphism solutions in terms of _accuracy_, _consistency_, and _grading transparency_. When used only for semantic and/or syntactic matching, it can provide similar accuracy to algorithmic solutions, although it still introduces nondetermism in grading which negatively affects _consistency_.
+In conclusion, while ML/GenAI grading has been attempted in recent years, purely ML/GenAI solutions produce lacking similarity to human grading compared to graph isomorphism-based solutions. Additionally, GenAI solutions introduce non-deterministic and biased behaviour, while providing no consistency guarantees. This makes using only these types of solutions inferior to graph isomorphism solutions in terms of _consistency_ and _grading transparency_. When used only for semantic matching, however, it can provide equal or possibly superior accuracy to algorithmic solutions, although one must be careful to not introduce nondetermism in the grading process this way which would negatively affect _consistency_.
 
 // line break for readability
 == Intended Learning Objectives \ and examination
@@ -190,6 +190,10 @@ In the explored related work, existing frameworks primarily recommend structural
   #let ylw = rgb("#EA7C32")
   #let red = rgb("#CC1111")
   #let dark-ylw = rgb("#DD4545")
+
+  #let bg-col-algo = rgb("#e7ffe2")
+  #let bg-col-ai = rgb("#ffe4bd")
+  #let bg-col-ml = rgb("#ffd8f7")
 
   #show table.cell.where(body: [L]): t => text(fill: red, strong(t))
   #show table.cell.where(body: [N]): t => text(fill: dark-ylw, strong(t))
@@ -209,37 +213,39 @@ In the explored related work, existing frameworks primarily recommend structural
   #show table.cell.where(body: [r]): t => text(fill: ylw, strong(t))
 
   #show table.cell.where(body: [-]): t => text(fill: red, strong(t))
-  
+
   #figure(
-    table(columns: (auto, auto, 1fr, 1fr, 1fr, auto,auto,auto,auto,1.4fr,1.8fr),
+    table(fill: (x,y) => if x > 0 { none } else if y < 11 { bg-col-algo } else if y == 11 { bg-col-ml } else if y < 14 { bg-col-ai } else { gradient.linear(bg-col-algo, bg-col-algo, bg-col-ml, bg-col-ml, angle: 45deg) },
+      columns: (1.6cm, auto, auto, 1fr, 1fr, 1fr, auto,auto,auto,auto,1.4fr,1.8fr),
       inset: 3pt,
-      align: (left+horizon, left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
+      align: (center+horizon, left+horizon, left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
       table.header(
-        [Author],                                        [Di],         [Ac], [Co], [Tr], [F],[A],[I],[R], [ILO],[UTML],
+        [Met.], [Author],                                        [Diagrams types],         [Ac], [Co], [Tr], [F],[A],[I],[R], [ILO],[UTML],
       ),
 
-      [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
-      [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
-      [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [-],[-],[i],[r],  [N],  [N],
-      [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
-      [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
-      [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [-],[-],[-],[-],  [N],  [N],
-      [#cite(<AlRawashdeh2014>, form: "prose")],      [UML State/Sequence],[?],  [H],  [?],  [-],[-],[I],[-],  [N],  [N],
-      [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [-],[-],[I],[-],  [N],  [N],
-      [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[-],[-],[I],[r],  [N],  [N],
-      [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[-],[-],[I],[r],[N],[N],
+      [Alg], [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
+      [Alg], [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
+      [Alg], [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [-],[-],[i],[r],  [N],  [N],
+      [Alg], [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
+      [Alg], [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
+      [Alg], [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [-],[-],[-],[-],  [N],  [N],
+      [Alg], [#cite(<AlRawashdeh2014>, form: "prose")],      [UML State/Sequence],[?],  [H],  [?],  [-],[-],[I],[-],  [N],  [N],
+      [Alg], [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [-],[-],[I],[-],  [N],  [N],
+      [Alg], [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[-],[-],[I],[r],  [N],  [N],
+      [Alg], [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[-],[-],[I],[r],[N],[N],
 
-      [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [-],[-],[-],[-],   [N],  [N],
-      [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [F],[a],[I],[r],   [N],  [N],
-      [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [M],  [M],  [F],[a],[I],[r],   [N],  [N],
-      [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [M],  [H],  [F],[a],[i],[r],   [N],  [N],
+      [ML], [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [-],[-],[-],[-],   [N],  [N],
+      [GenAI], [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [F],[a],[I],[r],   [N],  [N],
+      [GenAI], [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [L],  [M],  [F],[a],[I],[r],   [N],  [N],
+      [Alg/ML], [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [H],  [H],  [F],[a],[i],[r],   [N],  [N],
     ),
     caption: figure.caption(position: bottom, [
       Autograders and their suitability scores. \
       #align(left, [ 
-        \*_What_ *Di*_agram types are supported_, _how high is the_ *Ac*(_curacy_), *Co*(_nsistency_), and _Grading_ *Tr*(_ansparency_), _how_ *F*_indable,_*A*_ccessible,_*I*_nteroperable, and_ *R*_eproduable is the tool_, _can the tool link_ *ILO*_s to grading_, _and how well is_ *UTML* _supported_? \
+        *Explanation of columns*: _What_ *Met*_hod is used_, which *Diagram types* _are supported_, _how high is the_ *Ac*(_curacy_), *Co*(_nsistency_), and _Grading_ *Tr*(_ansparency_), _how_ *F*_indable,_*A*_ccessible,_*I*_nteroperable, and_ *R*_eproduable is the tool_, _can the tool link_ *ILO*_s to grading_, _and how well is_ *UTML* _supported_? \
         #v(2pt)
-        Scoring (except FAIR) is divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of each autograder's suitability w.r.t. that particular criterium. The scoring for these rubrics is done in a comparative way, with the lowest-scoring solution receiving a "L" or "N" and the highest scoring receiving a "H". High *accuracy* is awarded for deterministic solutions, with lower values given to nondeterministic programs. High *consistency* is awarded for determinstic solutions. High *grading transparency* is awarded for solutions that explain the final grade in terms of rubrics (medium for full rubrics that might not match (i.e. AI-driven solutions)). *ILO* and *UTML* support is given a "H" or "N" based on inclusion of these features. *FAIR* scoring is done by checking the Findability, Accessibility, Interoperability, and Reusability, inspired by #cite(<Wilkinson2016>, form: "prose", supplement: "Box 2, p.4"). We focus purely on the autograder solutions for this rubric. For example, if the code is findable with a fixed ID or link, the project is available but only through a paywall, the algorithms in the paper are designed to be interoperable with only one diagram format (for example XMI) and only one type of diagram (for example ER diagrams), and the work is partially reproducible (deriving parts of the source code using algorithms in the paper), it gets a score of '#text(fill: grn, [F])#text(fill: red, [a])#text(fill: red, [\_])#text(fill: dark-ylw, [r])'.
+        *Scoring* is generally divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of each autograder's suitability w.r.t. that particular criterium. The scoring for these rubrics is done in a comparative way, with the lowest-scoring solution receiving a "L" or "N" and the highest scoring receiving a "H". High *accuracy* is awarded for deterministic solutions, with lower values given to nondeterministic programs. High *consistency* is awarded for determinstic solutions. High *grading transparency* is awarded for solutions that explain the final grade in terms of rubrics (medium for full rubrics that might not match (i.e. GenAI solutions)). *ILO* and *UTML* support is given a "H" or "N" based on inclusion of these features. \
+        *FAIR* scoring is done by verifying the Findability, Accessibility, Interoperability, and Reusability, inspired by #cite(<Wilkinson2016>, form: "prose", supplement: "Box 2, p.4"). We specifically look at the autogarder program. For example: if the code is findable with permalink, the project is available but only through a paywall, the algorithms in the paper are not designed to be interoperable with other diagram formats or types, and the work contains partial algorithms for autograding, it gets a score of '#text(fill: grn, [F])#text(fill: red, [a])#text(fill: red, [\_])#text(fill: dark-ylw, [r])'.
       ])
     ]),
   )<tbl:grader-suitability>
@@ -249,9 +255,10 @@ In the explored related work, existing frameworks primarily recommend structural
 = Seshat <solution>
 In order to automatically grade student submissions, we develop #seshat @seshat: a generic autograder capable of automatically analysing and grading theoretically any type of diagram. For the purposes of this paper, we offer built-in support for UTML.
 
+== Techniques
 #seshat uses the techniques from @relatedwork and @tbl:grader-suitability which gave the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching, and `all-MiniLM-L6-v2` @all-minilm-l6-v2 for semantic matching.
 
-We first tried out Princeton's WordNet @princeton-wordnet, as it also performs semantic similarity checks, but these scores did not reflect the expected semantic similarity after testing with several self-synthesised examples and some example synonyms from the datasets. WordNet matches strictly according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched since 'Port' is in a different WordNet category than 'Station', even though in the exercise they are semantically similar, while examples such as 'Team Member' and 'Virtual Machine' got a semantic match, while sharing no semantic similarity within any of the datasets.
+We first tried out Princeton's WordNet @princeton-wordnet as semantic matching, as it also performs semantic similarity checks and was mentioned in multiple papers @Bian2019 @Hosseinibaghdadabadi2023, but these scores did not reflect the expected semantic similarity after testing with several self-synthesised examples and some example synonyms from the datasets#footnote([See `semantic_match_test.go` @seshat]). This is likely the case because WordNet strictly matches according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched since 'Port' is in a different WordNet category than 'Station', even though in the exercise they are semantically similar, while examples such as 'Team Member' and 'Virtual Machine' got a semantic match, while sharing no semantic similarity within any of the datasets. It may of course also be the case that our comparison algorithm, which splits both the reference and submission text into words, compares all reference words to all submission words, and adds up all similarities, is not the correct way to approach this manner.
 
 == Architecture and Language
 #place(top+center, float: true, scope: "column", [
@@ -266,7 +273,7 @@ In order to achieve this, we implement a query-based architecture akin to that o
 
 This architecture also allows us to cache all stages of the grading process if they are split up into separate queries, which should allow for some improvements in grading speed. Note that this is only possible because the autograder only contains determinstic algorithms.
 
-The autograder is entirely written in Go @golang. A minimal CLI is included to offer a minimal textual interface and showcase the query architecture.
+The autograder is entirely written in #hl([one sentence reason why Go (fast+compiled+strict enough but looser than languages than for ex. Rust]) Go @golang. A minimal CLI is included to offer a minimal textual interface and showcase the query architecture.
 
 == Features
 This section describes the feature set of #seshat by walking the reader through the process of grading a dataset. Features are explained in the order of the grading process.
@@ -402,10 +409,12 @@ Thirdly, the datasets do not provide details about which humans graded which sub
 
 = Results<results>
 For gathering the results, we:
-1. made a best-guess sample solution based on the rubric 
-2. made a grading configuration (how many points to add/deduct for present/absent vertices/edges etc.) based on the rubric provided by each dataset (the rubric is in a separate text file, or included in the results.csv)
-3. used #seshat to grade the diagrams of the dataset with our sample solution and our grading instructions
-4. #hl("TODO") refined the sample solution and grading configuration approximately two times based on the human grading, to make the average score align more with humans.
+1. make a best-guess sample solution based on the rubric 
+2. create a grading configuration (how many points to add/deduct for present/absent vertices/edges etc.) based on the rubric provided by each dataset (the rubric is in a separate text file, or included in the results.csv)
+3. use #seshat to grade the diagrams of the dataset with our sample solution and our grading instructions
+4. combine #seshat's results and human results into one `.csv`
+5. Visualise the results in our paper
+6. Refine the sample solution and grading config (perform steps 1-5) approximately two times over, to make the grading results align more with human grading, while maintaining the spirit of the original rubric.
 
 Raw scores, rubrics, and the results are all present in the git repo @seshat.
 
@@ -413,75 +422,87 @@ Raw scores, rubrics, and the results are all present in the git repo @seshat.
 #let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
 #let (bit2024c, bit2024d) = (bit2024data.map(r => r.at(0)), bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-//#show lq.selector(lq.tick-label): set text(0.3em)
-#lq.diagram(
-  width: 90%, 
-  title: [BIT 2024], ylabel: [score difference], xlabel: [submission],
-  legend: (position: center + bottom),
-  margin: (top: 20%),
+#figure(caption: [ Difference in grades in the BIT 2024 dataset. Sorted by increasing difference. ], [
+  //#show lq.selector(lq.tick-label): set text(0.3em)
+  #lq.diagram(
+    width: 90%,
+    height: 3cm,
+    title: [BIT 2024, question 1], ylabel: [score difference], xlabel: [submission],
+    legend: (position: center + bottom),
+    margin: (top: 20%),
 
-  xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate(), 
-    subticks: none,
-  ),
+    xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate(), 
+      subticks: none,
+    ),
 
-  lq.bar(
-    range(bit2024d.len()), bit2024d.map(r => r.at(1)-r.at(0)),
-    fill: blue,
-    label: [#seshat - human ]
-  ),
+    lq.bar(
+      range(bit2024d.len()), bit2024d.map(r => r.at(1)-r.at(0)).sorted(),
+      fill: blue,
+      label: none, //[ human grade - #seshat grade ]
+    ),
 
-//  lq.plot(
-//    range(bit2024s.len()), bit2024s,
-//    label: [#seshat],
-//    color: red, stroke: 1pt, mark-size: 6pt,
-//  )
-)
+  //  lq.plot(
+  //    range(bit2024s.len()), bit2024s,
+  //    label: [#seshat],
+  //    color: red, stroke: 1pt, mark-size: 6pt,
+  //  )
+  )
+])
 
 == TCS 2025
 === Question 5
 #let tcs2025q5data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
 #let (tcs2025q5c, tcs2025q5d) = (tcs2025q5data.map(r => r.at(0)), tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#lq.diagram(
-  width: 90%, 
-  title: [TCS 2025 q.5], ylabel: [score difference], xlabel: [submission],
-  legend: (position: center + bottom),
-  margin: (top: 20%),
+#figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 5. Sorted by increasing difference.], [
+  #lq.diagram(
+    width: 90%,
+    height: 3cm,
+    title: [TCS 2025 q.5], ylabel: [score difference], xlabel: [submission],
+    legend: (position: center + bottom),
+    margin: (top: 20%),
 
-  xaxis: ( ticks: none,
-    subticks: none,
-  ),
+    xaxis: ( ticks: none,
+      subticks: none,
+    ),
 
-  lq.bar(
-    range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)),
-    fill: blue,
-    label: [#seshat - human ]
-  ),
-)
+    lq.bar(
+      range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)).sorted(),
+      fill: blue,
+      label: none,// [#seshat - human ]
+    ),
+  )
+])
 
-- To compare against M2_2025_TCS, I will likely have to adjust the grading to not penalise extra classes and/or fields, just purely give points for the things that are present, like specified in the rubric.
+- strategy: don't penalise anything except absent classes
+- grader config calculates to about 0.9 points for all classes present, 1 point for all 
+  - had to do some manual calculations ($"total points" / "#elements"$). #hl("possible improvement")
 
 === Question 6
 #let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
 #let (tcs2025q6c, tcs2025q6d) = (tcs2025q6data.map(r => r.at(0)), tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#lq.diagram(
-  width: 90%, 
-  title: [TCS 2025 q.6], ylabel: [score difference], xlabel: [submission],
-  legend: (position: center + bottom),
-  margin: (top: 20%),
+#figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Sorted by increasing difference.], [
+  #lq.diagram(
+    width: 90%,
+    height: 3cm,
+    title: [TCS 2025 q.6], ylabel: [score difference], xlabel: [submission],
+    legend: (position: center + bottom),
+    margin: (top: 20%),
 
-  xaxis: ( ticks: none,
-    subticks: none,
-  ),
+    xaxis: ( ticks: none,
+      subticks: none,
+    ),
 
-  lq.bar(
-    range(tcs2025q6d.len()), tcs2025q6d.map(r => r.at(1)-r.at(0)),
-    fill: blue,
-    label: [#seshat - human ]
-  ),
-)
+    lq.bar(
+      range(tcs2025q6d.len()), tcs2025q6d.map(r => r.at(1)-r.at(0)).sorted(),
+      fill: blue,
+      label: none, // [#seshat - human ]
+    ),
+  )
+])
 
+This question is related more towards drawing the correct types of edges with the correct cardinality. #hl("explain how this affects rubric")
 
 There are a significant number of cases where the human grading differs more than a point from #seshat's grades. This is, from manual inspection on random samples, always a case of *human grading being too strict*. Examples include:
 - 1027332: got almost everything right from the rubric except multiplicity of chesspieces, got only 2 points out of 5.
@@ -492,22 +513,26 @@ note: my grading rubric of Q6 needs to be a bit more strict to award only 5 poin
 #let bit2025data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
 #let (bit2025dc, bit2025d) = (bit2025data.map(r => r.at(0)), bit2025data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#lq.diagram(
-  width: 90%, 
-  title: [BIT 2025 q.1], ylabel: [score difference], xlabel: [submission],
-  legend: (position: center + bottom),
-  margin: (top: 20%),
+#figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Sorted by increasing difference.], [
+  #lq.diagram(
+    width: 90%,
+    height: 3cm,
+    title: [BIT 2025 q.1], ylabel: [score difference], xlabel: [submission],
+    legend: (position: center + bottom),
+    margin: (top: 20%),
 
-  xaxis: ( ticks: none,
-    subticks: none,
-  ),
+    xaxis: ( ticks: none,
+      subticks: none,
+    ),
 
-  lq.bar(
-    range(bit2025d.len()), bit2025d.map(r => r.at(1)-r.at(0)),
-    fill: blue,
-    label: [#seshat - human ]
-  ),
-)
+    lq.bar(
+      range(bit2025d.len()), bit2025d.map(r => r.at(1)-r.at(0)).sorted(),
+      fill: blue,
+      label: none, //[#seshat - human ]
+    ),
+    lq.hlines(1, 1.1, stroke: teal, label: "Indefinite"),
+  )
+])
 #hl([results])
 
 
@@ -538,6 +563,9 @@ One could take the rubric and make an autograder that strictly follows this rubr
 #pagebreak()
 #bibliography("refs.bib")
 
-// #heading(numbering: none, [ Appendices ])
-// #show: appendix
+#heading(numbering: none, [ Appendices ])
+#show: appendix
+
+= Grading rubrics
+#hl("TODO Add rubrics from datasets 2024 BIT, 2025 TCS q5+q6, 2025 BIT")
 
