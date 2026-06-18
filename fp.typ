@@ -1,6 +1,5 @@
 #import "typst-template-ut/typst-template-paper.typ" : conf, abstr, appendix
-#import "@preview/lilaq:0.6.0" as lq
-
+#import "@preview/lilaq:0.6.0" as lq // graphing
 
 #let darkyellow = color.rgb("#B3A638")
 
@@ -409,16 +408,17 @@ Thirdly, the datasets do not provide details about which humans graded which sub
 
 = Results<results>
 For gathering the results, we:
-1. make a best-guess sample solution based on the rubric 
+1. make *one* best-guess sample solution based on the rubric 
 2. create a grading configuration (how many points to add/deduct for present/absent vertices/edges etc.) based on the rubric provided by each dataset (the rubric is in a separate text file, or included in the results.csv)
 3. use #seshat to grade the diagrams of the dataset with our sample solution and our grading instructions
 4. combine #seshat's results and human results into one `.csv`
 5. Visualise the results in our paper
 6. Refine the sample solution and grading config (perform steps 1-5) approximately two times over, to make the grading results align more with human grading, while maintaining the spirit of the original rubric.
+#hl("write nicer").
 
-Raw scores, rubrics, and the results are all present in the git repo @seshat.
+Raw scores, rubrics, and the results are all present in #seshat's code repository @seshat.
 
-== BIT 2024
+== BIT 2024<subsec:bit2024>
 #let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
 #let (bit2024c, bit2024d) = (bit2024data.map(r => r.at(0)), bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
 
@@ -441,16 +441,19 @@ Raw scores, rubrics, and the results are all present in the git repo @seshat.
       label: none, //[ human grade - #seshat grade ]
     ),
 
-  //  lq.plot(
-  //    range(bit2024s.len()), bit2024s,
-  //    label: [#seshat],
-  //    color: red, stroke: 1pt, mark-size: 6pt,
-  //  )
+    lq.hlines(40, stroke: 0.5mm + purple, label: "Max. score"),
   )
-])
+])<fig:bit2024>
 
-== TCS 2025
-=== Question 5
+The BIT 2024 dataset contains one question (q.1) about drawing a class diagram for an Electric Vehicle Charging Network. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
+
+After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total (0.5 per edge end) for correct edge multiplicities, the scores were extremely negative compared to the human grading, handing out a consistent on average -10 points. After inspecting a few of the most outrageous offenders with differences of 20-30 points it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved drastically with an average difference of #{calc.round(digits: 2, bit2024d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2024d.len())} out of 40 points. This can be seen in @fig:bit2024. However, there are still outliers which were graded differently by more than half the total score. #hl("Explain this in the final deliverable -> steekproef -> give reason why different -> change grader/explain why human bad -> grade again").
+
+
+Note that one submission failed to grade, due to errors in the reparation process (#hl("submission 148587 - todo investigate why and fix for final deliverable").
+
+== TCS 2025<subsec:tcs2025>
+=== Question 5<subsec:tcs2025q5>
 #let tcs2025q5data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
 #let (tcs2025q5c, tcs2025q5d) = (tcs2025q5data.map(r => r.at(0)), tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
 
@@ -470,15 +473,13 @@ Raw scores, rubrics, and the results are all present in the git repo @seshat.
       range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)).sorted(),
       fill: blue,
       label: none,// [#seshat - human ]
-    ),
-  )
-])
+    ), lq.hlines(4, stroke: 0.5mm + purple, label: "Max. score"),) ])
 
-- strategy: don't penalise anything except absent classes
-- grader config calculates to about 0.9 points for all classes present, 1 point for all 
-  - had to do some manual calculations ($"total points" / "#elements"$). #hl("possible improvement")
+Question 5 asks to make a UML class diagram that models a ficticious theme park. The sample rubric is quite concise, giving one point for the correct classes, one point for correct methods / attributes, and a combined two points for correct associations and association types.
 
-=== Question 6
+Here, the strategy we opted for was similar to @subsec:bit2024: we do not penalise extra classes and instead only award points related to how much of the sample solution the submission graph contains. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked a lot more reasonable, at an average grade difference of #{calc.round(digits: 2, tcs2025q5d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / tcs2025q5d.len())} out of 4 points. However, there are still outliers which were graded differently by more than half the total score. #hl("Explain this in the final deliverable -> steekproef -> give reason why different -> change grader/explain why human bad -> grade again").
+
+=== Question 6<subsec:tcs2025q6>
 #let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
 #let (tcs2025q6c, tcs2025q6d) = (tcs2025q6data.map(r => r.at(0)), tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2)))))
 
@@ -499,18 +500,16 @@ Raw scores, rubrics, and the results are all present in the git repo @seshat.
       fill: blue,
       label: none, // [#seshat - human ]
     ),
+    lq.hlines(5, stroke: 0.5mm + purple, label: "Max. score"),
   )
 ])
 
-This question is related more towards drawing the correct types of edges with the correct cardinality. #hl("explain how this affects rubric")
+Question 6 is all about associations: it asks to draw the correct (types of) associations with the correct multiplicities between predetermined classes. As a consequence, the original grading rubric and our grading configuration only awards points for correct associations and association types.
 
-There are a significant number of cases where the human grading differs more than a point from #seshat's grades. This is, from manual inspection on random samples, always a case of *human grading being too strict*. Examples include:
-- 1027332: got almost everything right from the rubric except multiplicity of chesspieces, got only 2 points out of 5.
-*TODO a few more examples*
-note: my grading rubric of Q6 needs to be a bit more strict to award only 5 points if everything matches.
+However, initially, #seshat gave quite optimistic scores, on average giving out scores that were 2.3 /*#{tcs2025q6d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / tcs2025q6d.len()}*/ higher. To compensate, 
 
-== BIT 2025
-#let bit2025data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
+== BIT 2025<subsec:bit2025>
+#let bit2025data = csv("data/2025_M2_BIT/GRADE_RESULTS/2025_M2_BIT_combined.csv").slice(1)
 #let (bit2025dc, bit2025d) = (bit2025data.map(r => r.at(0)), bit2025data.map(r => (float(r.at(1)), float(r.at(2)))))
 
 #figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Sorted by increasing difference.], [
@@ -530,30 +529,43 @@ note: my grading rubric of Q6 needs to be a bit more strict to award only 5 poin
       fill: blue,
       label: none, //[#seshat - human ]
     ),
-    lq.hlines(1, 1.1, stroke: teal, label: "Indefinite"),
+    lq.hlines(40, stroke: 0.5mm + purple, label: "Max. score"),
   )
 ])
-#hl([results])
 
+The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities. The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, bit2025d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2025d.len())} of out 40 points.  #hl("this needs to be refined a bit more - look at the lowest scoring solutions and see why it's wrong, likely some edge detection thing or multiplicities.").
+
+#hl("some bigger differences in the grading that need to be worked out and explained for the final deliverable").
 
 = Discussion
-#hl([ add ])
+As seen in @results, #seshat can emulate human grading pretty effectively, with most differences stemming from #hl("conclude this in results (likely human error) - but verify and then put results here"). However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is sometimes harsh when grading solutions that are slightly different from the sample solution in subtle ways.
 
-Autograder offers another paradigm of grading: instead of grading rubrics, think about possible solutions and graph these solutions. The example solution *is* the rubric.
+However, it takes a few rounds of revising the example solution and the scoring system to get an approximate grade, meaning that human grading is not very strictly following the rubric. This is partially due to #seshat not being able to find certain edges #hl("add examples") but also partially due to the inherent inconsistency, or possibly foregiveness, in human grading.
 
-This works very well for exercises with defined solutions (ex.: 2025 TCS question 6), but requires an exponential number of alternative solutions if the exercise is less strictly defined and more alternative solutions are possible (such as 2024/2025 BIT (? I think)).
-However, less defined solutions work inherently worse with automatic / automated grading.
+More generally: autograding with a sample solution offers another paradigm of grading: instead of having a teacher make a rubric for a particular exercise, it forces them to think about possible solution graphs. The possible example solutions are the rubric. This works quite well for exercises with defined solutions (ex.: 2025 TCS question 6, 2025 BIT), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
 
-One could take the rubric and make an autograder that strictly follows this rubric. This could handle alternatives a bit better (this association can also be a composition) - but this is emulateable in the current graph isomorphism strategy: make both edge or vertex variants and don'tdeduct points for missing edges, or deduct some points but add double the points for present edges.
+
+#hl("discuss that ILOs could have also been added - it's a nice feature, explain how, but there's not a lot of use when comparing pure scores. But it's nice for students to see how well they understand each learning objective.")
+
+ALTERNATIVES to sample solution:
+- One could take the rubric and make an autograder that strictly follows this rubric. This could handle alternatives a bit better (this association can also be a composition) - but this is emulateable in the current graph isomorphism strategy: make both edge or vertex variants and don'tdeduct points for missing edges, or deduct some points but add double the points for present edges.
 
 
 = Conclusion
-- student diagrams are often broken: solutions must incorporate several error corrections in order to make automated / automatic grading feasible
-- autograders are a way to improve grading consistency, transparency, and fairness compared to human grading, given the right algortihms. #seshat is perfectly consistent, transparent, and fair.
-- now the challenge for teachers becomes to design unambiguous exercises and to encode grading rubrics into #seshat.
-- best algorithm set seems to be a combination of graph isomorphi algorithm, syntactic equivalence algorithm, and semantic equivalence algorithm. Best implementations for our cases = custom graph mapping algorithm + Levenshtein + All-miniLM-L6-v2.
-- results = #hl([??])
+In this research, we investigate to what extent we can automate the process of grading UML diagrams while maintaining or improving the _accuracy_, _consistency_, and _grading transparency_ of human grading. To achieve this, we consult existing work for possible solutions, but find no implementations that share the full program (source code or other types of instructions) _and_ that offer high accuracy, consistency, grading transparency, and support UTML or can be extended to support it.
 
+Hence, we build our own autogarder: #seshat, which uses the best performing algorithms from existing work: a custom structural graph matching algorithm based on the work of #cite(<thomas2009>, form: "prose") to match parts of a sample solution to a given student submission, semantic matching using the sentence transformer `all-MiniLM-L6-v2` to account for synonyms, and syntactic matching using `Levenshtein` distance to account for spelling mistakes.
+
+While building and testing #seshat, we discover that UTML fundamentally cannot express certain UML concepts and that student submissions often appear visually correct but have an incorrect internal structure. We implement, explain, and showcase a few _reparation_ methods to still be able to grade 'imprecise' solutions.
+
+Finally, we compare #seshat's grading against human grades and discover that #hl("write results").
+
+To answer our main research question: we can almost entirely automate the process of grading diagrams. The only thing a human needs to do in order to use #seshat is to provide a grading rubric specifying how many points to award/deduct for certain attributes of a diagram and to provide a (set of) sample solution(s). However, to ensure the grading aligns with the expectations of a teacher, the results need to be randomly investigated, and the grading rubric or sample solution(s) possibly revised a few times.
+
+It is also possible to automate this process while *improving* consistency, transparency, and fairness, compared to human grading. #hl("results todo").
+
+#hl("word this nicely:")
+- now the challenge for teachers becomes to design unambiguous exercises and to encode grading rubrics into #seshat.
 - #seshat offers a new way of viewing diagram grading: example solutions become the rubric, and the focus shifts to developing clearer exercises to minimise the number of possible solutions. Clear exercises are more easily automatable because they require less alternative graphs. This is a benefit to both students and teachers: teachers get a positive nudge towards developing exercises that are clearer for students and get rewarded with more accurate autograding and students get clearer exercises. (there is something to be said about disambiguating statements in communication, that is a nice skill, but it is not inherently related to diagram creation. I think it is good to separate the two, because the exercises are not labeled 'make diagram and communicate with stakeholders')
 
 #hl([ add more ])
