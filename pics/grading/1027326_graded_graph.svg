@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="973.83167pt"
+   height="274.00922pt"
+   viewBox="0 0 973.83167 274.00922"
+   version="1.1"
+   id="svg31"
+   sodipodi:docname="1027326_graded_graph.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs31" />
+  <sodipodi:namedview
+     id="namedview31"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="pt"
+     inkscape:zoom="0.94509571"
+     inkscape:cx="629.03682"
+     inkscape:cy="666.59916"
+     inkscape:window-width="2560"
+     inkscape:window-height="1412"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg31">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="973.83167"
+       height="274.00922"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="node1"
+     class="node"
+     transform="translate(-9.7883161,1332.5)">
+    <title
+       id="title2">________ (id '0') Banana ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="14.39,-1332 14.39,-1296 230.63,-1296 230.63,-1332 "
+       id="polygon2" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="122.51"
+       y="-1309.8"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text2">________ (id '0') Banana ________</text>
+  </g>
+  <g
+     id="node15"
+     class="node"
+     transform="translate(-9.7883161,1332.5)">
+    <title
+       id="title3">EID '0'</title>
+    <polygon
+       fill="none"
+       stroke="#000000"
+       stroke-dasharray="1, 5"
+       points="467.86,-1332 467.86,-1296 522.73,-1296 522.73,-1332 "
+       id="polygon3" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="495.29001"
+       y="-1309.8"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text3">EID '0'</text>
+  </g>
+  <g
+     id="edge9"
+     class="edge"
+     transform="translate(-9.7883161,1332.5)">
+    <title
+       id="title4">________ (id '0') Banana ________-&gt;EID '0'</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 231.09,-1314 c 81.46,0 187.09,0 236.47,0"
+       id="path4" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="429.81073"
+       y="-1318.2"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text4">is a fruit &gt;</text>
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="260.88428"
+       y="-1318.9935"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text5"> (present)</text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-family:Times, serif;-inkscape-font-specification:'Times, serif, Normal';letter-spacing:0px;writing-mode:lr-tb;direction:ltr;fill:#ff2a2a;stroke:#f00101;stroke-width:0"
+       x="266.60751"
+       y="-1306.1082"
+       id="text32"><tspan
+         sodipodi:role="line"
+         id="tspan31"
+         style="stroke-width:0"
+         x="266.60751"
+         y="-1306.1082" /></text>
+  </g>
+  <g
+     id="node2"
+     class="node"
+     transform="matrix(1.1017602,0,0,0.99864072,-22.651745,1076.1641)">
+    <title
+       id="title5">________ (id '2') Car ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="25.27,-964.8 219.75,-964.8 219.75,-1000.8 25.27,-1000.8 "
+       id="polygon5" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="122.51"
+       y="-978.59998"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text6">________ (id '2') Car ________</text>
+  </g>
+  <g
+     id="node11"
+     class="node"
+     transform="translate(-9.7883161,1077.5)">
+    <title
+       id="title6">EID '1'</title>
+    <polygon
+       fill="none"
+       stroke="#000000"
+       stroke-dasharray="1, 5"
+       points="505.76,-1000.8 450.89,-1000.8 450.89,-964.8 505.76,-964.8 "
+       id="polygon6" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="478.32001"
+       y="-978.59998"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text7">EID '1'</text>
+  </g>
+  <g
+     id="edge1"
+     class="edge"
+     transform="matrix(0.98987012,0,0,1,1.9249129,1077.5)">
+    <title
+       id="title7">________ (id '2') Car ________-&gt;EID '1'</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 220.21,-982.8 c 77.76,0 181.39,0 230.31,0"
+       id="path7" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="382.61359"
+       y="-987.79358"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text8">&lt; has cars parcker at</text>
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="255.96353"
+       y="-986.20642"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text9">* (correct)</text>
+  </g>
+  <g
+     id="node3"
+     class="node"
+     transform="matrix(0.97329693,0,0,1.0003683,31.754843,1075.4813)">
+    <title
+       id="title9">________ (id '3') ParkingLot ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="723.88,-964.8 961.13,-964.8 961.13,-1000.8 723.88,-1000.8 "
+       id="polygon9" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="842.51001"
+       y="-978.59998"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text10">________ (id '3') ParkingLot ________</text>
+  </g>
+  <g
+     id="node4"
+     class="node"
+     transform="matrix(0.96399078,0,0,1.0004979,-1.0121901,273.50897)">
+    <title
+       id="title10">________ (id '7') ChessBoard ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="1.55,0 243.47,0 243.47,-36 1.55,-36 "
+       id="polygon10" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="122.51"
+       y="-13.8"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text11">________ (id '7') ChessBoard ________</text>
+  </g>
+  <g
+     id="node5"
+     class="node"
+     transform="translate(-9.7883161,537.50001)">
+    <title
+       id="title11">________ (id '6') Attribute ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="751.71,-316.8 976.51,-316.8 976.51,-352.8 751.71,-352.8 "
+       id="polygon11" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="864.10999"
+       y="-330.60001"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text12">________ (id '6') Attribute ________</text>
+  </g>
+  <g
+     id="node13"
+     class="node"
+     transform="translate(-9.7883161,537.50001)">
+    <title
+       id="title12">EID '3'</title>
+    <polygon
+       fill="none"
+       stroke="#000000"
+       stroke-dasharray="1, 5"
+       points="465.23,-316.8 520.1,-316.8 520.1,-352.8 465.23,-352.8 "
+       id="polygon12" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="492.67001"
+       y="-330.60001"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text13">EID '3'</text>
+  </g>
+  <g
+     id="edge5"
+     class="edge"
+     transform="translate(-9.7883161,537.50001)">
+    <title
+       id="title13">________ (id '6') Attribute ________-&gt;EID '3'</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 751.4,-334.8 c -80.48,0 -182.72,0 -231.04,0"
+       id="path13" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="573.95074"
+       y="-340.58713"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text14">has attribute &gt;</text>
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="735.14142"
+       y="-339"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text15">* ()</text>
+  </g>
+  <g
+     id="node6"
+     class="node"
+     transform="matrix(1.0619092,0,0,0.99916485,-18.959955,537.2204)">
+    <title
+       id="title15">________ (id '5') Class ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="224.81,-352.8 20.21,-352.8 20.21,-316.8 224.81,-316.8 "
+       id="polygon15" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="122.51"
+       y="-330.60001"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text16">________ (id '5') Class ________</text>
+  </g>
+  <g
+     id="node7"
+     class="node"
+     transform="matrix(0.89656675,0,0,1.0014561,2.0897219,823.46981)">
+    <title
+       id="title16">________ (id '14') WhileLoop ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="245.02,-648 245.02,-684 0,-684 0,-648 "
+       id="polygon16" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="122.51"
+       y="-661.79999"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text17">________ (id '14') WhileLoop ________</text>
+  </g>
+  <g
+     id="node12"
+     class="node"
+     transform="translate(-9.7883161,822.50001)">
+    <title
+       id="title17">EID '2'</title>
+    <polygon
+       fill="none"
+       stroke="#000000"
+       stroke-dasharray="1, 5"
+       points="454.2,-684 454.2,-648 509.06,-648 509.06,-684 "
+       id="polygon17" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="481.63"
+       y="-661.79999"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text18">EID '2'</text>
+  </g>
+  <g
+     id="edge3"
+     class="edge"
+     transform="matrix(1.0434577,0,0,1,-29.77821,822.50001)">
+    <title
+       id="title18">________ (id '14') WhileLoop ________-&gt;EID '2'</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 245.34,-666 c 74.75,0 164.12,0 208.47,0"
+       id="path18" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="410.39001"
+       y="-670.20001"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text19">is a condition &gt;</text>
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="269.64001"
+       y="-670.20001"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text20"> (absent)</text>
+  </g>
+  <g
+     id="node8"
+     class="node"
+     transform="translate(-9.7883161,273.50001)">
+    <title
+       id="title20">________ (id '8') ChessPiece ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="745.1,-36 745.1,0 983.12,0 983.12,-36 "
+       id="polygon20" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="864.10999"
+       y="-13.8"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text21">________ (id '8') ChessPiece ________</text>
+  </g>
+  <g
+     id="node14"
+     class="node"
+     transform="translate(-9.7883161,273.50001)">
+    <title
+       id="title21">EID '4'</title>
+    <polygon
+       fill="none"
+       stroke="#000000"
+       stroke-dasharray="1, 5"
+       points="464.15,-36 464.15,0 519.02,0 519.02,-36 "
+       id="polygon21" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="491.57999"
+       y="-13.8"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text22">EID '4'</text>
+  </g>
+  <g
+     id="edge7"
+     class="edge"
+     transform="translate(-9.7883161,273.50001)">
+    <title
+       id="title22">________ (id '8') ChessPiece ________-&gt;EID '4'</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 744.7,-18 c -79.59,0 -177.96,0 -225.21,0"
+       id="path22" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="579.66357"
+       y="-21.406431"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text23">contains pieces &gt;</text>
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="692.6543"
+       y="-3.947881"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text24">2 - * (incorrect)</text>
+  </g>
+  <g
+     id="node9"
+     class="node"
+     transform="matrix(1.117873,0,0,0.99843093,-114.81789,1330.4383)">
+    <title
+       id="title24">________ (id '1') Fruit ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="964.85,-1296 964.85,-1332 763.37,-1332 763.37,-1296 "
+       id="polygon24" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="864.10999"
+       y="-1309.8"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text25">________ (id '1') Fruit ________</text>
+  </g>
+  <g
+     id="node10"
+     class="node"
+     transform="translate(-9.7883161,822.50001)">
+    <title
+       id="title25">________ (id '4') Condition ________</title>
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="727.38,-648 957.64,-648 957.64,-684 727.38,-684 "
+       id="polygon25"
+       transform="translate(19.04569,1.5871408)" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="861.55573"
+       y="-660.21283"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text26">________ (id '4') Condition ________</text>
+  </g>
+  <g
+     id="edge2"
+     class="edge"
+     transform="matrix(1.1096172,0,0,0.99794135,-65.274191,1075.4662)">
+    <title
+       id="title26">EID '1'-&gt;________ (id '3') ParkingLot ________</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 505.99,-982.8 c 43.39,0 130.18,0 204.75,0"
+       id="path26" />
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="722.65,-982.8 716.65,-986.8 710.65,-982.8 716.65,-978.8 "
+       id="polygon26" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="684.68719"
+       y="-987"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text27">* (correct)</text>
+  </g>
+  <g
+     id="edge4"
+     class="edge"
+     transform="translate(-9.7883161,822.50001)">
+    <title
+       id="title27">EID '2'-&gt;________ (id '4') Condition ________</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 509.35,-666 c 47.67684,0 143.35707,0 224.46212,0"
+       id="path27"
+       style="stroke-width:1.04332" />
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="725.41,-666 715.41,-662.5 715.41,-669.5 "
+       id="polygon27"
+       transform="translate(18)" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="702.63"
+       y="-670.20001"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text28"> (absent)</text>
+  </g>
+  <g
+     id="edge6"
+     class="edge"
+     transform="matrix(0.97677766,0,0,1.0004161,1.0020319,537.6418)">
+    <title
+       id="title28">EID '3'-&gt;________ (id '5') Class ________</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 464.84,-334.8 c -47.64,0 -147.39,0 -226.99,0"
+       id="path28" />
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="232.16,-330.8 238.16,-334.8 232.16,-338.8 226.16,-334.8 "
+       id="polygon28" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="263.32928"
+       y="-340.58713"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text29">1 (correct)</text>
+  </g>
+  <g
+     id="edge8"
+     class="edge"
+     transform="translate(-9.7883161,273.50001)">
+    <title
+       id="title29">EID '4'-&gt;________ (id '7') ChessBoard ________</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 463.84,-18 c -43.74,0 -131.53,0 -207.13,0"
+       id="path29" />
+    <polygon
+       fill="#8bfa4b"
+       stroke="#8bfa4b"
+       points="250.63,-22 244.63,-18 250.63,-14 256.63,-18 "
+       id="polygon29" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="279.41858"
+       y="-24.580711"
+       font-family="Times, serif"
+       font-size="14px"
+       fill="#fa614b"
+       id="text30">1 (correct)</text>
+  </g>
+  <g
+     id="edge10"
+     class="edge"
+     transform="matrix(0.93370435,0,0,1.0016668,24.902875,1334.701)">
+    <title
+       id="title30">EID '0'-&gt;________ (id '1') Fruit ________</title>
+    <path
+       fill="none"
+       stroke="#8bfa4b"
+       d="m 523.02,-1314 c 48,0 149.09,0 228.83,0"
+       id="path30" />
+    <polygon
+       fill="none"
+       stroke="#8bfa4b"
+       points="751.43,-1310.5 751.43,-1317.5 761.43,-1314 "
+       id="polygon30" />
+    <text
+       xml:space="preserve"
+       text-anchor="middle"
+       x="727.59076"
+       y="-1320.5807"
+       font-family="Times, serif"
+       font-size="14px"
+       id="text31"> (present)</text>
+  </g>
+</svg>

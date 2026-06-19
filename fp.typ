@@ -214,7 +214,7 @@ In the explored related work, existing frameworks primarily recommend structural
   #show table.cell.where(body: [-]): t => text(fill: red, strong(t))
 
   #figure(
-    table(fill: (x,y) => if x > 0 { none } else if y < 11 { bg-col-algo } else if y == 11 { bg-col-ml } else if y < 14 { bg-col-ai } else { gradient.linear(bg-col-algo, bg-col-algo, bg-col-ml, bg-col-ml, angle: 45deg) },
+    table(fill: (x,y) => if x > 0 { none } else if y < 11 { bg-col-algo } else if y == 11 { bg-col-ml } else if y < 14 { bg-col-ai } else { gradient.linear(bg-col-algo, bg-col-algo, bg-col-algo,bg-col-ml, bg-col-ml, bg-col-ml, angle: 40deg) },
       columns: (1.6cm, auto, auto, 1fr, 1fr, 1fr, auto,auto,auto,auto,1.4fr,1.8fr),
       inset: 3pt,
       align: (center+horizon, left+horizon, left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
@@ -241,7 +241,7 @@ In the explored related work, existing frameworks primarily recommend structural
     caption: figure.caption(position: bottom, [
       Autograders and their suitability scores. \
       #align(left, [ 
-        *Explanation of columns*: _What_ *Met*_hod is used_, which *Diagram types* _are supported_, _how high is the_ *Ac*(_curacy_), *Co*(_nsistency_), and _Grading_ *Tr*(_ansparency_), _how_ *F*_indable,_*A*_ccessible,_*I*_nteroperable, and_ *R*_eproduable is the tool_, _can the tool link_ *ILO*_s to grading_, _and how well is_ *UTML* _supported_? \
+        *Explanation of columns*: _What_ *Met*_hod is used_ (Alg(orithmic), ML, GenAI), which *Diagram types* _are supported_, _how high is the_ *Ac*(_curacy_), *Co*(_nsistency_), and _Grading_ *Tr*(_ansparency_), _how_ *F*_indable,_*A*_ccessible,_*I*_nteroperable, and_ *R*_eproduable is the tool_, _can the tool link_ *ILO*_s to grading_, _and how well is_ *UTML* _supported_? \
         #v(2pt)
         *Scoring* is generally divided into "N" (_No Support_), "L" (_Low_), "M" (_Medium_), "H" (_High_), and "?" (_Unknown_), which gives an indication of each autograder's suitability w.r.t. that particular criterium. The scoring for these rubrics is done in a comparative way, with the lowest-scoring solution receiving a "L" or "N" and the highest scoring receiving a "H". High *accuracy* is awarded for deterministic solutions, with lower values given to nondeterministic programs. High *consistency* is awarded for determinstic solutions. High *grading transparency* is awarded for solutions that explain the final grade in terms of rubrics (medium for full rubrics that might not match (i.e. GenAI solutions)). *ILO* and *UTML* support is given a "H" or "N" based on inclusion of these features. \
         *FAIR* scoring is done by verifying the Findability, Accessibility, Interoperability, and Reusability, inspired by #cite(<Wilkinson2016>, form: "prose", supplement: "Box 2, p.4"). We specifically look at the autogarder program. For example: if the code is findable with permalink, the project is available but only through a paywall, the algorithms in the paper are not designed to be interoperable with other diagram formats or types, and the work contains partial algorithms for autograding, it gets a score of '#text(fill: grn, [F])#text(fill: red, [a])#text(fill: red, [\_])#text(fill: dark-ylw, [r])'.
@@ -272,7 +272,7 @@ In order to achieve this, we implement a query-based architecture akin to that o
 
 This architecture also allows us to cache all stages of the grading process if they are split up into separate queries, which should allow for some improvements in grading speed. Note that this is only possible because the autograder only contains determinstic algorithms.
 
-The autograder is entirely written in #hl([one sentence reason why Go (fast+compiled+strict enough but looser than languages than for ex. Rust]) Go @golang. A minimal CLI is included to offer a minimal textual interface and showcase the query architecture.
+The autograder is entirely written in Go @golang. We opted for Go as it is quite fast, strict enough to enforce the architecture seen in @fig:arch, but still has a garbage collector which speeds up development and eliminates memory leaks. Additionally, a Command Line Interface (CLI) is included to showcase an implementation that works with the query architecture, as well as provide the author with an easy way to grade the datasets.
 
 == Features
 This section describes the feature set of #seshat by walking the reader through the process of grading a dataset. Features are explained in the order of the grading process.
@@ -294,26 +294,6 @@ For example, since UTML does not allow edge-to-edge connections, the 'reparation
 
 For visualising error corrections, we refer to submission 154286, shown in @fig:submission-154286, as well as its corrected version, shown in @fig:submission-154286-corrected.
 
-==== Edge Label Swapping
-Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable', which has swapped labels 'has ->' and '0..1', in @fig:submission-154286 and @lst:submission-154286-json-snippet.
-
-Having swapped labels is a problem for automatic grading, because #seshat does not consider the visual representation of the submission. When a student drags around labels and the diagram tooling does not automatically swap the labels internally, the file structure does not match the visual structure, which would make #seshat grade a diagram 'incorrectly' according to student and teacher expectations, putting students at an unfair disadvantage.
-
-#seshat includes an option `swap_edge_labels` for this, which looks for labels with large offsets towards another position on the edge and swaps them if possible. The distance at which this occurs is configurable as a percentage of the length of an edge.
-
-==== Edge 'Anchoring'
-Some diagram software, such as UTML, sadly does not allow connecting edges to other edges, which is mandatory syntax for concepts such as UML association classes. Alternatively, students may drag arrows close to vertices or edges but not connect them directly for several possible reasons, including time limitations of exams.
-
-This is a problem for autograders, since _technically_, those edges are not connected to anything, meaning that students will get points deducted for a solution that looks visually correct.
-
-In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to support it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
-
-==== Directed Edge Recombination
-In diagrams, it is not uncommon to have a set of multiple vertices connect to one 'main' vertex. This happens especially often when drawing multiple inheritance classes in UML. However, diagram software might not make it easy to draw these in a visually pleasing manner, or students might choose to draw separate edges which capture the semantics visually, but which is not represented in the underlying diagram format. A good example of this is presented in @fig:submission-154286, where classes ranging from 'SoftwareLicense' until 'CloudService' connect to 'Resources'. However, these edges are drawn individually as straight edges, and any given edge does not connect an inheriting class to the inherited class.
-
-This is a major problem for autograding, as the representation mismatch will cause autograders to grade the individual edges, instead of the semantic concept (for example, multiple-inheritance).
-
-#seshat includes an option `simplify-directed-edges` for this, which looks for multiple edge-to-edge connections that end in a directed edge (an edge with some kind of arrow or diamond on one side). The effect of this recombination is demonstrated in @fig:submission-154286-corrected.
 
 // figures for grading / error correction
 #place(bottom+center, float: true, scope:"parent", [
@@ -352,22 +332,48 @@ This is a major problem for autograding, as the representation mismatch will cau
   )<fig:submission-154286-corrected>
 ])
 
+
+
+==== Edge Label Swapping
+Firstly, #seshat supports edge label swapping. It can happen during the diagram creation process that a student creates labels on an edge, but then drags the labels to other locations. This can be seen with the edge 'Project' $arrow$ 'Deliverable', which has swapped labels 'has ->' and '0..1', in @fig:submission-154286 and @lst:submission-154286-json-snippet.
+
+Having swapped labels is a problem for automatic grading, because #seshat does not consider the visual representation of the submission. When a student drags around labels and the diagram tooling does not automatically swap the labels internally, the file structure does not match the visual structure, which would make #seshat grade a diagram 'incorrectly' according to student and teacher expectations, putting students at an unfair disadvantage.
+
+#seshat includes an option `swap_edge_labels` for this, which looks for labels with large offsets towards another position on the edge and swaps them if possible. The distance at which this occurs is configurable as a percentage of the length of an edge.
+
+==== Edge 'Anchoring'
+Some diagram software, such as UTML, sadly does not allow connecting edges to other edges, which is mandatory syntax for concepts such as UML association classes. Alternatively, students may drag arrows close to vertices or edges but not connect them directly for several possible reasons, including time limitations of exams.
+
+This is a problem for autograders, since _technically_, those edges are not connected to anything, meaning that students will get points deducted for a solution that looks visually correct.
+
+In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to support it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
+
+==== Directed Edge Recombination
+In diagrams, it is not uncommon to have a set of multiple vertices connect to one 'main' vertex. This happens especially often when drawing multiple inheritance classes in UML. However, diagram software might not make it easy to draw these in a visually pleasing manner, or students might choose to draw separate edges which capture the semantics visually, but which is not represented in the underlying diagram format. A good example of this is presented in @fig:submission-154286, where classes ranging from 'SoftwareLicense' until 'CloudService' connect to 'Resources'. However, these edges are drawn individually as straight edges, and any given edge does not connect an inheriting class to the inherited class.
+
+This is a major problem for autograding, as the representation mismatch will cause autograders to grade the individual edges, instead of the semantic concept (for example, multiple-inheritance).
+
+#seshat includes an option `simplify-directed-edges` for this, which looks for multiple edge-to-edge connections that end in a directed edge (an edge with some kind of arrow or diamond on one side). The effect of this recombination is demonstrated in @fig:submission-154286-corrected.
 === Grading process<sec:grading-process>
-After the internal representation is repaired, it can be graded. This is done based on graph comparisons / isomorphism: a teacher solution is compared to a student solution by trying to make a mapping of teacher vertices and edges to those drawn by the student. #seshat grades with the following general graph comparison algorithm:
+After the internal representation is repaired, it can be graded. This is done based on graph comparisons / isomorphism. It requires (1) a teacher solution, (2) a student solution, and (3) a grading rubric which instructs the autograder which error corrections to apply and how many points to give or subtract. 
 
-1. take the teacher's graph ($r$) and a student submission ($s$). Vertices in a graph $g$ are denoted by $V_g$. Edges in $g$ are denoted by $E_g$.
-2. analyse the semantic and syntactic equivalence of all $(v_r,v_s), v_r in V_r, v_s in V_s$ and score it in a range of 0 (no similarity) to 1 (perfect similarity), i.e. $"score"(v_r,v_s) arrow [0..1]$.
+Given a teacher and student graph, #seshat first attempts to map the vertices and edges of the teacher graph (reference) to those drawn by the student (submission). #seshat grades with the following general graph comparison algorithm:
 
-3. take $"max(score("v_r,v_s"))" forall v_r in V_r, v_s in V_s$, given that the score is higher than the threshold (defined in the grading instructions). Put these pairs $v_r arrow v_s$ into a minimal subgraph pair ($g_v_r, g_v_s$)
+1. take the teacher's reference graph ($r$) and the student submission graph ($s$). Vertices in a graph $g$ are denoted by $V_g$. Edges in $g$ are denoted by $E_g$.
+2. analyse the semantic and syntactic equivalence of all $(v_r,v_s), v_r in V_r, v_s in V_s$ and score it in a range of 0 (no similarity) to 1 (perfect similarity), i.e. $s c o r e(v_r,v_s) arrow [0..1]$.
+
+3. for each $v_r in V_r$, take $m a x( s c o r e(v_r,v_s)) forall v_s in V_s$, given that the score is higher than the similarity threshold defined in the grading instructions. Put these pairs $v_r arrow v_s$ into a minimal subgraph pair ($g_v_r, g_v_s$)
 
 4. repeat for each pair $g_v_r, g_v_s$ until no progress is made:
   1. get a list of $e_r in E_r$ that connect to $v_r in g_v_r$ ($E_g_v_r$), and a list of $e_s in E_s$ that connect to $v_s in g_v_s$ ($E_g_v_s$).
   2. $forall e_r in E_r$ get the starting and ending vertices of $e_r$ (if they exist), collect them into $V_g_v_r$. Do the same for $E_s$ ($V_g_v_s$).
-    - make a mapping of $"max(score("v_r,v_s"))", v_r in V_g_v_r, v_s in V_g_v_s$ into `newFixedIds`.
-  3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $e_r in E_r, e_s in E_s$ given that their starting/ending vertices are in $V_r$ or $V_s$ respectively.
+    -  for each $v_r in V_g_v_r$, make a mapping of $m a x(s c o r e(v_r,v_s)) forall v_s in V_g_v_s$ and collect it into `newFixedIds`.
+    - for each $e_r in E_g_v_r$, try to match the first edge in $E_g_v_s$ for which the starting/ending vertices are in `newFixedIds`. Collect these into `newFixedEdgeIds`.
+  3. Add all $(v_r,v_s) in$ `newFixedIds` and add all $(e_r,e_s) in$ `newFixedEdgeIds`.
 
-5. Once no further progress is made, we score the subgraphs $(g_v_r, g_v_s)$ based on how many vertices and edges have been mapped.
-6. We take the highest-scoring subgraph pair as basis and add as many other matching subgraphs, given that the edges and vertices of other subgraph pairs do not appear in the final combined solution yet.
+5. Once no further progress is made, score the subgraphs $(g_v_r, g_v_s)$ based on how many vertices and edges have been mapped: $s c o r e(g_v_r,g_v_s) arrow RR$.
+6. Take the highest-scoring subgraph pair as basis.
+  - For all other subgraphs pairs $g_v_r, g_v_s)$, sorted by score, add , given that the edges and vertices of other subgraph pairs do not appear in the final combined solution yet.
 
 After the last step, we have one final mapping $(g_v_r, g_v_s)_"fin"$ which decides which vertices of the reference solution likely map to the student submission.
 
@@ -376,13 +382,41 @@ After arriving on a final mapping, we apply the user-supplied grading configurat
 This grading configuration also specifies the reparation options specified in @subsec:err-corr. This allows a teacher / grader to specify stricter or looser corrections for a particular dataset, if #seshat performs undesired repairs.
 
 === Visualisation<sec:visualise>
-After arriving on a grade, #seshat needs to show this to the user. Two built-in methods exist: an export to a `.csv` file, containing only the final grades per input file, and an export to `.json` files, one per input file, explaining in detail how #seshat calculated the grade.
+After calculating a grade, #seshat needs a way to show this to the user. Three built-in methods exist for exporting data: export only the final grades to a `.csv` file, export the final grade and a detailed reasoning for why this is the final grade to a `.json` file per submission, or export both a `.csv` file and `.json` files. An example of a `.json` grade export can be seen in @fig:ex-json-export.
 
-#hl("Add example .csv / .json export")
+#place(bottom+center, float: true, scope: "parent", [
+  #figure(caption: [Snippets from the `.json` grade export of submission 1027326 from tCS 2025 q.6], [```json
+{ "final_grade": 4.95, "reason": {
+  "missing_reference_vertices": {},
+  "vertex_grades": { ... },
+  "missing_reference_edges": {},
+  "edge_grades": { 
+    "0": {
+      "presence": { "grade": 1, ... "explanation": "present" },
+      "line_style": { "grade": 0.25, ... "explanation": "equal to sample solution" },
+      "vertex_start": { "grade": 0.1, ... "explanation": "equal to sample solution" },
+      "vertex_end": { "grade": 0.1, ... "explanation": "equal to sample solution" }
+    },
+    "3": { 
+      "presence": { "grade": 1, ... "explanation": "present" },
+      ...
+      "vertex_start": { "grade": 0.1, ... "explanation": "equal to sample solution" },
+      "vertex_end": { "grade": 0.05, ... "explanation": "50% correct multiplicity: should have been '1'" }
+    }, ...
+  }},
+  "vertex_mapping": { "0": 0, "1": 1, ... },
+  "edge_mapping": { "0": 0, "1": 1, "2": 2, "3": 3, "4": 4 }
+}
+```])<fig:ex-json-export>
 
-There is also a demo graph export of a grade, which shows in red, yellow, and green which vertices / edges were incorrect, superfluous, or correct.
+#figure(caption: [Graph (`.dot`) export of submission 1027326 from TCS 2025 q.6],
+  image("pics/grading/1027326_graded_graph.svg")
+)<fig:ex-graph-export>
 
-#hl("add example graded graph")
+])
+
+
+We also include a demo graph export of a grade in GraphViz format, which uses the same graph export functionality as seen in @fig:submission-154286-corrected to visualise a grade. It shows in red, yellow, and green which vertices / edges were incorrect, superfluous, or correct.
 
 There also exists a GraphViz export function for #seshat's internal structure. This allows for easily viewing how different reparation options affect a solution. A JSON export of the graph is also possible, which outputs the exact internal representation of the graph. An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect, however, this is present in the JSON export.
 
@@ -441,7 +475,7 @@ Raw scores, rubrics, and the results are all present in #seshat's code repositor
       label: none, //[ human grade - #seshat grade ]
     ),
 
-    lq.hlines(40, stroke: 0.5mm + purple, label: "Max. score"),
+    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Min./max. score"),
   )
 ])<fig:bit2024>
 
@@ -473,7 +507,7 @@ Note that one submission failed to grade, due to errors in the reparation proces
       range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)).sorted(),
       fill: blue,
       label: none,// [#seshat - human ]
-    ), lq.hlines(4, stroke: 0.5mm + purple, label: "Max. score"),) ])
+    ), lq.hlines(-4, 4, stroke: 0.5mm + purple, label: "Min./max. score"),) ])
 
 Question 5 asks to make a UML class diagram that models a ficticious theme park. The sample rubric is quite concise, giving one point for the correct classes, one point for correct methods / attributes, and a combined two points for correct associations and association types.
 
@@ -500,7 +534,7 @@ Here, the strategy we opted for was similar to @subsec:bit2024: we do not penali
       fill: blue,
       label: none, // [#seshat - human ]
     ),
-    lq.hlines(5, stroke: 0.5mm + purple, label: "Max. score"),
+    lq.hlines(-5, 5, stroke: 0.5mm + purple, label: "Min./max. score"),
   )
 ])
 
@@ -529,7 +563,7 @@ However, initially, #seshat gave quite optimistic scores, on average giving out 
       fill: blue,
       label: none, //[#seshat - human ]
     ),
-    lq.hlines(40, stroke: 0.5mm + purple, label: "Max. score"),
+    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Min./max. score"),
   )
 ])
 
@@ -537,21 +571,21 @@ The BIT 2025 dataset asks students to make a relatively complicated UML class di
 
 #hl("some bigger differences in the grading that need to be worked out and explained for the final deliverable").
 
-= Discussion
+= Discussion<discussion>
 As seen in @results, #seshat can emulate human grading pretty effectively, with most differences stemming from #hl("conclude this in results (likely human error) - but verify and then put results here"). However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is sometimes harsh when grading solutions that are slightly different from the sample solution in subtle ways.
 
 However, it takes a few rounds of revising the example solution and the scoring system to get an approximate grade, meaning that human grading is not very strictly following the rubric. This is partially due to #seshat not being able to find certain edges #hl("add examples") but also partially due to the inherent inconsistency, or possibly foregiveness, in human grading.
 
 More generally: autograding with a sample solution offers another paradigm of grading: instead of having a teacher make a rubric for a particular exercise, it forces them to think about possible solution graphs. The possible example solutions are the rubric. This works quite well for exercises with defined solutions (ex.: 2025 TCS question 6, 2025 BIT), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
 
+== Future work
+ILOs could have been added to the grading configuration, providing a nice feature, explain how, but there's not a lot of use when comparing pure scores. But it's nice for students to see how well they understand each learning objective.
 
-#hl("discuss that ILOs could have also been added - it's a nice feature, explain how, but there's not a lot of use when comparing pure scores. But it's nice for students to see how well they understand each learning objective.")
+#seshat is currently not very user-friendly, and very unfit for use by people that are not intimately familiar with the terminal, as #seshat currently only offers a terminal-based CLI. Given its architecture, it is relatively trivial to build a graphical interface around it, and it would be an interesting idea to see if #seshat can, with some user experience improvements, be adopted into the grading workflow, using the suggested workflow given in @results.
 
-ALTERNATIVES to sample solution:
-- One could take the rubric and make an autograder that strictly follows this rubric. This could handle alternatives a bit better (this association can also be a composition) - but this is emulateable in the current graph isomorphism strategy: make both edge or vertex variants and don'tdeduct points for missing edges, or deduct some points but add double the points for present edges.
+As mentioned in @discussion, #seshat does not directly work with the grading rubrics that teachers have been using traditionally. It might be interesting to modify #seshat's grading process to be able to take in such a grading rubric, and see which style of grading is preferred by teachers. This could give more insights into the possible adoption of autograders by teaching staff.
 
-
-= Conclusion
+= Conclusion<conclusion>
 In this research, we investigate to what extent we can automate the process of grading UML diagrams while maintaining or improving the _accuracy_, _consistency_, and _grading transparency_ of human grading. To achieve this, we consult existing work for possible solutions, but find no implementations that share the full program (source code or other types of instructions) _and_ that offer high accuracy, consistency, grading transparency, and support UTML or can be extended to support it.
 
 Hence, we build our own autogarder: #seshat, which uses the best performing algorithms from existing work: a custom structural graph matching algorithm based on the work of #cite(<thomas2009>, form: "prose") to match parts of a sample solution to a given student submission, semantic matching using the sentence transformer `all-MiniLM-L6-v2` to account for synonyms, and syntactic matching using `Levenshtein` distance to account for spelling mistakes.
