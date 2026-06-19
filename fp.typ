@@ -385,7 +385,7 @@ This grading configuration also specifies the reparation options specified in @s
 After calculating a grade, #seshat needs a way to show this to the user. Three built-in methods exist for exporting data: export only the final grades to a `.csv` file, export the final grade and a detailed reasoning for why this is the final grade to a `.json` file per submission, or export both a `.csv` file and `.json` files. An example of a `.json` grade export can be seen in @fig:ex-json-export.
 
 #place(bottom+center, float: true, scope: "parent", [
-  #figure(caption: [Snippets from the `.json` grade export of submission 1027326 from tCS 2025 q.6], [```json
+  #figure(caption: [Snippets from the `.json` grade export of submission 1027326 from TCS 2025 q.6], [```json
 { "final_grade": 4.95, "reason": {
   "missing_reference_vertices": {},
   "vertex_grades": { ... },
@@ -409,7 +409,7 @@ After calculating a grade, #seshat needs a way to show this to the user. Three b
 }
 ```])<fig:ex-json-export>
 
-#figure(caption: [Graph (`.dot`) export of submission 1027326 from TCS 2025 q.6],
+#figure(caption: [Demo graph (`.dot`) export of submission 1027326 from TCS 2025 q.6.],
   image("pics/grading/1027326_graded_graph.svg")
 )<fig:ex-graph-export>
 
@@ -441,16 +441,15 @@ Secondly, the manner in which humans have constructed the rubrics in the dataset
 Thirdly, the datasets do not provide details about which humans graded which submissions, when those submissions were graded, which reasoning was behind each of the grades, along with a variety of other factors. Especially the reasoning behind a grade would have been useful to discern the different types of grading deductions, which would help with result quality. However, since we only get a final grade to work with, we have to guess why grades were constructed by humans, and aim to achieve a similar leniency and error correction. This process is additionally prone to bias from the author.
 
 = Results<results>
-For gathering the results, we:
-1. make *one* best-guess sample solution based on the rubric 
-2. create a grading configuration (how many points to add/deduct for present/absent vertices/edges etc.) based on the rubric provided by each dataset (the rubric is in a separate text file, or included in the results.csv)
-3. use #seshat to grade the diagrams of the dataset with our sample solution and our grading instructions
-4. combine #seshat's results and human results into one `.csv`
-5. Visualise the results in our paper
-6. Refine the sample solution and grading config (perform steps 1-5) approximately two times over, to make the grading results align more with human grading, while maintaining the spirit of the original rubric.
-#hl("write nicer").
+For gathering results, we employed the following methodology: we read the rubric and, if present, the explanatory text of the exercise, and make a first sample solution. We also exactly construct a grader config with error repairs on and we award / subtract as many points as the grading rubric instructs to.
 
-Raw scores, rubrics, and the results are all present in #seshat's code repository @seshat.
+Then, we run #seshat on the dataset with our initial rubric, combine the human and autograding into one file, and graph the difference in grading in the paper. We aim to get a flat line, meaning that there is no difference in human or autograding.
+
+We inspect the outliers, sorting by biggest difference and sampling roughly every 20 submissions. We note our initial results in the paper, giving the initial average difference. We determine if the difference is up to human error or if #seshat is configured or programmed wrongly. If #seshat is incorrect, we revise the code or the grading rubric and grade the entire dataset again.
+
+We repeat this procedure two to five times, after which we write down our final results.
+
+We save the raw scores, example rubrics, and the results in our code repository @seshat.
 
 == BIT 2024<subsec:bit2024>
 #let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
@@ -464,10 +463,8 @@ Raw scores, rubrics, and the results are all present in #seshat's code repositor
     title: [BIT 2024, question 1], ylabel: [score difference], xlabel: [submission],
     legend: (position: center + bottom),
     margin: (top: 20%),
-
-    xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate(), 
-      subticks: none,
-    ),
+    xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate()
+      subticks: none ),
 
     lq.bar(
       range(bit2024d.len()), bit2024d.map(r => r.at(1)-r.at(0)).sorted(),
@@ -481,10 +478,10 @@ Raw scores, rubrics, and the results are all present in #seshat's code repositor
 
 The BIT 2024 dataset contains one question (q.1) about drawing a class diagram for an Electric Vehicle Charging Network. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
 
-After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total (0.5 per edge end) for correct edge multiplicities, the scores were extremely negative compared to the human grading, handing out a consistent on average -10 points. After inspecting a few of the most outrageous offenders with differences of 20-30 points it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved drastically with an average difference of #{calc.round(digits: 2, bit2024d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2024d.len())} out of 40 points. This can be seen in @fig:bit2024. However, there are still outliers which were graded differently by more than half the total score. #hl("Explain this in the final deliverable -> steekproef -> give reason why different -> change grader/explain why human bad -> grade again").
+After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total for correct edge multiplicities, the scores were extremely negative compared to the human grading, with average autograder scores being on average 10 points lower. After inspecting a few of the most outrageous offenders with differences of 20-30 points it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved drastically with an average difference of #{calc.round(digits: 2, bit2024d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2024d.len())} out of 40 points. This can be seen in @fig:bit2024. 
 
+#hl("TODO - re-inspect and grade again max. three times and write results in final report. Don't forget to write down human/seshat errors!")
 
-Note that one submission failed to grade, due to errors in the reparation process (#hl("submission 148587 - todo investigate why and fix for final deliverable").
 
 == TCS 2025<subsec:tcs2025>
 === Question 5<subsec:tcs2025q5>
@@ -498,10 +495,7 @@ Note that one submission failed to grade, due to errors in the reparation proces
     title: [TCS 2025 q.5], ylabel: [score difference], xlabel: [submission],
     legend: (position: center + bottom),
     margin: (top: 20%),
-
-    xaxis: ( ticks: none,
-      subticks: none,
-    ),
+    xaxis: ( ticks: none,  subticks: none, ),
 
     lq.bar(
       range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)).sorted(),
@@ -511,7 +505,9 @@ Note that one submission failed to grade, due to errors in the reparation proces
 
 Question 5 asks to make a UML class diagram that models a ficticious theme park. The sample rubric is quite concise, giving one point for the correct classes, one point for correct methods / attributes, and a combined two points for correct associations and association types.
 
-Here, the strategy we opted for was similar to @subsec:bit2024: we do not penalise extra classes and instead only award points related to how much of the sample solution the submission graph contains. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked a lot more reasonable, at an average grade difference of #{calc.round(digits: 2, tcs2025q5d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / tcs2025q5d.len())} out of 4 points. However, there are still outliers which were graded differently by more than half the total score. #hl("Explain this in the final deliverable -> steekproef -> give reason why different -> change grader/explain why human bad -> grade again").
+Here, the strategy we opted for was similar to the BIT 2024 dataset, giving only scores for present classes and associations and not deducting points for extra classes. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked a lot more reasonable, at an average grade difference of #{calc.round(digits: 2, tcs2025q5d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / tcs2025q5d.len())} out of 4 points. 
+
+However, there are still outliers which were graded differently by more than half the total score. #hl("TODO regrade two / three more times like BIT 2024").
 
 === Question 6<subsec:tcs2025q6>
 #let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
@@ -524,10 +520,7 @@ Here, the strategy we opted for was similar to @subsec:bit2024: we do not penali
     title: [TCS 2025 q.6], ylabel: [score difference], xlabel: [submission],
     legend: (position: center + bottom),
     margin: (top: 20%),
-
-    xaxis: ( ticks: none,
-      subticks: none,
-    ),
+    xaxis: ( ticks: none, subticks: none, ),
 
     lq.bar(
       range(tcs2025q6d.len()), tcs2025q6d.map(r => r.at(1)-r.at(0)).sorted(),
@@ -567,9 +560,7 @@ However, initially, #seshat gave quite optimistic scores, on average giving out 
   )
 ])
 
-The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities. The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, bit2025d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2025d.len())} of out 40 points.  #hl("this needs to be refined a bit more - look at the lowest scoring solutions and see why it's wrong, likely some edge detection thing or multiplicities.").
-
-#hl("some bigger differences in the grading that need to be worked out and explained for the final deliverable").
+The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities. The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, bit2025d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2025d.len())} of out 40 points.  #hl("regrade 2-3 times like previous datasets - look at the lowest scoring solutions and see why it's wrong, likely some edge detection thing or multiplicities.").
 
 = Discussion<discussion>
 As seen in @results, #seshat can emulate human grading pretty effectively, with most differences stemming from #hl("conclude this in results (likely human error) - but verify and then put results here"). However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is sometimes harsh when grading solutions that are slightly different from the sample solution in subtle ways.
