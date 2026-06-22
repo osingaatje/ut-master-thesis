@@ -51,7 +51,7 @@ Unified Modelling Language (UML) diagrams, introduced by the Object Management G
 
 However, the grading of these diagrams is often a costly and lengthy process, involving multiple paid staff members @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies due to various reasons @Ahmed2024, with a major factor being the inherent inconsistency of human graders @Ahmed2024 @Meadows2005. #cite(<Meadows2005>, form: "prose") pose two possible solutions to the problem of human grading: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_.
 
-The (partial) automatisation of grading diagrams ('autograding')  a grading paradigm that can both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic.")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior performance compared to human grading in terms of *accuracy*, *grading transparency*, and *consistency*.
+The (partial) automatisation of grading diagrams ('autograding')  a grading paradigm that can both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic.")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior performance compared to human grading in terms of *accuracy*, *consistency*, and *grading transparency*.
 
 With _accuracy_, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With _consistency_, we mean both the extent to which similar grades are given to similar submissions and the difference between consecutive runs (i.e. determinism). With _grading transparency_, we mean the extent to which the reasoning for a particular grade is explained with regards to the rubric for the exercise or to the Intended Learning Objectives (ILOs) of a module. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance (_accuracy_), allows them to see which parts they could improve for future assignments (_grading transparency_), and is minimally unfair (_consistency_).
 
@@ -95,7 +95,7 @@ We aim to answer the main research question with the following research question
 
 #rq([ *RQ3*: To what extent does the suitable autograder compare to human grading in the context of grading first-year UML exam questions? ])
 
-*RQ1* is answered in @relatedwork, by analysing existing work for suitability of grading. These works are categorised according to the requirements outlined by *RQ1* and presented in @tbl:grader-suitability. @solution explains the features and reasoning behind #seshat. @results offers perspectives into its performance compared to human grading, after which we discuss and conclude in #hl([SECTION TODO]).
+*RQ1* is answered in @relatedwork, by analysing existing work for suitability of grading. These works are categorised according to the requirements outlined by *RQ1* and presented in @tbl:grader-suitability. @solution explains the features and reasoning behind #seshat. @results offers perspectives into its performance compared to human grading, after which we discuss in @discussion and conclude in @conclusion.
 
 = Related work <relatedwork>
 In order to answer research questions *RQ1*, we conduct a small-scale literature mapping study @Soaita2019. We aim to provide an comprehensive, but not exhaustive, view into the world of autograders and ILOs, which is why we omit formal inclusion and exclusion criteria. Works are collected using the search engines Google Scholar#footnote(link("https://scholar.google.com")) and ResearchGate#footnote(link("https://www.researchgate.net")). Autograder material is queried with terms including but not limited to "automatically grading UML diagrams", "autograder diagram", "UML diagram assessment", "machine learning diagrams", and "diagram evaluation assessment AI". Material regarding ILOs and ILO integration into rubrics was searched with terms such as "learning outcomes include in rubric", "learning objectives in rubrics", and similar. Snowballing (the practice of looking at sources of sources) is used, to a depth of 1. After starting with roughly 40-45 works and removing the non-relevant or less noteworthy papers, we arrive at a compact set of sources that offer a general view of autograding across literature.
@@ -181,7 +181,7 @@ In conclusion, while ML/GenAI grading has been attempted in recent years, purely
 
 
 == Conclusion
-In the explored related work, existing frameworks primarily recommend structural matching in combination with syntactic and semantic matching to account for spelling mistakes and the use of synonyms. Existing implementations mostly use the methods recommended by the frameworks, with the best results stemming from determinstic graph isomorphism algorithms. Purely AI-driven methods may require less effort from teachers, since teachers do not need to produce sample diagrams but can describe their rubric in words, but produce noticeably inferior results to graph matching algorithms. Using hybrid methods, specifically using AI-driven classification algorithms only for semantic/syntactic matching, seems to produce similar results to 'pure' graph matching algorithms, but does not necessarily provide accuracy gains over algorithmic solutions and can additionally introduce nondeterminism in otherwise determinstic solutions, reducing consistency.
+In the explored related work, existing frameworks primarily recommend structural matching in combination with syntactic and semantic matching to account for spelling mistakes and the use of synonyms. Existing implementations mostly use the methods recommended by the frameworks, with the best results stemming from determinstic graph isomorphism algorithms. While GenAI autograders may require less effort from teachers, since teachers do not need to produce sample diagrams but can describe their rubric in words, they produce noticeably inferior results to graph matching algorithms and are likely to introduce nondeterminism into the grading process which reduces consisency. Using hybrid methods, specifically using ML classification algorithms only for semantic/syntactic matching, seems to produce similar results to 'pure' graph matching algorithms, but is not guaranteed to provide accuracy gains over algorithmic solutions.
 
 
 #place(top+center, scope: "parent", float: true, [
@@ -215,28 +215,28 @@ In the explored related work, existing frameworks primarily recommend structural
 
   #figure(
     table(fill: (x,y) => if x > 0 { none } else if y < 11 { bg-col-algo } else if y == 11 { bg-col-ml } else if y < 14 { bg-col-ai } else { gradient.linear(bg-col-algo, bg-col-algo, bg-col-algo,bg-col-ml, bg-col-ml, bg-col-ml, angle: 40deg) },
-      columns: (1.6cm, auto, auto, 1fr, 1fr, 1fr, auto,auto,auto,auto,1.4fr,1.8fr),
+      columns: (1.65cm, auto, auto, 1fr, 1fr, 1fr, auto,auto,auto,auto,1.4fr,1.8fr),
       inset: 3pt,
       align: (center+horizon, left+horizon, left+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon, center+horizon,),
       table.header(
         [Met.], [Author],                                        [Diagrams types],         [Ac], [Co], [Tr], [F],[A],[I],[R], [ILO],[UTML],
       ),
 
-      [Alg], [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
-      [Alg], [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
-      [Alg], [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [-],[-],[i],[r],  [N],  [N],
-      [Alg], [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
-      [Alg], [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
-      [Alg], [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [-],[-],[-],[-],  [N],  [N],
-      [Alg], [#cite(<AlRawashdeh2014>, form: "prose")],      [UML State/Sequence],[?],  [H],  [?],  [-],[-],[I],[-],  [N],  [N],
-      [Alg], [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [-],[-],[I],[-],  [N],  [N],
-      [Alg], [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[-],[-],[I],[r],  [N],  [N],
-      [Alg], [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[-],[-],[I],[r],[N],[N],
+      [Alg.], [#cite(<Bian2020>, form: "prose")],                [UML Class],    [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
+      [Alg.], [#cite(<Hosseinibaghdadabadi2023>, form: "prose")],[UML Use Case], [H],  [H],  [H],  [-],[-],[i],[r],   [N],  [N],
+      [Alg.], [#cite(<anas2021>, form: "prose")],                [UML Class],    [M],  [H],  [H],  [-],[-],[i],[r],  [N],  [N],
+      [Alg.], [#cite(<Modi2021>, form: "prose")],                [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
+      [Alg.], [#cite(<Jebli2023>, form: "prose")],               [UML Class],    [?],  [H],  [H],  [-],[-],[-],[-],  [N],  [N],
+      [Alg.], [#cite(<Ali2007>, form: "author") @Ali2007 @Ali2007b],[UML Class], [?],  [H],  [L],  [-],[-],[-],[-],  [N],  [N],
+      [Alg.], [#cite(<AlRawashdeh2014>, form: "prose")],      [UML State/Sequence],[?],  [H],  [?],  [-],[-],[I],[-],  [N],  [N],
+      [Alg.], [#cite(<Striewe2011>, form: "prose")],             [UML Class],    [?],  [H],  [H],  [-],[-],[I],[-],  [N],  [N],
+      [Alg.], [#cite(<Foss2022>, form: "author") @Foss2022 @Foss2022a @Foss2022b],[ER],[?],[H],[?],[-],[-],[I],[r],  [N],  [N],
+      [Alg.], [#cite(<thomas2009>, form: "author") @thomas2004 @thomas2006 @thomas2008 @thomas2009 @thomas2011],[ER],[H],[H],[H],[-],[-],[I],[r],[N],[N],
 
       [ML], [#cite(<Stikkolorum2019>, form: "prose")],         [UML Class],    [L],  [L],  [L],  [-],[-],[-],[-],   [N],  [N],
       [GenAI], [#cite(<Wang2025>, form: "prose")],                [UML],          [M],  [L],  [M],  [F],[a],[I],[r],   [N],  [N],
       [GenAI], [#cite(<Bouali2025>, form: "prose")],              [UML Class],    [M],  [L],  [M],  [F],[a],[I],[r],   [N],  [N],
-      [Alg/ML], [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [H],  [H],  [F],[a],[i],[r],   [N],  [N],
+      [Alg./ML], [#cite(<RajiRamachandran2025>, form: "prose")],    [ER],           [H],  [H],  [H],  [F],[a],[i],[r],   [N],  [N],
     ),
     caption: figure.caption(position: bottom, [
       Autograders and their suitability scores. \
@@ -252,12 +252,12 @@ In the explored related work, existing frameworks primarily recommend structural
 
 
 = Seshat <solution>
-In order to automatically grade student submissions, we develop #seshat @seshat: a generic autograder capable of automatically analysing and grading theoretically any type of diagram. For the purposes of this paper, we offer built-in support for UTML.
+In order to automatically grade student submissions, we develop #seshat @seshat: a generic autograder theoretically capable of automatically analysing and grading any type of diagram, with out-of-the-box support for UTML.
 
 == Techniques
 #seshat uses the techniques from @relatedwork and @tbl:grader-suitability which gave the best results in terms of accuracy, consistency, and grading transparency: a graph isomorphism algorithm for structural matching, Levenshtein distance for syntatic matching, and `all-MiniLM-L6-v2` @all-minilm-l6-v2 for semantic matching.
 
-We first tried out Princeton's WordNet @princeton-wordnet as semantic matching, as it also performs semantic similarity checks and was mentioned in multiple papers @Bian2019 @Hosseinibaghdadabadi2023, but these scores did not reflect the expected semantic similarity after testing with several self-synthesised examples and some example synonyms from the datasets#footnote([See `semantic_match_test.go` @seshat]). This is likely the case because WordNet strictly matches according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched since 'Port' is in a different WordNet category than 'Station', even though in the exercise they are semantically similar, while examples such as 'Team Member' and 'Virtual Machine' got a semantic match, while sharing no semantic similarity within any of the datasets. It may of course also be the case that our comparison algorithm, which splits both the reference and submission text into words, compares all reference words to all submission words, and adds up all similarities, is not the correct way to approach this manner.
+We first tried out Princeton's WordNet @princeton-wordnet as semantic matching, as it also performs semantic similarity checks and was mentioned in multiple papers @Bian2019 @Hosseinibaghdadabadi2023, but these scores did not reflect the expected semantic similarity after testing with several self-synthesised examples and some example synonyms from the datasets#footnote([See `semantic_match_test.go` @seshat]). This is likely the case because WordNet strictly matches according to the hierarchy of singular words, meaning that examples in the dataset such as 'ChargingPort' v.s. 'ChargingStation' would not be matched since 'Port' is in a different WordNet category than 'Station', even though in the exercise they are semantically similar, while examples such as 'Team Member' and 'Virtual Machine' got a semantic match, while sharing no semantic similarity within any of the datasets. It may of course also be the case that our comparison algorithm, which splits the reference and submission text/sentence into words, sums all semantic similarities of each word combination, and divides it by the longest sentence, is not the correct way to approach this manner.
 
 == Architecture and Language
 #place(top+center, float: true, scope: "column", [
@@ -268,11 +268,13 @@ We first tried out Princeton's WordNet @princeton-wordnet as semantic matching, 
 
 The goal of #seshat is to take input (from either exam exports, a list of files, or via some other format), transform the input into an internal graph representation, run comparison algorithms on it defined in @subsec:relatedwork-autograder-algorithmic which produces a set of scores (a 'grade'), and format this grade in a certain way. The exact methodology, algorithms, and visualisations are likely to change, which is why we aim to maximally decouple these parts.
 
-In order to achieve this, we implement a query-based architecture akin to that of the Rust compiler @rustc-book (an example is given in @fig:arch). This encourages decoupling each stage of the process, and additionally increases transparency internally in the grading process, as one can easily query intermediate solutions from the grading process. Testing components is also inherently made easier due to the split-up functionality.
+In order to achieve this, we implement a query-based architecture akin to that of the Rust compiler @rustc-book, shown in @fig:arch. This encourages decoupling each stage of the process, and additionally increases transparency internally in the grading process, as one can easily query intermediate solutions from the grading process. Testing components is also inherently made easier due to the split-up functionality.
 
-This architecture also allows us to cache all stages of the grading process if they are split up into separate queries, which should allow for some improvements in grading speed. Note that this is only possible because the autograder only contains determinstic algorithms.
+This architecture also allows us to cache all stages of the grading process if they are split up into separate queries, which should allow for some improvements in grading speed. Note that this is only possible without altering the results of #seshat because it does not contain non-determinstic algorithms.
 
-The autograder is entirely written in Go @golang. We opted for Go as it is quite fast, strict enough to enforce the architecture seen in @fig:arch, but still has a garbage collector which speeds up development and eliminates memory leaks. Additionally, a Command Line Interface (CLI) is included to showcase an implementation that works with the query architecture, as well as provide the author with an easy way to grade the datasets.
+The autograder is entirely written in Go @golang. We opted for Go as it is a compiled, statically typed language, which has strict enough typing to enforce the architecture seen in @fig:arch, but still has a garbage collector, which speeds up development and eliminates memory leaks.
+
+Additionally, #seshat includes a Command Line Interface (CLI) to showcase the query architecture, as well as provide the author with an easy way to grade the datasets.
 
 == Features
 This section describes the feature set of #seshat by walking the reader through the process of grading a dataset. Features are explained in the order of the grading process.
@@ -281,9 +283,9 @@ This section describes the feature set of #seshat by walking the reader through 
 The parsing step transforms a diagram file into an structure that #seshat can understand. For UTML, it merely parses the JSON UTML structure and adds some metadata such as the file name.
 
 === Transformation into \ internal representation
-In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice is made to separate the grading from any one specific diagram format, a mistake made in some other autograders (see @tbl:grader-suitability). Separating the grading from a diagram format has the benefit of being able to easily integrate new diagram formats into #seshat by merely writing a translation from a particular format into an internal representation.
+In order to be able to grade diagrams, #seshat uses an internal representation of a graph. This choice is made to separate the grading from any one specific diagram format, a mistake made in some other autograders (see @tbl:grader-suitability). Separating the grading from a diagram format has the benefit of being able to easily integrate new diagram formats into #seshat, just by writing a translation from a particular format into the internal representation.
 
-To support as many diagram formats as possible, this internal graph definition is very loosely defined. It contains as little semantic concepts as possible (inheritance, multiplicities, etc.) as it aims to capture the literal shapes and text. This allows #seshat to store possibly broken submissions, which allows us to explicitly check the well-formedness of a graph at a defined stage, or ignore certain broken aspects of graphs, which helps in the perceived _leniency_ of the autograder and should bring it closer to human grading.
+To support as many diagram formats as possible, this internal graph definition is very loosely defined. It contains as little semantic concepts as possible (inheritance, multiplicities, etc.) as it aims to capture the literal shapes and text. This allows #seshat to store possibly broken submissions according to standards such as UML, which gives us the flexibility to check the well-formedness of a graph at a defined stage after parsing, or ignore certain 'broken' aspects of graphs, which helps in the perceived _leniency_ of the autograder and should bring it closer to human grading.
 
 The structure is defined by some metadata such as the filename and a collection of vertices and edges. Each vertex and edge has a unique identifier. Vertices additionally contain a title, some values (fields or methods), certain optional semantic properties such as visibility (public/private/protected/...) and type (Class/Interface/...), and visual properties such as location and size. Edges are always directed and can connect at either end to a vertex, edge or nothing. Next to an identifier, they have stylistic properties for the starting and ending point of the edge, such as arrow style and text, as well as general stylistic properties, such as the style of the edge (dotted or solid). Finally, each edge has visual properties that define the edge's path. This path can be of any length, allowing for complex paths.
 
@@ -465,6 +467,7 @@ We save the raw scores, example rubrics, and the results in our code repository 
     margin: (top: 20%),
     xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate()
       subticks: none ),
+    yaxis: ( lim: (-40.5,40) ),
 
     lq.bar(
       range(bit2024d.len()), bit2024d.map(r => r.at(1)-r.at(0)).sorted(),
@@ -472,7 +475,7 @@ We save the raw scores, example rubrics, and the results in our code repository 
       label: none, //[ human grade - #seshat grade ]
     ),
 
-    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Min./max. score"),
+    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Max. score"),
   )
 ])<fig:bit2024>
 
@@ -495,13 +498,15 @@ After implementing the rubric in code exactly, giving 1 point per present class 
     title: [TCS 2025 q.5], ylabel: [score difference], xlabel: [submission],
     legend: (position: center + bottom),
     margin: (top: 20%),
+
     xaxis: ( ticks: none,  subticks: none, ),
+    yaxis: ( lim: (-4,4) ),
 
     lq.bar(
       range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)).sorted(),
       fill: blue,
       label: none,// [#seshat - human ]
-    ), lq.hlines(-4, 4, stroke: 0.5mm + purple, label: "Min./max. score"),) ])
+    ), lq.hlines(-4, 4, stroke: 0.5mm + purple, label: "Max. score"),) ])
 
 Question 5 asks to make a UML class diagram that models a ficticious theme park. The sample rubric is quite concise, giving one point for the correct classes, one point for correct methods / attributes, and a combined two points for correct associations and association types.
 
@@ -521,13 +526,14 @@ However, there are still outliers which were graded differently by more than hal
     legend: (position: center + bottom),
     margin: (top: 20%),
     xaxis: ( ticks: none, subticks: none, ),
+    yaxis: ( lim: (-6,6) ),
 
     lq.bar(
       range(tcs2025q6d.len()), tcs2025q6d.map(r => r.at(1)-r.at(0)).sorted(),
       fill: blue,
       label: none, // [#seshat - human ]
     ),
-    lq.hlines(-5, 5, stroke: 0.5mm + purple, label: "Min./max. score"),
+    lq.hlines(-5, 5, stroke: 0.5mm + purple, label: "Max. score"),
   )
 ])
 
@@ -539,13 +545,14 @@ However, initially, #seshat gave quite optimistic scores, on average giving out 
 #let bit2025data = csv("data/2025_M2_BIT/GRADE_RESULTS/2025_M2_BIT_combined.csv").slice(1)
 #let (bit2025dc, bit2025d) = (bit2025data.map(r => r.at(0)), bit2025data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Sorted by increasing difference.], [
+#figure(caption: [Difference in human and automatic grading for the BIT 2025 dataset, question 1. Sorted by increasing difference.], [
   #lq.diagram(
     width: 90%,
     height: 3cm,
     title: [BIT 2025 q.1], ylabel: [score difference], xlabel: [submission],
     legend: (position: center + bottom),
     margin: (top: 20%),
+    yaxis: ( lim: (-40.5,40) ),
 
     xaxis: ( ticks: none,
       subticks: none,
@@ -556,44 +563,46 @@ However, initially, #seshat gave quite optimistic scores, on average giving out 
       fill: blue,
       label: none, //[#seshat - human ]
     ),
-    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Min./max. score"),
+    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Max. score"),
   )
 ])
 
 The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities. The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, bit2025d.fold(0, (v, r) => v + r.at(1) - r.at(0)) / bit2025d.len())} of out 40 points.  #hl("regrade 2-3 times like previous datasets - look at the lowest scoring solutions and see why it's wrong, likely some edge detection thing or multiplicities.").
 
+
 = Discussion<discussion>
-As seen in @results, #seshat can emulate human grading pretty effectively, with most differences stemming from #hl("conclude this in results (likely human error) - but verify and then put results here"). However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is sometimes harsh when grading solutions that are slightly different from the sample solution in subtle ways.
+As seen in @results, #seshat can emulate human grading pretty effectively, with most differences stemming from #hl("conclude this in results (likely human error) - but verify and then put results here"). However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is often harsh when grading slightly different solutions compared to human grading.
 
-However, it takes a few rounds of revising the example solution and the scoring system to get an approximate grade, meaning that human grading is not very strictly following the rubric. This is partially due to #seshat not being able to find certain edges #hl("add examples") but also partially due to the inherent inconsistency, or possibly foregiveness, in human grading.
+While trying to emulate human grading, it took a few rounds of revision to the example solution and the scoring system to get an approximately similar result. After fixing some bugs and improving autograder performance, the difference mainly seems to stem from human grading not very strictly following the rubric.
 
-More generally: autograding with a sample solution offers another paradigm of grading: instead of having a teacher make a rubric for a particular exercise, it forces them to think about possible solution graphs. The possible example solutions are the rubric. This works quite well for exercises with defined solutions (ex.: 2025 TCS question 6, 2025 BIT), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
+The differences are also likely caused from the different paradigm of grading with a sample solution. Wit h a sample solution, instead of having a teacher make a rubric for a particular exercise and having graders interpret the rubric, inherently leaving room for error, it forces teachers to think about concrete possible solutions. With sample solutions, the possible solutions *are* the rubric. This works quite well for exercises with defined solutions (for example TCS 2025 q.6 mentioned in @subsec:tcs2025q6), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
 
 == Future work
-ILOs could have been added to the grading configuration, providing a nice feature, explain how, but there's not a lot of use when comparing pure scores. But it's nice for students to see how well they understand each learning objective.
+Firstly, Due to time constraints we did not end up fully integrating ILO linking into the grading process. While it offers a concrete summary for students into which how well they achieved certain learning objectives, there is not a lot of use for it in the pure grading work. Future work could look at the effectiveness of giving students grading results with ILO scores to see how this helps students understand their test results.
 
-#seshat is currently not very user-friendly, and very unfit for use by people that are not intimately familiar with the terminal, as #seshat currently only offers a terminal-based CLI. Given its architecture, it is relatively trivial to build a graphical interface around it, and it would be an interesting idea to see if #seshat can, with some user experience improvements, be adopted into the grading workflow, using the suggested workflow given in @results.
+Secondly, we did not implement functionality to compare multiple alternative solutions #hl("add support for a set of sample solutions and take max grade as described in related work")
 
-As mentioned in @discussion, #seshat does not directly work with the grading rubrics that teachers have been using traditionally. It might be interesting to modify #seshat's grading process to be able to take in such a grading rubric, and see which style of grading is preferred by teachers. This could give more insights into the possible adoption of autograders by teaching staff.
+Thirdly, #seshat is currently not very user-friendly, and very unfit for use by teaching staff that are not intimately familiar with the terminal. Luckily, given its architecture, it is trivial to build a graphical interface around it. It would be an interesting idea to see if #seshat can, with some user experience improvements, be adopted into a real-life grading workflow, possibly using the suggested workflow used in @results.
+
+Lastly, as previously mentioned in @discussion, #seshat does not directly work with the traditional grading rubrics of teaching staff. It might be interesting to see whether adopting #seshat's grading process for using grading rubrics could help it resemble human grading more. This could also give more insights into the possible adoption of autograders by teaching staff.
+
 
 = Conclusion<conclusion>
-In this research, we investigate to what extent we can automate the process of grading UML diagrams while maintaining or improving the _accuracy_, _consistency_, and _grading transparency_ of human grading. To achieve this, we consult existing work for possible solutions, but find no implementations that share the full program (source code or other types of instructions) _and_ that offer high accuracy, consistency, grading transparency, and support UTML or can be extended to support it.
+In this research, we investigate to what extent we can automate the process of grading UML diagrams while maintaining or improving the _accuracy_, _consistency_, and _grading transparency_ of human grading. To achieve this, we consult existing work for possible solutions (*RQ1*), but find no implementations that share the full program (source code or other types of instructions) _and_ that offer high accuracy, consistency, grading transparency, and support UTML or can be extended to support it.
 
-Hence, we build our own autogarder: #seshat, which uses the best performing algorithms from existing work: a custom structural graph matching algorithm based on the work of #cite(<thomas2009>, form: "prose") to match parts of a sample solution to a given student submission, semantic matching using the sentence transformer `all-MiniLM-L6-v2` to account for synonyms, and syntactic matching using `Levenshtein` distance to account for spelling mistakes.
+Hence, we successfully build our own autograder: #seshat (*RQ2*). #seshat uses the best performing algorithms from existing work: a custom structural graph matching algorithm based on the work of #cite(<thomas2009>, form: "prose") to map parts of a sample solution to a given student submission, semantic matching using the sentence transformer `all-MiniLM-L6-v2` to account for synonyms, and syntactic matching using `Levenshtein` distance to account for spelling mistakes.
 
 While building and testing #seshat, we discover that UTML fundamentally cannot express certain UML concepts and that student submissions often appear visually correct but have an incorrect internal structure. We implement, explain, and showcase a few _reparation_ methods to still be able to grade 'imprecise' solutions.
 
-Finally, we compare #seshat's grading against human grades and discover that #hl("write results").
+Finally, we compare #seshat's grading against human grades (*RQ3*). We discover that #hl("write results").
 
-To answer our main research question: we can almost entirely automate the process of grading diagrams. The only thing a human needs to do in order to use #seshat is to provide a grading rubric specifying how many points to award/deduct for certain attributes of a diagram and to provide a (set of) sample solution(s). However, to ensure the grading aligns with the expectations of a teacher, the results need to be randomly investigated, and the grading rubric or sample solution(s) possibly revised a few times.
+To answer our main research question (*MRQ*): we can almost entirely automate the process of grading diagrams, at least for questions that have a clearly defined (set of) sample solution(s). The only thing a human needs to do in order to use #seshat is to provide a grading rubric specifying how many points to award/deduct for certain attributes of a diagram and to provide a (set of) sample solution(s). However, to ensure the grading aligns with the expectations of a teacher, the results need to be randomly sampled and verified, and the grading rubric / sample solution revised. According to our experience with #seshat, if the goal is similar grading to teaching staff, this revision typically requires two to three cycles.
 
-It is also possible to automate this process while *improving* consistency, transparency, and fairness, compared to human grading. #hl("results todo").
+The automation of human grades can also be done while theoretically *maintaining* accuracy and arguably *improving* consistency, and transparency, compared to human grading. While in our testing, we #hl("did not get close results to grading - todo write more"), you can theoretically construct a grading rubric and a set of alternative sample solutions to perfectly mimic the rubric, thereby acing accuracy. Additionally, since #seshat uses determinstic algorithms for comparing a sample solution to a student submission, it is guaranteed that the same submission receives the same grade, hence resulting in perfect consistency. Finally, transparency is also hard to beat, since the detailed grading rubric states exactly which points were awarded or deducted, for what reason, and optionally for which ILO it counts.
 
-#hl("word this nicely:")
-- now the challenge for teachers becomes to design unambiguous exercises and to encode grading rubrics into #seshat.
-- #seshat offers a new way of viewing diagram grading: example solutions become the rubric, and the focus shifts to developing clearer exercises to minimise the number of possible solutions. Clear exercises are more easily automatable because they require less alternative graphs. This is a benefit to both students and teachers: teachers get a positive nudge towards developing exercises that are clearer for students and get rewarded with more accurate autograding and students get clearer exercises. (there is something to be said about disambiguating statements in communication, that is a nice skill, but it is not inherently related to diagram creation. I think it is good to separate the two, because the exercises are not labeled 'make diagram and communicate with stakeholders')
+#seshat offers a new grading paradigm for grading diagrams: the process no longer has to be done by multiple paid members of staff, but can instead be done much more quickly by one teacher. The challenge now becomes how to design unambiguous exercises in order to guide students towards (ideally) one truly 'correct' solution, in order to both reduce the number of alternative solutions and thus the effort required by a teacher, as well as the time it takes to grade for #seshat.
 
-#hl([ add more ])
+// - #seshat offers a new way of viewing diagram grading: example solutions become the rubric, and the focus shifts to developing clearer exercises to minimise the number of possible solutions. Clear exercises are more easily automatable because they require less alternative graphs. This is a benefit to both students and teachers: teachers get a positive nudge towards developing exercises that are clearer for students and get rewarded with more accurate autograding and students get clearer exercises. (there is something to be said about disambiguating statements in communication, that is a nice skill, but it is not inherently related to diagram creation. I think it is good to separate the two, because the exercises are not labeled 'make diagram and communicate with stakeholders')
 
 ]) // 2-column
 
