@@ -1,7 +1,9 @@
 @InProceedings{Ahmed2024,
   author     = {Faizan Ahmed and Nacir Bouali and Marcus Gerhold},
   title      = {Teaching Assistants as Assessors: An Experience Based Narrative},
+  pages      = {115--123},
   year       = {2024},
+  booktitle  = {16th International Conference on Computer Supported Education, CSEDU 2024},
   abstract   = {This study explores the role of teaching assistants (TAs) as assessors in a university’s computer science pro-
 gram. It examines the challenges and implications of TAs in grading, with a focus on their expertise and
 grading consistency. The paper analyzes grading experiences in various exam settings and investigates the
@@ -29,6 +31,7 @@ Grading rubric in Figure 3 seems very appropriate for autograding!},
   author     = {Mohsen Hosseinibaghdadabadi and Omar Alam Nicolas Almerge and Jörg Kienzle},
   booktitle  = {2023 ACM/IEEE 26th International Conference on Model Driven Engineering Languages and Systems (MODELS)},
   title      = {Automated Grading of Use Cases},
+  pages      = {106--116},
   year       = {2023},
   publisher  = {IEEE},
   abstract   = {2023 ACM/IEEE 26th International Conference on Model Driven Engineering Languages and Systems (MODELS);2023; ; ;10.1109/MODELS58315.2023.00029},
@@ -55,8 +58,13 @@ Has as source Bian et al. 2019.},
 
 @InProceedings{anas2021,
   author     = {Outair Anas and Tanana Mariam and Lyhyaoui Abdelouahid},
-  title      = {New method for summative evaluation of UML class diagrams based on graph similarities},
+  title      = {{N}ew method for summative evaluation of {UML} class diagrams based on graph similarities},
+  journal    = {International Journal of Electrical and Computer Engineering},
+  volume     = {11},
+  number     = {2},
+  pages      = {1578--1590},
   year       = {2021},
+  publisher  = {IAES Institute of Advanced Engineering and Science},
   comment    = {Convert UML Class diagrams into graphs, use graph similarity algorithms.
 
 Very mathematically intense paper, not nice to read.
@@ -69,11 +77,11 @@ However, the matching seems quite similar. Similarity scores of 83%, 98%, 96%. H
   url        = {https://www.academia.edu/download/66135135/70_22270_EM_26aug_20feb_L.pdf},
 }
 
-@InProceedings{batmaz2010,
+@phdthesis{batmaz2010,
   author     = {Firat Batmaz},
-  title      = {Semi-Automatic Assessment ofStudents’ Graph-Based Diagrams},
+  title      = {{S}emi-{A}utomatic {A}ssessment of {S}tudents’ {G}raph-{B}ased {D}iagrams},
   year       = {2010},
-  comment    = {Very in-depth methods of manual, semi-automatic grading. 
+  comment    = {Very in-depth methods of manual, semi-automatic grading.
 COOL: relation between explanation text and graphs/models.
 
 Big document (236 pages)
@@ -86,9 +94,9 @@ Takes a broader look at the process of grading, identifying and developing techn
 }
 
 @InProceedings{Bian2019,
-  author     = {Weiyi Bian and Omar Alam and Jörg Kienzle},
+  author     = {Weiyi Bian and Omar Alam and J{\"o}rg Kienzle},
   booktitle  = {2019 ACM/IEEE 22nd International Conference on Model Driven Engineering Languages and Systems Companion (MODELS-C)},
-  title      = {Automated Grading of Class Diagrams},
+  title      = {{A}utomated {G}rading of {C}lass {D}iagrams},
   year       = {2019},
   month      = sep,
   pages      = {700--709},
@@ -107,11 +115,11 @@ TWO MAIN CONTRIBUTIONS:
 2. Metamodel to grade model elements.
 
 - syntactic matching (eliminating spelling
-mistakes), 
+mistakes),
 - semantic matching (considering synonyms and
-words with related meaning) , 
-- structural matching (matching by comparing the contents of a class, similarity based on the associations with other classes, and considering classes that are split or merged), 
-- handle class inheritance (handle the class elements that are misplaced within the inheritance hierarchy), 
+words with related meaning) ,
+- structural matching (matching by comparing the contents of a class, similarity based on the associations with other classes, and considering classes that are split or merged),
+- handle class inheritance (handle the class elements that are misplaced within the inheritance hierarchy),
 - match associations (including finding potential derivative associations)},
   doi        = {10.1109/models-c.2019.00106},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/bian2019-AutomatedGradingOfClassDiagrams.pdf:PDF},
@@ -123,7 +131,7 @@ words with related meaning) ,
 }
 
 @InProceedings{Bian2020,
-  author     = {Bian, Weiyi and Alam, Omar and Kienzle, Jörg},
+  author     = {Bian, Weiyi and Alam, Omar and Kienzle, J{\"o}rg},
   booktitle  = {Proceedings of the 23rd ACM/IEEE International Conference on Model Driven Engineering Languages and Systems},
   title      = {Is automated grading of models effective?: assessing automated grading of class diagrams},
   year       = {2020},
@@ -167,7 +175,9 @@ the grading algorithm are proposed and validated experimentally. can also be use
 
 @InProceedings{Bouali2025,
   author     = {Nacir Bouali and Marcus Gerhold and Tosif Ul Rehman and Faizan Ahmed},
-  title      = {Toward Automated UML Diagram Assessment: Comparing LLM-Generated Scores with Teaching Assistants},
+  title      = {{T}oward {A}utomated {UML} {D}iagram {A}ssessment: {C}omparing {LLM}-{G}enerated {S}cores with {T}eaching {A}ssistants},
+  booktitle  = {17th International Conference on Computer Supported Education, CSEDU 2025},
+  pages      = {158--169},
   year       = {2025},
   abstract   = {This paper investigates the feasibility of using Large Language Models (LLMs) to automate the grading of
 Unified Modeling Language (UML) class diagrams in a software design course. Our method involves care-
@@ -182,8 +192,8 @@ quality of human assessors. This approach offers a promising solution for managi
 while ensuring fair and timely feedback.},
   comment    = {Grading UML class diagrams with LLMs + sentence transformers and structured grading rubric.
 
-Challenges in automated grading: 
-- semantic equivalence (p.159), 
+Challenges in automated grading:
+- semantic equivalence (p.159),
 - different student interpretations - partially solved by tools such as TouchCORE, but "require significant instructor effort to organize acceptable variations."
 - balancing accuracy with model completeness - systems "often over-penalize missing elements or fail to (...) assign partial grades"
 - "LLMs could be valuable tool in automating the grading" p.158
@@ -211,9 +221,9 @@ Grading rubric is provided which looks a whole lot like a ruleset for an autogra
   url        = {https://research.utwente.nl/files/496461589/134819.pdf},
 }
 
-@InProceedings{Stikkolorum2019,
+@article{Stikkolorum2019,
   author     = {Dave R. Stikkolorum and Peter van der Putten and Caroline Sperandio and Michel R.V. Chaudron},
-  title      = {Towards Automated Grading of UML Class Diagrams with Machine Learning},
+  title      = {{T}owards {A}utomated {G}rading of {UML} {C}lass {D}iagrams with {M}achine {L}earning},
   year       = {2019},
   abstract   = {This paper describes an exploratory study on the application
 of machine learning for the grading of UML class diagrams. Bachelor stu-
@@ -237,8 +247,8 @@ don't really say anything other than spelling mistakes and '42.76%' for the actu
 
 @InProceedings{Foss2022,
   author     = {Foss, Sarah and Urazova, Tatiana and Lawrence, Ramon},
+  title      = {{L}earning {UML} database design and modeling with {A}uto{ER}},
   booktitle  = {Proceedings of the 25th International Conference on Model Driven Engineering Languages and Systems: Companion Proceedings},
-  title      = {Learning UML database design and modeling with AutoER},
   year       = {2022},
   month      = oct,
   pages      = {42--45},
@@ -275,8 +285,9 @@ not great research. doesn't provide source code as well even though it says ther
 
 @InProceedings{Foss2022b,
   author     = {Sarah Foss},
-  title      = {AutoER: A System for the Automatic Generation and Evaluation of UML Database Design Diagrams},
+  title      = {{A}uto{ER}: {A} {S}ystem for the {A}utomatic {G}eneration and {E}valuation of {UML} {D}atabase {D}esign {D}iagrams},
   year       = {2022},
+  school     = {University of British Columbia},
   comment    = {in-depth explanation of Foss2022(a)
 
 is meant for interactive diagram making based on text.},
@@ -305,24 +316,27 @@ is meant for interactive diagram making based on text.},
 }
 
 @InProceedings{Jebli2023,
-  author     = {Rhaydae Jebli and Jaber El Bouhdidi and Mohamed Yassin Chkouri},
-  booktitle  = {2023 7th IEEE Congress on Information Science and Technology (CiSt) |},
-  title      = {Assessing Students' UML Class Diagrams: a NewAutomated Solution},
-  year       = {2023},
-  publisher  = {IEEE},
-  abstract   = {2023 7th IEEE Congress on Information Science and Technology (CiSt);2023; ; ;10.1109/CiSt56084.2023.10409936},
-  comment    = {view of some tool with some (useful) heuristics. No mass verification or whatever, so meh.},
-  file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/jebli2023_AssessingStudentsUMLClassDiagrams.pdf:PDF},
-  groups     = {Algorithmic},
-  keywords   = {Automatic Assessment, UML diagrams, Distance assessment of students’ productions. Section III describes our},
-  priority   = {prio3},
-  readstatus = {read},
-  url        = {https://ieeexplore.ieee.org/iel7/10409867/10409868/10409936.pdf},
+  author       = {Rhaydae Jebli and Jaber El Bouhdidi and Mohamed Yassin Chkouri},
+  booktitle    = {2023 7th IEEE Congress on Information Science and Technology (CiSt)},
+  title        = {{A}ssessing {S}tudents' {UML} {C}lass {D}iagrams: a {N}ew {A}utomated {S}olution},
+  year         = {2023},
+  organization = {IEEE},
+  pages        = {431--435},
+  abstract     = {2023 7th IEEE Congress on Information Science and Technology (CiSt);2023; ; ;10.1109/CiSt56084.2023.10409936},
+  comment      = {view of some tool with some (useful) heuristics. No mass verification or whatever, so meh.},
+  file         = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/jebli2023_AssessingStudentsUMLClassDiagrams.pdf:PDF},
+  groups       = {Algorithmic},
+  keywords     = {Automatic Assessment, UML diagrams, Distance assessment of students’ productions. Section III describes our},
+  priority     = {prio3},
+  readstatus   = {read},
+  url          = {https://ieeexplore.ieee.org/iel7/10409867/10409868/10409936.pdf},
 }
 
 @InProceedings{BilalKarasneh,
   author     = {Bilal Karasneh, Dave Stikkolorum, Enrique Larios, and Michel R.V. Chaudron},
   title      = {Quality Assessment of UML Class Diagrams},
+  booktitle  = {Proceedings of Educators’ Symp at MoDELS},
+  year       = {2015},
   abstract   = {In this paper, we present an experiment conducted for comparing how},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/BilalKarasneh - Quality Assessment of UML Class Diagrams.pdf:PDF},
   groups     = {NOT autograding, Slightly relevant},
@@ -331,9 +345,10 @@ is meant for interactive diagram making based on text.},
   url        = {https://ceur-ws.org/Vol-1555/6.pdf},
 }
 
-@InProceedings{Modi2021,
+@Article{Modi2021,
   author     = {Salisu Modi and Hanan A. Taher and Hoger Mahmud},
-  title      = {A Tool to Automate Student UML diagram Evaluation},
+  journal    = {Academic Journal of Nawroz University (AJNU)},
+  title      = {{A} {T}ool to {A}utomate {S}tudent {UML} {D}iagram {E}valuation},
   year       = {2021},
   abstract   = {Unified modelling language (UML) is the accepted standard and modelling language for modeling in software development},
   comment    = {Java-based class diagram checker tool. Focuses more on UI and feedback. Focuses input on two ZIP files containing XMI Modeli class diagrams. Not really useful for me.},
@@ -361,7 +376,10 @@ is meant for interactive diagram making based on text.},
 
 @InProceedings{Ali2007,
   author     = {Noraida Haji Ali and Zarina Shukur and Sufian Idris},
-  title      = {Assessment System For UML Class DiagramUsing Notations Extraction},
+  title      = {{A}ssessment {S}ystem For {UML} {C}lass {D}iagram {U}sing {N}otations {E}xtraction},
+  journal    = {International Journal on Computer Science Network Security},
+  volume     = {7},
+  pages      = {181--187},
   year       = {2007},
   comment    = {don't say anythign about the actual implementation and techniques.},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/noraida2007_AssessmentSystemForUMLClassDiagram.pdf:PDF},
@@ -374,40 +392,40 @@ is meant for interactive diagram making based on text.},
 @InProceedings{Ali2007b,
   author     = {Noraida Haji Ali and Zarina Shukur and Sufian Idris},
   booktitle  = {2007 International Conference on Computational Science and its Applications (ICCSA 2007)},
-  title      = {A Design of an Assessment System for UML Class Diagram},
+  title      = {{A} {D}esign of an {A}ssessment {S}ystem for {UML} {C}lass {D}iagram},
   year       = {2007},
   month      = aug,
   pages      = {539--546},
   publisher  = {IEEE},
   abstract   = {1.   Introduction
-  
- Subjects such as software engineering or systems 
-The Unified Modeling Language (UML) is probably analysis and design, use visual tools to describe 
-the most widely known and used notation for object- software models. Normally, model will be described 
-oriented analysis and design. UML consists of various through shapes, graphic symbol, relation and 
-graphical notations, which capture the static system explanation in texts. This model is used to get the 
-structures (class diagrams), system component prediction of cost or budget and time requirement to 
-behaviors (state transition diagrams) and system finish a system. The main objective in software 
-component interactions (collaboration and sequence engineering discipline is to determine a method that 
-diagrams). UML notations can be produced with the can support system complexity and reduce the error in 
-help of CASE (Computer-aided software engineering) software development processes. Thus, studies on 
-tools such as Rational Rose. Basically, we proposed complex concepts, languages, techniques or tools to 
-the development of an Assessment system for UML fulfill this requirement have started long ago. Until 
-class diagram, the UML Class Diagram Assessor now, the attention has been given to the acceptance of 
-(UCDA). This tool will  receive a students UML class this approach in software engineering that can be used 
-diagram in the form of Rational Rose petal files. In this and applied in model process for system development.  
-paper we present a design of UML Class Diagram  
-Assessor (UCDA) that evaluates UML class diagrams Over the years, innumerable analysis and design 
-automatically. UCDA evaluates the diagram based on methods and notations have been proposed and 
-three aspects: its structure; its correctness and developed. In late 1997, most of these methods have 
-language used. The output of UCDA is a list of converged to a standard notation, the Unified Modeling 
-comments on a diagram that is hoped to guide students Language (UML), which has been accepted as an 
-in understanding on how to represent the system industry standard by the OMG (Object Management 
-requirement in UML model correctly.  Group, 1999) [1]. CASE tools, which provide support 
- for UML diagramming (e.g. Rational Rose, Microsoft 
- Visio and Enterprise Architect) can benefit from the 
- use of an automatic layout tool. The first attempts at 
- using computers to automate the process of assessing 
+
+ Subjects such as software engineering or systems
+The Unified Modeling Language (UML) is probably analysis and design, use visual tools to describe
+the most widely known and used notation for object- software models. Normally, model will be described
+oriented analysis and design. UML consists of various through shapes, graphic symbol, relation and
+graphical notations, which capture the static system explanation in texts. This model is used to get the
+structures (class diagrams), system component prediction of cost or budget and time requirement to
+behaviors (state transition diagrams) and system finish a system. The main objective in software
+component interactions (collaboration and sequence engineering discipline is to determine a method that
+diagrams). UML notations can be produced with the can support system complexity and reduce the error in
+help of CASE (Computer-aided software engineering) software development processes. Thus, studies on
+tools such as Rational Rose. Basically, we proposed complex concepts, languages, techniques or tools to
+the development of an Assessment system for UML fulfill this requirement have started long ago. Until
+class diagram, the UML Class Diagram Assessor now, the attention has been given to the acceptance of
+(UCDA). This tool will  receive a students UML class this approach in software engineering that can be used
+diagram in the form of Rational Rose petal files. In this and applied in model process for system development.
+paper we present a design of UML Class Diagram
+Assessor (UCDA) that evaluates UML class diagrams Over the years, innumerable analysis and design
+automatically. UCDA evaluates the diagram based on methods and notations have been proposed and
+three aspects: its structure; its correctness and developed. In late 1997, most of these methods have
+language used. The output of UCDA is a list of converged to a standard notation, the Unified Modeling
+comments on a diagram that is hoped to guide students Language (UML), which has been accepted as an
+in understanding on how to represent the system industry standard by the OMG (Object Management
+requirement in UML model correctly.  Group, 1999) [1]. CASE tools, which provide support
+ for UML diagramming (e.g. Rational Rose, Microsoft
+ Visio and Enterprise Architect) can benefit from the
+ use of an automatic layout tool. The first attempts at
+ using computers to automate the process of assessing
  student work were reported in the early 1960’s [2].},
   comment    = {same as previous Ali et al. (2007) work.},
   doi        = {10.1109/iccsa.2007.2},
@@ -419,6 +437,7 @@ requirement in UML model correctly.  Group, 1999) [1]. CASE tools, which provide
 @TechReport{thomas2006,
   author     = {Pete Thomas and Neil Smith and Kevin Waugh},
   title      = {An approach to the automatic grading of imprecise diagrams},
+  publisher  = {Department of Computing, The Open University},
   year       = {2006-12-01},
   comment    = {similarity between names with "stemming and edit-distance" + synonym detecting
 Edge case: recursive relations in class diagrams were not accounted for at first.
@@ -436,8 +455,9 @@ Synonym identification rules, but requires extra verification (it related "Facil
 @InProceedings{AlRawashdeh2014,
   author     = {Hazim AlRawashdeh and Sufian Idris and Abdullah Mohd Zin},
   title      = {Using Model Checking Approach for Grading the Semantics of UML Models},
+  booktitle  = {Proceedings of the International Conference Image Processing, Computers and Industrial Engineering (ICICIE’2014), Kuala Lumpur, Malaysia},
+  pages      = {15--16},
   year       = {2014},
-  abstract   = {IEEE Transactions on Magnetics},
   comment    = {is very into using LTL-like formulas and quoting (Nu)SMV, Promela, UPPAAL, ...
 
 produces a hodge podge solution that combines everything, but no quantitative metrics mentioned. Weird paper.},
@@ -473,6 +493,7 @@ Has some pretty interesting syntax w.r.t. checking class names, checking syntax.
 @InProceedings{thomas2004,
   author     = {Pete Thomas},
   title      = {Grading Diagrams Automatically},
+  publisher  = {Department of Computing, The Open University},
   year       = {2004-01-30},
   comment    = {construct a very reduced Box+Arrow graphical language (tiny subset of UML).
 The marking is very accurate though, but likely because the question is very simple (though it is not mentioned).
@@ -513,6 +534,7 @@ Kind of summary of previous work of Thomas.},
   number     = {3},
   pages      = {249--267},
   volume     = {33},
+  publisher  = {Taylor \& Francis},
   comment    = {details about synonym matching, aggregation ("For example, a many-to-many relationship may be replaced by an equivalent pair of one-to-many relationships with a new entity type in common")
 
 GOOD: very nice figure 4: The 5-stage framework for automatic imprecise diagram interpretation.
@@ -526,7 +548,6 @@ Very nice theory for dealing with inheritance checking, many-to-many checking, .
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/thomas2008_AutomaticallyAssessingGraphBasedDiagrams.pdf:PDF},
   groups     = {incredible!},
   priority   = {prio1},
-  publisher  = {Taylor & Francis},
   readstatus = {read},
   url        = {https://www.tandfonline.com/doi/pdf/10.1080/17439880802324251},
 }
@@ -535,9 +556,12 @@ Very nice theory for dealing with inheritance checking, many-to-many checking, .
   author     = {Vinay Vachharajani and Jyoti Pareek},
   booktitle  = {International Journal of Computer Applications (0975 – 8887)},
   title      = {A Proposed Architecture for Automated Assessment of Use Case Diagrams},
+  journal    = {International Journal of Computer Applications},
   year       = {2014},
   number     = {4},
   volume     = {108},
+  pages      = {35--40},
+  publisher  = {Foundation of Computer Science},
   abstract   = {The assessment part could be a deterrent as far as willingness},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Vachharajani2014_ProposedArchitectureAssessmentUseCaseDiagrams.pdf:PDF},
   groups     = {Advice - not implementation},
@@ -685,10 +709,11 @@ when no randomness is explicitly introduced.},
   url        = {https://mbrenndoerfer.com/writing/why-llms-are-not-deterministic},
 }
 
-@InProceedings{atil2025,
+@article{atil2025,
   author     = {Berk Atil and Sarp Aykent and Alexa Chittams and Lisheng Fu and Rebecca J. Passonneau and Evan Radcliffe and Guru Rajan Rajagopal and Adam Sloan and Tomasz Tudrej and Ferhan Ture and Zhe Wu and Lixinyu Xu and Breck Baldwin},
   title      = {Non-Determinism of “Deterministic” LLM Settings},
   year       = {2025-04-02},
+  journal    = {arXiv preprint arXiv:2408.04667},
   comment    = {"Although the use of multiple GPUs introduces some randomness (...), it can be eliminated by setting random seeds (...). However, engineering optimizations to run LLMs faster (...) might lead to nondeterministic behavior."},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Atil2025_NonDeterminismOfDeterministicLLMSettings.pdf:PDF},
   groups     = {LLM downsides},
@@ -699,9 +724,13 @@ when no randomness is explicitly introduced.},
 @InProceedings{Hasker2011,
   author     = {Robert W. Hasker},
   title      = {UMLGrader: An automated class diagram grader},
+  journal    = {Journal of Computing Sciences in Colleges},
+  volume     = {27},
+  number     = {1},
+  pages      = {47--54},
   year       = {2011},
   abstract   = {J. Comput. Sci. Coll. 2011.27:47-54},
-  comment    = {system designed to provide automated feedback to students on UML class diagrams - FOR FEEDBACK (is more strict than exam grader would be) 
+  comment    = {system designed to provide automated feedback to students on UML class diagrams - FOR FEEDBACK (is more strict than exam grader would be)
 
 - Elements are strictly matched by set of possible names (interesting, but not very scalable - see other word matching algorithms)
 - Attributes match by substring (split up into words/parts of words and then match)
@@ -750,7 +779,9 @@ Like other papers, hint to difficulty of comparing human text (labels).
 @Misc{Meadows2005,
   author     = {Michelle Meadows and Lucy Billington},
   title      = {A Review Of THe Literature On Marking Reliability},
-  year       = {2005-03},
+  year       = {2005},
+  month      = mar,
+  publisher  = {London: National Assessment Agency},
   comment    = {"The literature reviewed has made clear the inherent unreliability associated with assessment in general, and associated with marking in particular. The extent of this unreliability may vary across subjects and assessment formats, and may be improved through marker training, attention to marking schemes and so on. Nonetheless while particular assessment formats, for example essays, are valued by those involved in education there has to be an acceptance that the marks or grades that candidates receive will not be perfectly reliable." (p.68)},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/Meadows2005_ReviewLiteratureMarkingReliability.pdf:PDF},
   groups     = {Man.Grad.Review},
@@ -764,10 +795,13 @@ Like other papers, hint to difficulty of comparing human text (labels).
   url    = {https://github.com/andrewjh9/UTML},
 }
 
-@TechReport{Wang2025,
+@Article{Wang2025,
   author     = {Chong Wang and Beian Wang and Peng Liang and Jie Liang;},
   title      = {Assessing UML Diagrams by GPT: Implications for Education},
+  journal    = {Journal of Systems and Software},
+  pages      = {112709},
   year       = {2025},
+  publisher  = {Elsevier},
   comment    = {- evaluation criteria to quantitatively assess UML Use Case, Class, Sequence Diagrams
 - 40-participant study - 5 types of evaluation discrepancy, analyse competency of GPT-grading.
 
@@ -841,7 +875,7 @@ AI and language technologies.},
   title      = {Interpreting imprecise diagrams},
   year       = {2004},
   month      = mar,
-  pages      = {239–241},
+  pages      = {239–-241},
   series     = {International Conference on Theory and Application of Diagrams},
   doi        = {10.1007/978-3-540-25931-2_24},
   file       = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/smith2004_InterpretingImpreciseDiagrams.pdf:PDF},
@@ -888,17 +922,21 @@ AI and language technologies.},
 }
 
 @InProceedings{wei2023,
-  author = {Jason Wei and Xuezhi Wang and Dale Schuurmans and Maarten Bosma and Brian Ichter and Fei Xia and Ed H. Chi and Quoc V. Le and Denny Zhou},
-  title  = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
-  year   = {2023},
-  file   = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/wei2023_chainofthought.pdf:PDF},
-  groups = {LLM},
-  url    = {https://arxiv.org/abs/2201.11903},
+  author  = {Jason Wei and Xuezhi Wang and Dale Schuurmans and Maarten Bosma and Brian Ichter and Fei Xia and Ed H. Chi and Quoc V. Le and Denny Zhou},
+  title   = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  journal = {Advances in neural information processing systems},
+  volume  = {35},
+  pages   = {24824--24837},
+  year    = {2022}
+  file    = {:/home/douwe/Documents/UNIVERSITEIT_TWENTE/MASTERS/Y2GRAD/SOURCES/wei2023_chainofthought.pdf:PDF},
+  groups  = {LLM},
+  url     = {https://arxiv.org/abs/2201.11903},
 }
 
 @TechReport{RajiRamachandran2025,
   author   = {Raji Ramachandran and Parvathy Vijayan and Athulya Anilkumar and Veena Gandadharan},
   title    = {AI Assisted System for Automated Evaluation of Entity-Relationship Diagram and Schema Diagram Using Large Language Models},
+  journal  = {Big Data and Cognitive Computing},
   year     = {2025},
   month    = dec,
   doi      = {10.3390/bdcc10010002},
@@ -1003,6 +1041,8 @@ AI and language technologies.},
   publisher = {Auerbach Publications},
   title     = {Database design using entity-relationship diagrams},
   year      = {2003},
+  pages     = {242},
+  doi       = {10.1201/9780203486054},
   url       = {https://www.taylorfrancis.com/books/mono/10.1201/9780203486054/database-design-using-entity-relationship-diagrams-sikha-bagui-richard-earp},
 }
 

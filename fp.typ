@@ -5,6 +5,9 @@
 
 // shortcuts / other helper functions
 #let hl = highlight
+#let todos_on = false
+#let todo(..content) = if todos_on { block([#text(fill: red, [TODO]) #highlight(..content)]) } else { none }
+
 #let seshat = text([_Seshat_])
 
 #let DOC-MARGIN = 1.5cm
@@ -53,13 +56,13 @@
 = Motivation
 Unified Modelling Language (UML) diagrams, introduced by the Object Management Group @omg-group, play a significant role in computer science, as they allow for communicating software designs in a standardised format. During technical studies, students are often required to make such diagrams for graded assignments or exams.
 
-However, the grading of these diagrams is often a costly and lengthy process, involving multiple paid staff members @Ahmed2024#footnote("From personal experience.")<footnote:pers-exp>. Additionally, this process is prone to grading inconsistencies due to various reasons @Ahmed2024, with a major factor being the inherent inconsistency of human graders @Ahmed2024 @Meadows2005. #cite(<Meadows2005>, form: "prose") pose two possible solutions to the problem of human grading: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_.
+However, the grading of these diagrams is often a costly and lengthy process, involving multiple paid staff members#footnote("From personal experience.")<footnote:pers-exp>@Ahmed2024. Additionally, this process is prone to grading inconsistencies due to various reasons @Ahmed2024, with a major factor being the inherent inconsistency of human graders @Ahmed2024 @Meadows2005. #cite(<Meadows2005>, form: "prose") pose two possible solutions to the problem of human grading: either "report the level of reliability associated with marks/grades, or find alternatives to [grading]." We propose a third alternative: finding alternatives to the grading _process_.
 
 The (partial) automatisation of grading diagrams ('autograding')  a grading paradigm that can both reduce the cost and time required for institutions and reduce the inherently present inconsistencies in human grading#footnote("Given that the process is deterministic.")<footnote:determinism> @osinga2024 @Bian2020. This could result in similar or superior performance compared to human grading in terms of *accuracy*, *consistency*, and *grading transparency*.
 
 With _accuracy_, we mean the percentage of points assigned to a submission that are prescribed by the rubric for a particular excercise. With _consistency_, we mean both the extent to which similar grades are given to similar submissions and the difference between consecutive runs (i.e. determinism). With _grading transparency_, we mean the extent to which the reasoning for a particular grade is explained with regards to the rubric for the exercise or to the Intended Learning Objectives (ILOs) of a module. These properties are desirable in the grading process, as it means that students are graded in a way that reflects their performance (_accuracy_), allows them to see which parts they could improve for future assignments (_grading transparency_), and is minimally unfair (_consistency_).
 
-Specifically for the implementation, we desire an autograder that can _link its grading to ILOs_, as described by the previous paragraph. Furthermore, built-in _UTML support_ is a must, as it is the main file format the University of Twente uses. Finally, an _easily extensible_ autograder would be ideal, since we might want to extend support to other file formats or alter the behaviour of the autograder later on.
+Specifically for the implementation, we desire an autograder that can _link its grading to ILOs_, as described by the previous paragraph. Furthermore, _UTML support_ must either be included or able to be programmed in, as it is the main file format the University of Twente uses. Finally, _extensibility_ in general would be ideal, since we might want to extend support to other file formats or alter the behaviour of the autograder later on.
 
 == A brief history of autograding<bg>
 The idea of letting a computer program (partially) grade tests has been discussed in papers since the 70s #cite(<pirie1975>, supplement: "p.13"), with some documented implementations starting to appear around the 80s. These were primarily focused on grading the writing style of computer programs @Rees1982. Interest in grading diagrams specifically seems to have started around the early 2000s @smith2004 @thomas2004.
@@ -352,7 +355,7 @@ Some diagram software, such as UTML, sadly does not allow connecting edges to ot
 
 This is a problem for autograders, since _technically_, those edges are not connected to anything, meaning that students will get points deducted for a solution that looks visually correct.
 
-In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to support it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
+In order to allow some level of leniency which compensates for the inability of students to connect edges and/or the diagram software's inability to support it, #seshat allows for 'anchoring' disconnected edges that are sufficiently close to another vertex or edge with `connect_edge_ends`. The distance at which anchoring occurs can be configured as a percentage of the length of an edge. for vertices, this is the length of the top, left, right, or bottom part of the vertex (which is assumed to be a rectangle). A demonstration of this reparation can be seen in the connections 'Record' and 'Internal Information' in @fig:submission-154286-corrected.
 
 ==== Directed Edge Recombination
 In diagrams, it is not uncommon to have a set of multiple vertices connect to one 'main' vertex. This happens especially often when drawing multiple inheritance classes in UML. However, diagram software might not make it easy to draw these in a visually pleasing manner, or students might choose to draw separate edges which capture the semantics visually, but which is not represented in the underlying diagram format. A good example of this is presented in @fig:submission-154286, where classes ranging from 'SoftwareLicense' until 'CloudService' connect to 'Resources'. However, these edges are drawn individually as straight edges, and any given edge does not connect an inheriting class to the inherited class.
@@ -361,7 +364,7 @@ This is a major problem for autograding, as the representation mismatch will cau
 
 #seshat includes an option `simplify-directed-edges` for this, which looks for multiple edge-to-edge connections that end in a directed edge (an edge with some kind of arrow or diamond on one side). The effect of this recombination is demonstrated in @fig:submission-154286-corrected.
 === Grading process<sec:grading-process>
-After the internal representation is repaired, it can be graded. This is done based on graph comparisons / isomorphism. It requires (1) a teacher solution, (2) a student solution, and (3) a grading rubric which instructs the autograder which error corrections to apply and how many points to give or subtract. 
+After the internal representation is repaired, it can be graded. This is done based on graph comparisons / isomorphism. It requires (1) a teacher solution, (2) a student solution, and (3) a grading rubric which instructs the autograder which error corrections to apply and how many points to give or subtract. It is also possible to define a set of ILOs in the grading rubric, and mention to which extent certain attributes such as vertex presence affect ILOs.
 
 Given a teacher and student graph, #seshat first attempts to map the vertices and edges of the teacher graph (reference) to those drawn by the student (submission). #seshat grades with the following general graph comparison algorithm:
 
@@ -391,6 +394,26 @@ This grading configuration also specifies the reparation options specified in @s
 After calculating a grade, #seshat needs a way to show this to the user. Three built-in methods exist for exporting data: export only the final grades to a `.csv` file, export the final grade and a detailed reasoning for why this is the final grade to a `.json` file per submission, or export both a `.csv` file and `.json` files. An example of a `.json` grade export can be seen in @fig:ex-json-export.
 
 #place(bottom+center, float: true, scope: "parent", [
+  #figure(caption: [Snippets from the grading configuration for TCS 2025 q.6], [```json
+ {
+  "ilos": {...},
+  "grader_config": {
+    "semantic_certainty": 0.7,
+    "repair_options": {
+    	"swap_edge_labels": 	   { "enable": true, "distance_threshold_percent": 0.35 },
+    	"connect_edge_ends": 	   { "enable": true, "edge-to-edge_closeness_percent": 0.5, "vertex-to-edge_closeness_percent": 0.75 },
+    	"simplify_directed_edges": { "enable": false }
+  }},
+  "scores": {
+    "vertex": { ... }, "vertex_title": { "present": 0, "absent/incorrect": 0,  "superfluous": 0 },
+    "vertex_type": { ... }, "vertex_visibility": { ... }, "vertex_attribute": { ... }, "vertex_attribute_type": { ... }, "vertex_attribute_visibility": { ... },
+    "edge": { "present": 1, "absent/incorrect": 0, "superfluous": 0 },
+    "edge_type": { "present": 0.25, "absent/incorrect": -0.1, "superfluous": 0 },
+    "edge_association_label": { "present": 0.1, "absent/incorrect": -0.25, "superfluous": 0 },
+    "edge_middle_label": { "present": 0, "absent/incorrect": 0, "superfluous": 0 }
+}} 
+```])
+
   #figure(caption: [Snippets from the `.json` grade export of submission 1027326 from TCS 2025 q.6], [```json
 { "final_grade": 4.95, "reason": {
   "missing_reference_vertices": {},
@@ -424,7 +447,7 @@ After calculating a grade, #seshat needs a way to show this to the user. Three b
 
 We also include a demo graph export of a grade in GraphViz format, which uses the same graph export functionality as seen in @fig:submission-154286-corrected to visualise a grade. It shows in red, yellow, and green which vertices / edges were incorrect, superfluous, or correct.
 
-There also exists a GraphViz export function for #seshat's internal structure. This allows for easily viewing how different reparation options affect a solution. A JSON export of the graph is also possible, which outputs the exact internal representation of the graph. An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect, however, this is present in the JSON export.
+There also exists a GraphViz export function for #seshat's internal structure. This allows for easily viewing how different reparation options affect a solution. A JSON export of the graph is also possible, which outputs the exact internal representation of the graph. An example is given in @fig:submission-154286-corrected. Note that GraphViz neither supports fixed edge paths nor edge-to-edge connections, meaning that edge placement is incorrect. However, edge locations are preserved, and are shown correctly in the JSON export.
 
 == Testing
 When developing an autograder, it is vitally important to verify its correctness and expected behaviour. We implement a variety of automated tests to ensure this. Because #seshat includes a lot of parsing and graph corrections, not unlike compilers and Syntax Tree / Control Flow Graph analysis, we take inspiration from the terms used for compiler testing, as introduced in #cite(<Zaytsev2018>, form: "prose").
@@ -437,8 +460,10 @@ For the conversion from UTML into the internal representation, we use a form of 
 
 For special features such as connecting edge ends and swapping labels (see @subsec:err-corr) we perform unit testing with fixed examples, which test both a couple of happy paths (where the program should modify the graph) and control paths (where the program should not change the graph).
 
+#todo[
 == Using Seshat
-This section will include the context of Seshat in the grading process: in what stage the tool is intended to be used, what settings need to be tweaked in which ways by teaching staff, how to interpret the results, what the general methodology is. For the process we largely copy over from @results. This will be done by the 13th of July 2026. /* TODO */
+This section will include the context of Seshat in the grading process: in what stage the tool is intended to be used, what settings need to be tweaked in which ways by teaching staff, how to interpret the results, what the general methodology is. For the process we largely copy over from @results. This will be done by the 13th of July 2026.
+]
 
 
 = Threats to valididty
@@ -450,8 +475,9 @@ Secondly, the manner in which humans have constructed the rubrics in the dataset
 
 Thirdly, the datasets do not provide details about which humans graded which submissions, when those submissions were graded, which reasoning was behind each of the grades, along with a variety of other factors. Especially the reasoning behind a grade would have been useful to discern the different types of grading deductions, which would help with result quality. However, since we only get a final grade to work with, we have to guess why grades were constructed by humans and aim to achieve a similar leniency and error correction. This process is additionally prone to bias from the author.
 
-/* TODO */
+#todo[
 We will adjust this validity section to follow the work of #cite(<Larsen2025>, form: "prose"). Internal validity is part of 'causal' validity. We also provide reasoning for criterion validity and context (a.k.a. 'external') validity before the 13th of July 2026.
+]
 
 = Results<results>
 For gathering results, we employed the following methodology: we read the rubric and, if present, the explanatory text of the exercise, and make a first sample solution. We also exactly construct a grader config with error repairs on and we award / subtract as many points as the grading rubric instructs to.
@@ -466,166 +492,141 @@ Each dataset contains one exercise. We start each section by giving the origin o
 
 #let ABS_DIFF(d: (), fr: 2) = calc.round(digits: fr, d.fold(0, (v, r) => v + calc.abs(r.at(1) - r.at(0))) / d.len())
 
-== BIT 2024<subsec:bit2024>
-#let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
-#let (bit2024c, bit2024d) = (bit2024data.map(r => r.at(0)), bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
-
-#figure(caption: [ Difference in grades in the BIT 2024 dataset. Sorted by increasing difference. ], [
-  //#show lq.selector(lq.tick-label): set text(0.3em)
-  #lq.diagram(
-    width: 90%,
+#let dataset_figure(title: [], ylabel: [$Delta$ score ], xlabel: [submission], data: (/*two-column array of points*/), maxscore: 1, lim: (-1.25,1.25), ..args) = {
+  show lq.selector(lq.tick-label): set text(0.8em)
+  lq.diagram(
+    width: 95%,
     height: 3cm,
-    title: [BIT 2024, question 1], ylabel: [score difference], xlabel: [submission],
+    title: title, ylabel: ylabel, xlabel: xlabel,
     legend: (position: center + bottom),
-    margin: (top: 20%),
-    xaxis: ( ticks: none, //bit2024c.map(rotate.with(-90deg, reflow: true)).enumerate()
+    xaxis: ( ticks: none, //data.map(rotate.with(-90deg, reflow: true)).enumerate()
       subticks: none ),
-    yaxis: ( lim: (-40.5,40) ),
-
+    yaxis: ( lim: lim, ticks: ((-1,$100%$),(-0.5,$-50%$),(-0.25,$-25%$),(0,$0%$),(0.25,$25%$),(0.5,$50%$),(1,$100%$)), subticks: 5 ),
+    ..args,
     lq.bar(
-      range(bit2024d.len()), bit2024d.map(r => r.at(1)-r.at(0)).sorted(),
+      range(data.len()), data.map(r => (r.at(1)-r.at(0)) / maxscore).sorted(),
       fill: blue,
       label: none, //[ human grade - #seshat grade ]
     ),
 
-    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Max. score"),
+    lq.hlines(-1, 1, stroke: 0.25mm + purple, label: none),
+    lq.hlines(ABS_DIFF(d: data) / maxscore, stroke: 0.25mm + yellow, label: [ average difference ])
   )
-])<fig:bit2024>
+}
 
-This dataset is an export of the first question from an exam from the second module of Business Information Technology (BIT) at the UT, in 2024. It requires drawing a class diagram for an Electric Vehicle Charging Network, with 92 submissions in total. The rubric awards 40 points in total in the categories _classes_, _associations_, and _multiplicities_, and can be seen in @app:gr-rub-bit2024. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
+== BIT 2024<subsec:bit2024>
+#let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
+#let (bit2024c, bit2024d) = (bit2024data.map(r => r.at(0)), bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
+#let bit2024maxscore = 40
+
+#place(bottom+center, float: true, scope: "column", [
+  #figure(caption: [ Difference in grading between humans and #seshat in the BIT 2024 dataset, normalised to the maximum number of points in the original rubric. Sorted by increasing difference. Positive scores mean that #seshat awarded more points. ],
+    dataset_figure(data: bit2024d, maxscore: 40, title: [BIT 2024, question 1], ylabel: [$Delta$ score ], xlabel: [submission])
+  )<fig:bit2024>
+])
+
+This dataset is an export of the first question from an exam from the second module of Business Information Technology (BIT) at the UT, in 2024. It requires drawing a class diagram for an Electric Vehicle Charging Network, with 92 submissions in total. The rubric awards 40 points in total in the categories _classes_, _associations_, and _multiplicities_#todo[, and can be seen in @app:gr-rub-bit2024]. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
 
 After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total for correct edge multiplicities, the scores were extremely negative compared to the human grading, with average autograder scores being on average #{calc.round(digits: 4, 10/40*100)}% of the maximum grade lower. After inspecting a few of the most outrageous offenders with differences of 50-75% /*20-30 points*/ of the total number of points, it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved with an average normalised difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2024d)/40*100)}%. This can be seen in @fig:bit2024.
-
-/* TODO */
+#todo[
 However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
 
-We add statistical analysis including a mean-differences test before the 13th of July 2026.
+We add statistical analysis including a mean-differences test before the 13th of July 2026.]
 
 == TCS 2025<subsec:tcs2025>
 === Question 5<subsec:tcs2025q5>
 #let tcs2025q5data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
 #let (tcs2025q5c, tcs2025q5d) = (tcs2025q5data.map(r => r.at(0)), tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 5. Sorted by increasing difference.], [
-  #lq.diagram(
-    width: 90%,
-    height: 3cm,
-    title: [TCS 2025 q.5], ylabel: [score difference], xlabel: [submission],
-    legend: (position: center + bottom),
-    margin: (top: 20%),
+#place(top+center, float: true, scope: "column", [
+  #figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    dataset_figure(data: tcs2025q5d, maxscore: 4, title: [TCS 2025 q.5])
+  )<fig:tcs2025q5>
+])
 
-    xaxis: ( ticks: none,  subticks: none, ),
-    yaxis: ( lim: (-4,4) ),
-
-    lq.bar(
-      range(tcs2025q5d.len()), tcs2025q5d.map(r => r.at(1)-r.at(0)).sorted(),
-      fill: blue,
-      label: none,// [#seshat - human ]
-    ), lq.hlines(-4, 4, stroke: 0.5mm + purple, label: "Max. score"),) ])
-
-This dataset comes from a module 2 exam from Technical Computer Science at the UT, from 2025. The dataset has 241 submissions, which differs one from @subsec:tcs2025q6, as one person did not hand in this exercise. The question asks to make a UML class diagram that models a ficticious theme park. The sample rubric is quite concise, giving one point for all correct classes (but failing to mention which exact classes), one point for correct methods / attributes, and a combined two points for correct associations and association types. It can be seen in @app:gr-rub:tcs2025q5.
+This dataset comes from a module 2 exam from Technical Computer Science at the UT, from 2025. The dataset has 241 submissions, which differs one from @subsec:tcs2025q6 as one person did not hand in this exercise. The question requires making a UML class diagram that models a theme park. The sample rubric leans toward a holistic rubric, giving one point for _all_ correct classes (but not mentioning which exact classes), one point for correct methods / attributes, and a combined two points for correct associations and -types.#todo[ It can be seen in @app:gr-rub:tcs2025q5.]
 
 Here, the strategy we opted for was similar to the BIT 2024 dataset, giving only scores for present classes and associations and not deducting points for extra classes. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked slightly more reasonable, at an average grade difference of #ABS_DIFF(d: tcs2025q5d) out of 4 points. 
 
-/* TODO */
+#todo[
 However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
 
 We add statistical analysis including a mean-differences test before the 13th of July 2026.
+]
 
 === Question 6<subsec:tcs2025q6>
 #let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
 #let (tcs2025q6c, tcs2025q6d) = (tcs2025q6data.map(r => r.at(0)), tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Sorted by increasing difference.], [
-  #lq.diagram(
-    width: 90%,
-    height: 3cm,
-    title: [TCS 2025 q.6], ylabel: [score difference], xlabel: [submission],
-    legend: (position: center + bottom),
-    margin: (top: 20%),
-    xaxis: ( ticks: none, subticks: none, ),
-    yaxis: ( lim: (-6,6) ),
-
-    lq.bar(
-      range(tcs2025q6d.len()), tcs2025q6d.map(r => r.at(1)-r.at(0)).sorted(),
-      fill: blue,
-      label: none, // [#seshat - human ]
-    ),
-    lq.hlines(-5, 5, stroke: 0.5mm + purple, label: "Max. score"),
-  )
+#place(top+center, float:true, scope: "column", [
+  #figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    dataset_figure(data: tcs2025q6d, maxscore: 5, title: [TCS 2025 q.6])
+  )<fig:tcs2025q6>
 ])
 
-Question 6 comes from the same exam as @subsec:tcs2025q5, with 242 submissions in total. The question is all about associations: it asks to draw the correct (types of) associations with the correct multiplicities between predetermined classes. As a consequence, the original grading rubric only awards points for correct associations and association types. It can be viewed in @app:gr-rub:tcs2025q6.
+Question 6 comes from the same exam as @subsec:tcs2025q5, with 242 submissions in total. The question is all about associations: it asks to draw the correct (types of) associations with the correct multiplicities between predetermined classes. As a consequence, the original grading rubric only awards points for correct associations and association types.#todo[ It can be viewed in @app:gr-rub:tcs2025q6.]
 
-Initially, we copied over the grading rubric to #seshat. However, initially, it gave quite optimistic scores, on average giving out scores that were #{calc.round(digits: 4, 2.43 / 5 * 100)}% /*ABS_DIFF(d: tcs2025q6d)*/ higher. To compensate, I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026. /* TODO */
+Initially, we copied over the grading rubric to #seshat. However#todo[, initially], it gave quite optimistic scores, on average giving out scores that were #{calc.round(digits: 4, 2.43 / 5 * 100)}% /*ABS_DIFF(d: tcs2025q6d)*/ higher, which can be seen in @fig:tcs2025q6. #todo[ To compensate, I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026.
 
-We add statistical analysis including a mean-differences test before the 13th of July 2026.
+We add statistical analysis including a mean-differences test before the 13th of July 2026.]
 
 == BIT 2025<subsec:bit2025>
 #let bit2025data = csv("data/2025_M2_BIT/GRADE_RESULTS/2025_M2_BIT_combined.csv").slice(1)
 #let (bit2025dc, bit2025d) = (bit2025data.map(r => r.at(0)), bit2025data.map(r => (float(r.at(1)), float(r.at(2)))))
 
-#figure(caption: [Difference in human and automatic grading for the BIT 2025 dataset, question 1. Sorted by increasing difference.], [
-  #lq.diagram(
-    width: 90%,
-    height: 3cm,
-    title: [BIT 2025 q.1], ylabel: [score difference], xlabel: [submission],
-    legend: (position: center + bottom),
-    margin: (top: 20%),
-    yaxis: ( lim: (-40.5,40) ),
 
-    xaxis: ( ticks: none,
-      subticks: none,
-    ),
-
-    lq.bar(
-      range(bit2025d.len()), bit2025d.map(r => r.at(1)-r.at(0)).sorted(),
-      fill: blue,
-      label: none, //[#seshat - human ]
-    ),
-    lq.hlines(-40, 40, stroke: 0.5mm + purple, label: "Max. score"),
-  )
+#place(bottom+center, float:true, scope: "column", [
+  #figure(caption: [Difference in human and automatic grading for the BIT 2025 dataset, question 1. Normalised to the maximum points in the rubric and sorted by increasing difference.],
+    dataset_figure(data: bit2024d, maxscore: 40, title: [BIT 2025 q.1])
+  )<fig:bit2025>
 ])
 
-The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities. It can be viewed in @app:gr-rub:bit2025.
+The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities.#todo[ It can be viewed in @app:gr-rub:bit2025.]
 
-The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2025d, fr: 10) / 40 * 100)}% of the maximum number of points.
+The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2025d, fr: 10) / 40 * 100)}% of the maximum number of points. The grade differences can be seen in @fig:bit2025.
 
+#todo[
 I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026. /* TODO */
 
 We add statistical analysis including a mean-differences test before the 13th of July 2026.
+]
 
 = Discussion<discussion>
-As seen in @results, #seshat can emulate human grading pretty effectively, with most differences likely stemming from human errors, but this will be definititively answered before 13th of July 2026 /* TODO */. However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is often harsh when grading slightly different solutions compared to human grading.
+As seen in @results, #seshat can emulate human grading pretty effectively, with most differences likely stemming from human errors#todo[, but this will be definititively answered before 13th of July 2026 /* TODO */]. However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is often harsh when grading slightly different solutions compared to human grading.
 
 While trying to emulate human grading, it took a few rounds of revision to the example solution and the scoring system to get an approximately similar result. After fixing some bugs and improving autograder performance, the difference mainly seems to stem from human grading not very strictly following the rubric.
 
 The differences are also likely caused from the different paradigm of grading with a sample solution. Wit h a sample solution, instead of having a teacher make a rubric for a particular exercise and having graders interpret the rubric, inherently leaving room for error, it forces teachers to think about concrete possible solutions. With sample solutions, the possible solutions *are* the rubric. This works quite well for exercises with defined solutions (for example TCS 2025 q.6 mentioned in @subsec:tcs2025q6), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
 
 == Future work
+#todo[
 /* Firstly, Due to time constraints we did not end up fully integrating ILO linking into the grading process. While it offers a concrete summary for students into which how well they achieved certain learning objectives, there is not a lot of use for it in the pure grading work. Future work could look at the effectiveness of giving students grading results with ILO scores to see how this helps students understand their test results.*/ /* TODO */ This paragraph included aparagraph on ILO linking not being implemetned. We will revise the paper to include ILO linking in the solution and/or to not disregard other tools because they do not link ILOs.
 
-Secondly, functionality could be added to compare multiple solutions. Since authors such as #cite(<Hosseinibaghdadabadi2023>, form: "prose") report a higher score when grading with multiple sample solutions and preferring the maximum grade, it would be interesting to see if we can come even closer to human grading by including more sample solutions.
+]
+Functionality could be added to compare multiple solutions. Since authors such as #cite(<Hosseinibaghdadabadi2023>, form: "prose") report a higher score when grading with multiple sample solutions and preferring the maximum grade, it would be interesting to see if we can come even closer to human grading by including more sample solutions.
 
-Thirdly, #seshat is currently not very user-friendly, and very unfit for use by teaching staff that are not intimately familiar with the terminal. Luckily, given its architecture, it is trivial to build a graphical interface around it. It would be an interesting idea to see if #seshat can, with some user experience improvements, be adopted into a real-life grading workflow, possibly using the suggested workflow used in @results.
+Additionally, #seshat is currently not user-friendly and unfit for use by teaching staff that are not intimately familiar with the terminal. Luckily, given its architecture, it is trivial to build wrappers around it, including graphical interfaces. It would be an interesting idea to see if #seshat can, with some user experience improvements, be adopted into a real-life grading workflow, possibly using the suggested workflow used in @results.
 
-Lastly, as previously mentioned in @discussion, #seshat does not directly work with the traditional grading rubrics of teaching staff. It might be interesting to see whether adopting #seshat's grading process for using grading rubrics could help it resemble human grading more. This could also give more insights into the possible adoption of autograders by teaching staff.
+As previously mentioned in @discussion, #seshat does not directly work with the traditional grading rubrics of teaching staff. It might be interesting to see whether adopting #seshat's grading process for using grading rubrics could help it resemble human grading more or whether it makes a change in how effectively teaching staff can construct grading configurations.
+
+Lastly, we compared grading purely to humans in this paper. It would be quite interesting to see how #seshat compares to other autograders mentioned in @tbl:grader-suitability, to see where #seshat excels or falls short.
+#todo[ Compare to LLM grading from #cite(<Bouali2025>, form: "prose") ]
 
 
 = Conclusion<conclusion>
 In this research, we investigate to what extent we can automate the process of grading UML diagrams while maintaining or improving the _accuracy_, _consistency_, and _grading transparency_ of human grading. To achieve this, we consult existing work for possible solutions (*RQ1*), but find no implementations that share the full program (source code or other types of instructions) _and_ that offer high accuracy, consistency, grading transparency, and support UTML or can be extended to support it.
 
-Hence, we successfully build our own autograder: #seshat (*RQ2*). #seshat uses the best performing algorithms from existing work: a custom structural graph matching algorithm based on the work of #cite(<thomas2009>, form: "prose") to map parts of a sample solution to a given student submission, semantic matching using the sentence transformer `all-MiniLM-L6-v2` to account for synonyms, and syntactic matching using `Levenshtein` distance to account for spelling mistakes.
+Hence, we successfully build our own autograder: #seshat (*RQ2*). #seshat uses the best performing algorithms from existing work: a custom structural graph matching algorithm based on the work of #cite(<thomas2009>, form: "prose") to map parts of a sample solution to a given student submission, semantic matching using the sentence transformer `all-MiniLM-L6-v2` to account for synonyms, and syntactic matching using Levenshtein distance to account for spelling mistakes.
 
 While building and testing #seshat, we discover that UTML fundamentally cannot express certain UML concepts and that student submissions often appear visually correct but have an incorrect internal structure. We implement, explain, and showcase a few _reparation_ methods to still be able to grade 'imprecise' solutions.
 
-Finally, we compare #seshat's grading against human grades (*RQ3*). We discover that our initial results are not great, but that we can likely improve the grading rubrics to match human grading pretty well. We write the final conclusions before the 13th of July 2026. /* TODO */
+Finally, we compare #seshat's grading against human grades (*RQ3*). We discover that our initial results are not great, but that we can likely improve the grading rubrics to match human grading more. #todo[We write the final conclusions before the 13th of July 2026. /* TODO */]
 
 To answer our main research question (*MRQ*): we can almost entirely automate the process of grading diagrams, at least for questions that have a clearly defined (set of) sample solution(s). The only thing a human needs to do in order to use #seshat is to provide a grading rubric specifying how many points to award/deduct for certain attributes of a diagram and to provide a (set of) sample solution(s). However, to ensure the grading aligns with the expectations of a teacher, the results need to be randomly sampled and verified, and the grading rubric / sample solution revised. According to our experience with #seshat, if the goal is similar grading to teaching staff, this revision typically requires two to three cycles.
 
 The automation of human grades can also be done while theoretically *maintaining* accuracy and arguably *improving* consistency, and transparency, compared to human grading. While practically we initially did not get close enough to the , you can theoretically construct a grading rubric and a set of alternative sample solutions to perfectly mimic the rubric, thereby acing accuracy. Additionally, since #seshat uses determinstic algorithms for comparing a sample solution to a student submission, it is guaranteed that the same submission receives the same grade, hence resulting in perfect consistency. Finally, transparency is also hard to beat, since the detailed grading rubric states exactly which points were awarded or deducted, for what reason, and optionally for which ILO it counts.
 
-#seshat offers a new grading paradigm for grading diagrams: the process no longer has to be done by multiple paid members of staff, but can instead be done much more quickly by one teacher. The challenge now becomes how to design unambiguous exercises in order to guide students towards (ideally) one truly 'correct' solution, in order to both reduce the number of alternative solutions and thus the effort required by a teacher, as well as the time it takes to grade for #seshat.
+#seshat offers a new grading paradigm for grading diagrams: the process no longer has to be done by multiple paid members of staff, but can instead be done much more quickly by one teacher. The challenge now becomes how to design unambiguous exercises in order to guide students towards one 'correct' solution, in order to both reduce the number of alternative solutions and thus the effort required by a teacher, as well as the time it takes to grade for #seshat.
 
 // - #seshat offers a new way of viewing diagram grading: example solutions become the rubric, and the focus shifts to developing clearer exercises to minimise the number of possible solutions. Clear exercises are more easily automatable because they require less alternative graphs. This is a benefit to both students and teachers: teachers get a positive nudge towards developing exercises that are clearer for students and get rewarded with more accurate autograding and students get clearer exercises. (there is something to be said about disambiguating statements in communication, that is a nice skill, but it is not inherently related to diagram creation. I think it is good to separate the two, because the exercises are not labeled 'make diagram and communicate with stakeholders')
 
@@ -634,6 +635,7 @@ The automation of human grades can also be done while theoretically *maintaining
 #pagebreak()
 #bibliography("refs.bib")
 
+#todo[
 #heading(numbering: none, [ Appendices ])
 #show: appendix
 
@@ -653,4 +655,4 @@ This will be filled by the 13th of July, 2026.
 == BIT 2025, question 1<app:gr-rub:bit2025>
 /* TODO */
 This will be filled by the 13th of July, 2026.
-
+]
