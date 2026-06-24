@@ -480,7 +480,7 @@ We will adjust this validity section to follow the work of #cite(<Larsen2025>, f
 ]
 
 = Results<results>
-For gathering results, we employed the following methodology: we read the rubric and, if present, the explanatory text of the exercise, and make a first sample solution. We also exactly construct a grader config with error repairs on and we award / subtract as many points as the grading rubric instructs to.
+For gathering results, we employed the following methodology: we read the rubric and, if present, the explanatory text of the exercise, and make a first sample solution. We also exactly construct a grader config with error reparation enabled and we award / subtract as many points as the grading rubric instructs to.
 
 Then, we run #seshat on the dataset with our initial rubric, combine the human and autograding into one file, and graph the difference in grading in the paper. We aim to get a flat line, meaning that there is no difference in human or autograding.
 
@@ -493,7 +493,8 @@ Each dataset contains one exercise. We start each section by giving the origin o
 #let ABS_DIFF(d: (), fr: 2) = calc.round(digits: fr, d.fold(0, (v, r) => v + calc.abs(r.at(1) - r.at(0))) / d.len())
 
 #let dataset_figure(title: [], ylabel: [$Delta$ score ], xlabel: [submission], data: (/*two-column array of points*/), maxscore: 1, lim: (-1.25,1.25), ..args) = {
-  show lq.selector(lq.tick-label): set text(0.8em)
+  show lq.selector(lq.tick-label): set text(0.7em)
+  show lq.selector(lq.legend): set text(0.8em)
   lq.diagram(
     width: 95%,
     height: 3cm,
@@ -510,7 +511,7 @@ Each dataset contains one exercise. We start each section by giving the origin o
     ),
 
     lq.hlines(-1, 1, stroke: 0.25mm + purple, label: none),
-    lq.hlines(ABS_DIFF(d: data) / maxscore, stroke: 0.25mm + yellow, label: [ average difference ])
+    lq.hlines(ABS_DIFF(d: data) / maxscore, stroke: 0.25mm + orange, label: [ average absolute difference ])
   )
 }
 
