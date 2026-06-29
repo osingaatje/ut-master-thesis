@@ -6,7 +6,7 @@
 
 // shortcuts / other helper functions
 #let hl = highlight
-#let todos_on = false
+#let todos_on = true
 #let todo(..content) = if todos_on { block([#text(fill: red, [TODO]) #highlight(..content)]) } else { none }
 
 #let seshat = text([_Seshat_])
@@ -491,6 +491,11 @@ We repeat this procedure two to five times, after which we write down our final 
 
 Each dataset contains one exercise. We start each section by giving the origin of the data, a quantitative summary mentioning the number of submissions and total the number of points the grading rubric contains. We mention qualitative data such as the goal of each exercise and how this affects the grading rubric. We then mention our process of aligning #seshat's grades to those produced by teaching staff and present our final statistical analysis.
 
+#todo[ Compare with LLM grading. Notes:
+- Bouali 2025's parser only textualises classes, assocations
+- the parser does not textualise attributes, which limits its performance on TCS grading rubrics.
+- We use Bouali 2025's LLM script with MiniMax 2.7. This was done in corroberation with Nacir Bouali.
+]
 
 #let ABS_DIFF(d: (), fr: 2) = calc.round(digits: fr, d.fold(0, (v, r) => v + calc.abs(r.at(1) - r.at(0))) / d.len())
 
