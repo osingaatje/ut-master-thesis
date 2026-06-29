@@ -1,4 +1,5 @@
 #import "typst-template-ut/typst-template-paper.typ" : conf, abstr, appendix
+#import "stats/stats.typ" : *
 #import "@preview/lilaq:0.6.0" as lq // graphing
 
 #let darkyellow = color.rgb("#B3A638")
@@ -545,16 +546,20 @@ Each dataset contains one exercise. We start each section by giving the origin o
   bit2024data.map(r => float(r.at(2))),
   bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
 
+#let bit2024humanmean = bit2024human.sum() / bit2024human.len()
+#let bit2024humanvar = calc.root(estimate_variance(s: bit2024human), 2)
 #let bit2024maxscore = 40
+
+#let bit2024mannw = mann_whitney_utest(s: bit2024d)
 
 #place(bottom+center, float: true, scope: "column", [
   #figure(caption: [Human grading of BIT 2024 dataset],
-    diagram_histogram(title: [BIT 2024, q.1, Human], bit2024human, start: 0, end: bit2024maxscore, step: 0.5, y_range: (0,7))
+    diagram_histogram(title: [BIT 2024, q.1, Human], bit2024human, start: -2, end: bit2024maxscore, step: 0.5, y_range: (0,7))
       //lq.bar(range(0, 80).map(r => r/2), (x) => bit2024data.filter(r => calc.round(float(r.at(1)), digits: 1) == x).len())
   )<fig:bit2024human>
 
   #figure(caption: [Automated grading of BIT 2024 dataset],
-    diagram_histogram(title: [BIT 2024, q.1, #seshat], bit2024seshat, start: 0, end: bit2024maxscore, step: 0.5, y_range: (0,7))
+    diagram_histogram(title: [BIT 2024, q.1, #seshat], bit2024seshat, start: -2, end: bit2024maxscore, step: 0.5, y_range: (0,7))
   )<fig:bit2024seshat>
 
   #figure(caption: [ Difference in grading between humans and #seshat per submission in the BIT 2024 dataset, normalised to the maximum number of points in the original rubric. Sorted by increasing difference. Positive scores mean that #seshat awarded more points. ],
@@ -583,11 +588,11 @@ We add statistical analysis including a mean-differences test before the 13th of
 
 #place(top+center, float: true, scope: "column", [
   #figure(caption: [Humand grading of TCS 2025 q.5],
-    diagram_histogram(title: [ TCS 2025 q.5 - Human ], tcs2025q5human, start: 0, end: 4, step: 0.5, y_range: (0,70))
+    diagram_histogram(title: [ TCS 2025 q.5 - Human ], tcs2025q5human, start: -2, end: 4, step: 0.5, y_range: (0,70))
   )<fig:tcs2025q5human>
 
   #figure(caption: [Automated grading of TCS 2025 q.5],
-    diagram_histogram(title: [ TCS 2025 q.5 - #seshat ], tcs2025q5seshat, start: 0, end: 4, step: 0.5, y_range: (0,70))
+    diagram_histogram(title: [ TCS 2025 q.5 - #seshat ], tcs2025q5seshat, start: -2, end: 4, step: 0.5, y_range: (0,70))
   )<fig:tcs2025q5seshat>
 
   #figure(caption: [Difference in human and automatic grading _per submission_ for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
@@ -618,11 +623,11 @@ We add statistical analysis including a mean-differences test before the 13th of
 
 #place(top+center, float:true, scope: "column", [
   #figure(caption: [ Human grading for TCS 2025 q.6 ],
-    diagram_histogram(title: [ TCS 2025 q.6 - Human ], tcs2025q6human, start: -1, end: 5, step: 0.25, y_range: (1,100))
+    diagram_histogram(title: [ TCS 2025 q.6 - Human ], tcs2025q6human, start: -2, end: 5, step: 0.25, y_range: (1,100))
   )<fig:tcs2025q6human>
 
   #figure(caption: [ Automated grading of TCS 2025 q.6 ],
-    diagram_histogram(title: [ TCS 2025 q.6 - #seshat ], tcs2025q6seshat, start: -1, end: 5, step: 0.25, y_range: (0,100))
+    diagram_histogram(title: [ TCS 2025 q.6 - #seshat ], tcs2025q6seshat, start: -2, end: 5, step: 0.25, y_range: (0,100))
   )<fig:tcs2025q6seshat>
 
   #figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
