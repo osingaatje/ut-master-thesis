@@ -574,9 +574,12 @@ Each dataset contains one exercise. We start each section by giving the origin o
 
 This dataset is an export of the first question from an exam from the second module of Business Information Technology (BIT) at the UT, in 2024. It requires drawing a class diagram for an Electric Vehicle Charging Network, with 92 submissions in total. The rubric awards 40 points in total in the categories _classes_, _associations_, and _multiplicities_#todo[, and can be seen in @app:gr-rub-bit2024]. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
 
-The grades are not normally distributed, as a Shapiro-Wilk Royston test on human grading gives $W = 0.9448, p = 0.000696$, using R's `shapiro.test()` function based on Royston's extension of Shapiro-Wilk which better suits sample sizes over $n=50$ @Royston1982 @Royston1995, which did not change significantly when removing outliers.
+The grades are not normally distributed, as a Shapiro-Wilk Royston test on human grading gives $W = 0.9448, p = 6.96 dot 10^(-4)$ /* $W = 0.9448, p = 0.000696$*/, using R's `shapiro.test()` function based on Royston's extension of Shapiro-Wilk which better suits sample sizes over $n=50$ @Royston1982 @Royston1995, which did not change significantly when removing outliers.
 
 After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total for correct edge multiplicities, the scores were quite negative compared to the human grading, with an average normalised score difference of #{calc.round(digits: 4, 10/40*100)}%. After inspecting a few of the most outrageous offenders with differences of 50-75% /*20-30 points*/, it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved slightly with an average normalised difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2024d)/40*100)}%. This can be seen in @fig:bit2024.
+
+Comparing the grading of #seshat to human grading with a Mann-Whitney U-test, as the data is not normally distributed, we get a score of $U = #{bit2024mannw.U}$ for $n = #bit2024d.len()$.
+
 #todo[
 However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
 
@@ -590,6 +593,8 @@ We add statistical analysis including a mean-differences test before the 13th of
   tcs2025q5data.map(r => float(r.at(1))), 
   tcs2025q5data.map(r => float(r.at(2))), 
   tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+#let tcs2025q5mannw = mann_whitney_utest(s: tcs2025q5d)
 
 #place(top+center, float: true, scope: "column", [
   #figure(caption: [Humand grading of TCS 2025 q.5],
@@ -607,9 +612,9 @@ We add statistical analysis including a mean-differences test before the 13th of
 
 This dataset comes from a module 2 exam from Technical Computer Science at the UT, from 2025. The dataset has 241 submissions, which differs one from @subsec:tcs2025q6 as one person did not hand in this exercise. The question requires making a UML class diagram that models a theme park. The sample rubric leans toward a holistic rubric, giving one point for _all_ correct classes (but not mentioning which exact classes), one point for correct methods / attributes, and a combined two points for correct associations and -types,for a combined 4 points in total.#todo[ It can be seen in @app:gr-rub:tcs2025q5.]
 
-Like in @subsec:bit2024, this dataset is not normally distributed, receiving a Shapiro Wilk Royston score of $W = 0.82358, p = 6.543e-16$.
+Like in @subsec:bit2024, this dataset is not normally distributed, receiving a Shapiro Wilk Royston score of $W = 0.82358, p = 6.543 dot 10^(-16)$. Mann-Whitney U-test: #tcs2025q5mannw $arrow$ results are statistically significantly different with $p < 0.001$.
 
-Here, the strategy we opted for was similar to the BIT 2024 dataset, giving only scores for present classes and associations and not deducting points for extra classes. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked slightly more reasonable, at an average grade difference of #ABS_DIFF(d: tcs2025q5d) out of 4 points. 
+Here, the strategy we opted for was similar to the BIT 2024 dataset, giving only scores for present classes and associations and not deducting points for extra classes. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked slightly more reasonable, at an average grade difference of #ABS_DIFF(d: tcs2025q5d) out of 4 points.
 
 #todo[
 However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
@@ -625,6 +630,8 @@ We add statistical analysis including a mean-differences test before the 13th of
   tcs2025q6data.map(r => float(r.at(2))),
   tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2))))
 )
+
+#let tcs2025q6mannw = mann_whitney_utest(s: tcs2025q6d)
 
 #place(top+center, float:true, scope: "column", [
   #figure(caption: [ Human grading for TCS 2025 q.6 ],
@@ -642,7 +649,7 @@ We add statistical analysis including a mean-differences test before the 13th of
 
 Question 6 comes from the same exam as @subsec:tcs2025q5, with 242 submissions in total. The question is all about associations: it asks to draw the correct (types of) associations with the correct multiplicities between predetermined classes. As a consequence, the original grading rubric only awards points for correct associations and association types.#todo[ It can be viewed in @app:gr-rub:tcs2025q6.]
 
-#hl("normality of dataset!")
+Such as with the other datasets, TCS 2025 question 6's human grading is not normally distributed, receiving a Shapiro-Wilk-Royston score of $W = 0.96574, p = 1.421 dot 10^(-5)$. Mann-Whitney U: #tcs2025q6mannw, statistically significantly different with $p < 0.001$.
 
 Initially, we copied over the grading rubric to #seshat. However#todo[, initially], it gave quite optimistic scores, on average giving out scores that were #{calc.round(digits: 4, 2.43 / 5 * 100)}% /*ABS_DIFF(d: tcs2025q6d)*/ higher, which can be seen in @fig:tcs2025q6. #todo[ To compensate, I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026.
 
@@ -660,6 +667,8 @@ We add statistical analysis including a mean-differences test before the 13th of
 ])
 
 The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities.#todo[ It can be viewed in @app:gr-rub:bit2025.]
+
+Unlike the other datasets, we cannot reject the hypothesis that this is normally distributed data at a $95%$ confidence level, as BIT 2025 receives a Shapiro-Wilk-Royston score of $W = 0.97306, p = 0.1197$. #hl([TEST SESHAT GRADING]).
 
 The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2025d, fr: 10) / 40 * 100)}% of the maximum number of points. The grade differences can be seen in @fig:bit2025.
 
