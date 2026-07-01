@@ -535,7 +535,7 @@ Additionally, we compare #seshat indirectly to LLM grading. We re-use the code f
 
 
 #let diagram_histogram(title: [], ylabel: [frequency], xlabel: [score], data, start: 0, end: 10, step: 0.5, ..args, y_range: (0,10)) = {
-  let x_vals = range(calc.floor(start - step), int(calc.round(end/step))).map(r => r*step)
+  let x_vals = range(int(calc.floor(start - step)), int(calc.round(end/step))).map(r => r*step)
 
   lq.diagram(
     width: 100%, height: 2cm, title: title, ylabel: ylabel, xlabel: xlabel,
@@ -634,11 +634,11 @@ Comparing the grading of #seshat to human grading with a Mann-Whitney U-test, as
   )<fig:tcs2025q5_llm>
 
   #figure(caption: [Difference in human and #seshat grading per submission for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: tcs2025q5d, maxscore: 4, title: [TCS 2025 q.5])
+    diagram_comparison(data: tcs2025q5d, maxscore: 4, title: [TCS 2025 q.5 - #seshat vs. humans])
   )<fig:tcs2025q5_diff>
  
   #figure(caption: [Difference in human and LLM grading per submission for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: tcs2025q5_llmd, maxscore: 4, title: [TCS 2025 q.5])
+    diagram_comparison(data: tcs2025q5_llmd, maxscore: 4, title: [TCS 2025 q.5 - LLM vs. humans])
   )<fig:tcs2025q5_llmdiff>
 
 ])
@@ -685,11 +685,11 @@ We add statistical analysis including a mean-differences test before the 13th of
   )<fig:tcs2025q6_llm>
 
   #figure(caption: [Difference in human and #seshat grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: tcs2025q6d, maxscore: 5, title: [TCS 2025 q.6])
+    diagram_comparison(data: tcs2025q6d, maxscore: 5, title: [TCS 2025 q.6 - #seshat vs. humans])
   )<fig:tcs2025q6_diff>
 
   #figure(caption: [Difference in human and LLM grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: tcs2025q6_llmd, maxscore: 5, title: [TCS 2025 q.6])
+    diagram_comparison(data: tcs2025q6_llmd, maxscore: 5, title: [TCS 2025 q.6 - LLM vs. humans])
   )<fig:tcs2025q6_llmdiff>
 ])
 
@@ -731,11 +731,11 @@ We add statistical analysis including a mean-differences test before the 13th of
   )<fig:bit2025_llm>
 
   #figure(caption: [Difference in human and #seshat grading for the BIT 2025 ataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: bit2025d, maxscore: 40, title: [ BIT 2025 ])
+    diagram_comparison(data: bit2025d, maxscore: 40, title: [ BIT 2025 - #seshat vs. humans ])
   )<fig:bit2025_diff>
 
   #figure(caption: [Difference in human and LLM grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: bit2025_llmd, maxscore: 40, title: [ BIT 2025 ])
+    diagram_comparison(data: bit2025_llmd, maxscore: 40, title: [ BIT 2025 - LLM vs. humans ])
   )<fig:bit2025_llmdiff>
 ])
 
@@ -787,6 +787,8 @@ Final score: 2 / 5
 Computed Score: 6                   <-- script
 ```
   - we decided to keep these issues, as we intend to compare #seshat against the original solution of Bouali 2024.
+
+- LLM grading is pretyt fixed to the model itself. Can alter prompt to hint towards more forgiving or more strict, but no guarantees. #seshat is determinstically configurable.
 ]
 
 
