@@ -492,9 +492,34 @@ We repeat this procedure two to five times, after which we write down our final 
 Each dataset contains one exercise. We start each section by giving the origin of the data, a quantitative summary mentioning the number of submissions and total the number of points the grading rubric contains. We mention qualitative data such as the goal of each exercise and how this affects the grading rubric. We then mention our process of aligning #seshat's grades to those produced by teaching staff and present our final statistical analysis.
 
 #todo[ Compare with LLM grading. Notes:
-- Bouali 2025's parser only textualises classes, assocations
-- the parser does not textualise attributes, which limits its performance on TCS grading rubrics.
-- We use Bouali 2025's LLM script with MiniMax 2.7. This was done in corroberation with Nacir Bouali.
+- We use Bouali 2025's LLM script with MiniMax 2.7. This was done in corroberation with Nacir Bouali, and is, according to the author, supposedly better than the models used in Bouali et al. 2024
+- Bouali 2025's parser only textualises classes, assocations, not methods or fields, which makes it disproportionately strict towards the TCS 2025 q.5 dataset, which award points for attributes.
+- Script that counts points per rubric, because LLM cannot do math (see Bouali 2024). Problems in script:
+    - The script that counts the points does not account for decimal points. This means the calculated grade is sometimes stricter than what the LLM outputted. Example for TCS 2025 q.6: ```
+LLM OUTPUT:
+----------------------------------------
+
+5. Chess board has a chess piece (1..*) | Aggregation
+Matching excerpt from student answer: "One ChessPiece is associated with One ChessBoard. One ChessBoard is associated with 32 ChessPiece."
+Points awarded: 0.5
+
+Reason: The student correctly shows that a ChessBoard contains ChessPieces. However, the upper bound is set to exactly 32, whereas the requirement allows "1..*" (one or more without fixed limit) or "0..32" (up to 32). The fixed number 32 is too restrictive compared to the flexibility allowed in the rubric. Partial credit awarded for demonstrating the correct relationship type and general understanding.
+
+...
+
+**Total points: 2.5 out of 5**
+----------------------------------------
+SCRIPT OUTPUT:
+----------------------------------------
+Number of 1-point criteria: 2
+Number of 0-point criteria: 3
+Final score: 2 / 5
+```
+  - the script does not account for `<think></think>` blocks used in reasoning models, and does not verify that the number of awarded point is in the possible range of the rubric, which leads to the script double-counting certain rubric points. This leads to score discrepancies such as in TCS 2025 q.6, submission 1027499: ```
+## Total points: **2 out of 5** <-- LLM
+Computed Score: 6                   <-- script
+```
+  - we decided to keep these issues, as we intend to compare #seshat against the original solution of Bouali 2024.
 ]
 
 #let ABS_DIFF(d: (), fr: 2) = calc.round(digits: fr, d.fold(0, (v, r) => v + calc.abs(r.at(1) - r.at(0))) / d.len())
