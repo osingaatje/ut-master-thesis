@@ -395,6 +395,8 @@ This grading configuration also specifies the reparation options specified in @s
 After calculating a grade, #seshat needs a way to show this to the user. Three built-in methods exist for exporting data: export only the final grades to a `.csv` file, export the final grade and a detailed reasoning for why this is the final grade to a `.json` file per submission, or export both a `.csv` file and `.json` files. An example of a `.json` grade export can be seen in @fig:ex-json-export.
 
 #place(bottom+center, float: true, scope: "parent", [
+  #todo[put in appendix]
+
   #figure(caption: [Snippets from the grading configuration for TCS 2025 q.6], [```json
  {
   "ilos": {...},
@@ -439,6 +441,7 @@ After calculating a grade, #seshat needs a way to show this to the user. Three b
 }
 ```])<fig:ex-json-export>
 
+#todo[keep here]
 #figure(caption: [Demo graph (`.dot`) export of submission 1027326 from TCS 2025 q.6.],
   image("pics/grading/1027326_graded_graph.svg")
 )<fig:ex-graph-export>
