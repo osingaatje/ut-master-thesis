@@ -481,17 +481,284 @@ We will adjust this validity section to follow the work of #cite(<Larsen2025>, f
 ]
 
 = Results<results>
-For gathering results, we employed the following methodology: we read the rubric and, if present, the explanatory text of the exercise, and make a first sample solution. We also exactly construct a grader config with error reparation enabled and we award / subtract as many points as the grading rubric instructs to.
 
-Then, we run #seshat on the dataset with our initial rubric, combine the human and autograding into one file, and graph the difference in grading in the paper. We aim to get a flat line, meaning that there is no difference in human or autograding. #todo[we also use the Shapiro-Wilk Royston analysis @Royston1982 for normality and, using that, determine whether which]
+== Methodology
+#todo[ Place this in Seshat section, and refer to that section from here. ]
+For gathering results, we employed the following methodology.
 
-We inspect the outliers, sorting by biggest difference and sampling roughly every 20 submissions. We note our initial results in the paper, giving the initial average difference. We determine if the difference is up to human error or if #seshat is configured or programmed wrongly. If #seshat is incorrect, we revise the code or the grading rubric and grade the entire dataset again.
+We read the rubric and, if present, the explanatory text of the exercise, and make an initial sample solution. We construct a grader configuration with error reparation enabled and award / subtract exactly as many points as the grading rubric instructs to.
 
-We repeat this procedure two to five times, after which we write down our final results. We save the raw scores, example rubrics, and the results in our code repository @seshat.
+Then, we run #seshat on the dataset with our initial rubric and graph both individual human and autograding and the difference between human grading and autograding inside of this paper. To verify similarity, we inspect the statistical difference in means between human grading and autograding, using a Mann-Whitney U-test when data is not normally distributed, or a t-test, when data is normally distributed.
 
-Each dataset contains one exercise. We start each section by giving the origin of the data, a quantitative summary mentioning the number of submissions and total the number of points the grading rubric contains. We mention qualitative data such as the goal of each exercise and how this affects the grading rubric. We then mention our process of aligning #seshat's grades to those produced by teaching staff and present our final statistical analysis.
+In order to improve #seshat's scores, we inspect the outliers, sorting by biggest difference and sampling roughly every 10 submissions. We note the reason for the discrepancies in scores in this paper and give the initial average difference in scores. For large discrepancies, we determine if the difference is up to human error or if #seshat is misconfigured or incorrectly programmed. If #seshat is at fault, we revise the code or the grading rubric and grade the entire dataset again. If human grading is unreasonably different than the rubric, we note this down as well. 
 
-#todo[ Compare with LLM grading. Notes:
+We perform this regrading because #seshat does not grade based on a rubric, meaning that there is some room for error in translating this rubric to a sample solution and adjusting the number of points that are awarded or taken away.
+
+In order to get closer to human grading, we repeat this regrading procedure two to five times (but not more times, in order to both meet deadlines and preserve the author's sanity), after which we write down our final results. The raw scores, example rubrics, and the final results can be inspected in our code repository @seshat.
+
+== Structure
+Each section contains the process and results of grading one dataset.
+
+We start each section by explaining the origin of the dataset and giving a quantitative summary which includes the number of submissions, rubric points awarded, and rubric categories. We mention qualitative data such as the goal of each exercise and how this affects the grading rubric. We then mention our process of aligning #seshat's grades to those produced by teaching staff and present our final statistical analysis explaining how close we got to human grading.
+
+#let boualiLLMModel = [MiniMax M2.7]
+Additionally, we compare #seshat indirectly to LLM grading. We re-use the code from #cite(<Bouali2025>, form: "prose"), which is kept almost entirely the same as their paper in order to recreate the circumstances of the original paper as faithfully as possible. We copy-paste the rubric of each dataset into the prompt, run the LLM grading once with the model '#boualiLLMModel'#footnote([#boualiLLMModel is chosen together with the main author of #cite(<Bouali2025>, form: "prose"), which, according to the main author, performs better than the models tested in #cite(<Bouali2025>, form: "year") @Bouali2025.]). After the script has outputted all LLM responses along with the calculated grades (which addresses the LLM point-counting issue mentioned in @subsec:relatedwork-autograder-AI), we display both the individual grade distribution of #boualiLLMModel as well as the difference to human grades in the same way as with #seshat. Differently from #seshat's methodology, we grade each dataset exactly once since we do not need to adjust the human grading rubric, according to the methodology in #cite(<Bouali2025>, form: "prose").
+
+
+#let ABS_DIFF(d: (), fr: 2) = calc.round(digits: fr, d.fold(0, (v, r) => v + calc.abs(r.at(1) - r.at(0))) / d.len())
+
+
+#let diagram_comparison(title: [], ylabel: [$Delta$ score ], xlabel: [submission], data: (/*two-column array of points*/), maxscore: 1, lim: (-1.25,1.25), ..args) = {
+  show lq.selector(lq.tick-label): set text(0.7em)
+  show lq.selector(lq.legend): set text(0.8em)
+
+  lq.diagram(
+    width: 95%,
+    height: 3cm,
+    title: title, ylabel: ylabel, xlabel: xlabel,
+    legend: (position: center + bottom),
+    xaxis: ( ticks: none, //data.map(rotate.with(-90deg, reflow: true)).enumerate()
+      subticks: none ),
+    yaxis: ( lim: lim, ticks: ((-1,$100%$),(-0.5,$-50%$),(-0.25,$-25%$),(0,$0%$),(0.25,$25%$),(0.5,$50%$),(1,$100%$)), subticks: 5 ),
+    ..args,
+    lq.bar(
+      range(data.len()), data.map(r => (r.at(1)-r.at(0)) / maxscore).sorted(),
+      fill: blue,
+      label: none, //[ human grade - #seshat grade ]
+      width: 100%,
+    ),
+
+    lq.hlines(-1, 1, stroke: 0.25mm + purple, label: none),
+    lq.hlines(ABS_DIFF(d: data) / maxscore, stroke: 0.25mm + orange, label: [ average absolute difference ])
+  )
+}
+
+
+#let diagram_histogram(title: [], ylabel: [frequency], xlabel: [score], data, start: 0, end: 10, step: 0.5, ..args, y_range: (0,10)) = {
+  let x_vals = range(calc.floor(start - step), int(calc.round(end/step))).map(r => r*step)
+
+  lq.diagram(
+    width: 100%, height: 2cm, title: title, ylabel: ylabel, xlabel: xlabel,
+    legend: (position: center+bottom),
+    yaxis: ( lim: y_range ),
+    xaxis: ( lim: (start,end) ),
+    ..args,
+    lq.bar(
+      /*x*/ x_vals,
+      // /*y*/ (x) => data.filter(r => (calc.abs(calc.floor(r * (1/step)) * step - x) < step)).len(),
+      /* y */ (x) => data.filter(r => { r >= x and r < x+step }).len(),
+      fill: x_vals.map(x => if x < 0 { red } else { blue } ),
+      width: 100%,
+      stroke: none, // blue+0.5mm,
+    )
+  )
+}
+
+
+== BIT 2024<subsec:bit2024>
+#let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
+#let bit2024data_llm = csv("data/LLM/2024_BIT_COMBINED.csv").slice(1)
+
+#let (bit2024c, bit2024human, bit2024seshat, bit2024d) = (
+  bit2024data.map(r => r.at(0)),
+  bit2024data.map(r => float(r.at(1))),
+  bit2024data.map(r => float(r.at(2))),
+  bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+#let bit2024_llm = bit2024data_llm.map(r => float(r.at(2)))
+#let bit2024_llmd = bit2024data_llm.map(r => (float(r.at(1)), float(r.at(2))))
+
+#let bit2024maxscore = 40
+
+#let bit2024mannw = mann_whitney_utest(s: bit2024d)
+
+#place(bottom+center, float: true, scope: "column", [
+  #figure(caption: [Human grading of BIT 2024 dataset],
+    diagram_histogram(title: [BIT 2024, q.1, Human], bit2024human, start: -1.5, end: bit2024maxscore, step: 0.5, y_range: (0,7))
+      //lq.bar(range(0, 80).map(r => r/2), (x) => bit2024data.filter(r => calc.round(float(r.at(1)), digits: 1) == x).len())
+  )<fig:bit2024human>
+
+  #figure(caption: [Automated grading of BIT 2024 using #seshat],
+    diagram_histogram(title: [BIT 2024, q.1, #seshat], bit2024seshat, start: -1.5, end: bit2024maxscore, step: 0.5, y_range: (0,7))
+  )<fig:bit2024seshat>
+
+  #figure(caption: [ Automated grading of BIT 2024 using #boualiLLMModel ],
+    diagram_histogram(title: [BIT 2024, q.1, LLM], bit2024_llm, start: -1.5, end: bit2024maxscore, step: 0.5, y_range: (0,10))
+  )<fig:bit2024_llm>
+
+  #figure(caption: [ Difference in grading between humans and #seshat per submission in the BIT 2024 dataset, normalised to the maximum number of points in the original rubric. Sorted by increasing difference. Positive scores mean that #seshat awarded more points. ],
+    diagram_comparison(data: bit2024d, maxscore: 40, title: [BIT 2024, q.1 - #seshat vs. humans], ylabel: [$Delta$ score ], xlabel: [submission])
+  )<fig:bit2024_diff>
+
+  #figure(caption: [ Difference in grading between humans and LLMs per submission in the BIT 2024 dataset, normalised to the maximum number of points in the original rubric. Sorted by increasing difference. Positive scores mean that #boualiLLMModel awarded more points than humans. ], 
+    diagram_comparison(data: bit2024_llmd, maxscore: 40, title: [ BIT 2024 q.1 - LLM vs. humans ])
+  )<fig:bit2024_llmdiff>
+])
+
+This dataset is an export of the first question from an exam from the second module of Business Information Technology (BIT) at the UT, in 2024. It requires drawing a class diagram for an Electric Vehicle Charging Network, with 92 submissions in total. The rubric awards 40 points in total in the categories _classes_, _associations_, and _multiplicities_#todo[, and can be seen in @app:gr-rub-bit2024]. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
+
+The grades are not normally distributed, as a Shapiro-Wilk Royston test on human grading gives $W = 0.9448, p = 6.96 dot 10^(-4)$ /* $W = 0.9448, p = 0.000696$*/, using R's `shapiro.test()` function based on Royston's extension of Shapiro-Wilk which better suits sample sizes over $n=50$ @Royston1982 @Royston1995, which did not change significantly when removing outliers.
+
+After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total for correct edge multiplicities, the scores were quite negative compared to the human grading, with an average normalised score difference of #{calc.round(digits: 4, 10/40*100)}%. After inspecting a few of the most outrageous offenders with differences of 50-75% /*20-30 points*/, it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved slightly with an average normalised difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2024d)/40*100)}%. This can be seen in @fig:bit2024_diff.
+
+Comparing the grading of #seshat to human grading with a Mann-Whitney U-test, as the data is not normally distributed, we get a score of $U = #{bit2024mannw.U}$ for $n = #bit2024d.len()$.
+
+
+== TCS 2025<subsec:tcs2025>
+=== Question 5<subsec:tcs2025q5>
+#let tcs2025q5data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
+#let tcs2025q5data_llm = csv("data/LLM/2025_TCS_Q5_COMBINED.csv").slice(1)
+
+#let (tcs2025q5c, tcs2025q5human, tcs2025q5seshat, tcs2025q5d) = (
+  tcs2025q5data.map(r => r.at(0)), 
+  tcs2025q5data.map(r => float(r.at(1))), 
+  tcs2025q5data.map(r => float(r.at(2))), 
+  tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
+
+#let tcs2025q5_llm = tcs2025q5data_llm.map(r => float(r.at(2)))
+#let tcs2025q5_llmd = tcs2025q5data_llm.map(r => (float(r.at(1)), float(r.at(2))))
+
+#let tcs2025q5mannw = mann_whitney_utest(s: tcs2025q5d)
+
+#place(top+center, float: true, scope: "column", [
+  #figure(caption: [Humand grading of TCS 2025 q.5],
+    diagram_histogram(title: [ TCS 2025 q.5 - Human ], tcs2025q5human, start: -1.5, end: 4, step: 0.5, y_range: (0,100))
+  )<fig:tcs2025q5human>
+
+  #figure(caption: [Automated grading of TCS 2025 q.5 using #seshat ],
+    diagram_histogram(title: [ TCS 2025 q.5 - #seshat ], tcs2025q5seshat, start: -1.5, end: 4, step: 0.5, y_range: (0,100))
+  )<fig:tcs2025q5seshat>
+
+  #figure(caption: [Automated grading of TCS 2025 q.5 using #boualiLLMModel ],
+    diagram_histogram(title: [ TCS 2025 q.5 - #boualiLLMModel ], tcs2025q5_llm, start: -1.5, end: 4, step: 0.5, y_range: (0,100))
+  )<fig:tcs2025q5_llm>
+
+  #figure(caption: [Difference in human and #seshat grading per submission for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    diagram_comparison(data: tcs2025q5d, maxscore: 4, title: [TCS 2025 q.5])
+  )<fig:tcs2025q5_diff>
+ 
+  #figure(caption: [Difference in human and LLM grading per submission for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    diagram_comparison(data: tcs2025q5_llmd, maxscore: 4, title: [TCS 2025 q.5])
+  )<fig:tcs2025q5_llmdiff>
+
+])
+
+This dataset comes from a module 2 exam from Technical Computer Science at the UT, from 2025. The dataset has 241 submissions, which differs one from @subsec:tcs2025q6 as one person did not hand in this exercise. The question requires making a UML class diagram that models a theme park. The sample rubric leans toward a holistic rubric, giving one point for _all_ correct classes (but not mentioning which exact classes), one point for correct methods / attributes, and a combined two points for correct associations and -types,for a combined 4 points in total.#todo[ It can be seen in @app:gr-rub:tcs2025q5.]
+
+Like in @subsec:bit2024, this dataset is not normally distributed, receiving a Shapiro Wilk Royston score of $W = 0.82358, p = 6.543 dot 10^(-16)$. Mann-Whitney U-test: #tcs2025q5mannw $arrow$ results are statistically significantly different with $p < 0.001$.
+
+Here, the strategy we opted for was similar to the BIT 2024 dataset, giving only scores for present classes and associations and not deducting points for extra classes. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked slightly more reasonable, at an average grade difference of #ABS_DIFF(d: tcs2025q5d) out of 4 points.
+
+#todo[
+However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
+
+We add statistical analysis including a mean-differences test before the 13th of July 2026.
+]
+
+=== Question 6<subsec:tcs2025q6>
+#let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
+#let tcs2025q6data_llm = csv("data/LLM/2025_TCS_Q5_COMBINED.csv").slice(1)
+
+#let (tcs2025q6c, tcs2025q6human, tcs2025q6seshat, tcs2025q6d) = (
+  tcs2025q6data.map(r => r.at(0)),
+  tcs2025q6data.map(r => float(r.at(1))),
+  tcs2025q6data.map(r => float(r.at(2))),
+  tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2))))
+)
+
+#let tcs2025q6_llm = tcs2025q5data_llm.map(r => float(r.at(2)))
+#let tcs2025q6_llmd = tcs2025q5data_llm.map(r => (float(r.at(1)), float(r.at(2))))
+
+#let tcs2025q6mannw = mann_whitney_utest(s: tcs2025q6d)
+
+#place(top+center, float:true, scope: "column", [
+  #figure(caption: [ Human grading for TCS 2025 q.6 ],
+    diagram_histogram(title: [ TCS 2025 q.6 - Human ], tcs2025q6human, start: -1.5, end: 5, step: 0.25, y_range: (1,100))
+  )<fig:tcs2025q6human>
+
+  #figure(caption: [ #seshat grading of TCS 2025 q.6 ],
+    diagram_histogram(title: [ TCS 2025 q.6 - #seshat ], tcs2025q6seshat, start: -1.5, end: 5, step: 0.25, y_range: (0,100))
+  )<fig:tcs2025q6seshat>
+ 
+  #figure(caption: [ LLM grading of TCS 2025 q.6 ],
+    diagram_histogram(title: [ TCS 2025 q.6 - #boualiLLMModel ], tcs2025q6_llm, start: -1.5, end: 5, step: 0.25, y_range: (0,100))
+  )<fig:tcs2025q6_llm>
+
+  #figure(caption: [Difference in human and #seshat grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    diagram_comparison(data: tcs2025q6d, maxscore: 5, title: [TCS 2025 q.6])
+  )<fig:tcs2025q6_diff>
+
+  #figure(caption: [Difference in human and LLM grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    diagram_comparison(data: tcs2025q6_llmd, maxscore: 5, title: [TCS 2025 q.6])
+  )<fig:tcs2025q6_llmdiff>
+])
+
+Question 6 comes from the same exam as @subsec:tcs2025q5, with 242 submissions in total. The question is all about associations: it asks to draw the correct (types of) associations with the correct multiplicities between predetermined classes. As a consequence, the original grading rubric only awards points for correct associations and association types.#todo[ It can be viewed in @app:gr-rub:tcs2025q6.]
+
+Such as with the other datasets, TCS 2025 question 6's human grading is not normally distributed, receiving a Shapiro-Wilk-Royston score of $W = 0.96574, p = 1.421 dot 10^(-5)$. Mann-Whitney U: #tcs2025q6mannw, statistically significantly different with $p < 0.001$.
+
+Initially, we copied over the grading rubric to #seshat. However#todo[, initially], it gave quite optimistic scores, on average giving out scores that were #{calc.round(digits: 4, 2.43 / 5 * 100)}% /*ABS_DIFF(d: tcs2025q6d)*/ higher, which can be seen in @fig:tcs2025q6_diff. #todo[ To compensate, I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026.
+
+We add statistical analysis including a mean-differences test before the 13th of July 2026.]
+
+== BIT 2025<subsec:bit2025>
+#let bit2025data = csv("data/2025_M2_BIT/GRADE_RESULTS/2025_M2_BIT_combined.csv").slice(1)
+#let bit2025data_llm =  csv("data/LLM/2025_BIT_COMBINED.csv").slice(1)
+
+#let (bit2025c, bit2025human, bit2025seshat, bit2025d) = (
+  bit2025data.map(r => r.at(0)),
+  bit2025data.map(r => float(r.at(1))),
+  bit2025data.map(r => float(r.at(2))),
+  bit2025data.map(r => (float(r.at(1)), float(r.at(2))))
+)
+
+#let bit2025maxscore = 40
+
+#let bit2025_llm = bit2025data_llm.map(r => float(r.at(2)))
+#let bit2025_llmd = bit2024data_llm.map(r => (float(r.at(1)), float(r.at(2))))
+
+#place(top+center, float:true, scope: "column", [
+  #figure(caption: [ Human grading for BIT 2025 ],
+    diagram_histogram(title: [ BIT 2025 ], bit2025human, start: -1.5, end: bit2025maxscore, step: 0.5, y_range: (1,10))
+  )<fig:bit2025human>
+
+  #figure(caption: [ #seshat grading of BIT 2025 ],
+    diagram_histogram(title: [ BIT 2025  - #seshat ], bit2025seshat, start: -1.5, end: bit2025maxscore, step: 0.5, y_range: (0,10))
+  )<fig:bit2025seshat>
+ 
+  #figure(caption: [ LLM grading of BIT 2025 ],
+    diagram_histogram(title: [ BIT 2025 - #boualiLLMModel ], bit2025_llm, start: -1.5, end: bit2025maxscore, step: 0.5, y_range: (0,10))
+  )<fig:bit2025_llm>
+
+  #figure(caption: [Difference in human and #seshat grading for the BIT 2025 ataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    diagram_comparison(data: bit2025d, maxscore: 40, title: [ BIT 2025 ])
+  )<fig:bit2025_diff>
+
+  #figure(caption: [Difference in human and LLM grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
+    diagram_comparison(data: bit2025_llmd, maxscore: 40, title: [ BIT 2025 ])
+  )<fig:bit2025_llmdiff>
+])
+
+The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities.#todo[ It can be viewed in @app:gr-rub:bit2025.] #todo[points and more explanation!]
+
+Unlike the other datasets, we cannot reject the hypothesis that this is normally distributed data at a $95%$ confidence level, as BIT 2025 receives a Shapiro-Wilk-Royston score of $W = 0.97306, p = 0.1197$. #hl([TEST SESHAT GRADING]).
+
+The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2025d, fr: 10) / 40 * 100)}% of the maximum number of points. The grade differences can be seen in @fig:bit2025_diff.
+
+#todo[
+I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026. /* TODO */
+
+We add statistical analysis including a mean-differences test before the 13th of July 2026.
+]
+
+= Discussion<discussion>
+As seen in @results, #seshat can emulate human grading pretty effectively, with most differences likely stemming from human errors#todo[, but this will be definititively answered before 13th of July 2026 /* TODO */]. However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is often harsh when grading slightly different solutions compared to human grading.
+
+While trying to emulate human grading, it took a few rounds of revision to the example solution and the scoring system to get an approximately similar result. After fixing some bugs and improving autograder performance, the difference mainly seems to stem from human grading not very strictly following the rubric.
+
+The differences are also likely caused from the different paradigm of grading with a sample solution. Wit h a sample solution, instead of having a teacher make a rubric for a particular exercise and having graders interpret the rubric, inherently leaving room for error, it forces teachers to think about concrete possible solutions. With sample solutions, the possible solutions *are* the rubric. This works quite well for exercises with defined solutions (for example TCS 2025 q.6 mentioned in @subsec:tcs2025q6), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
+
+#todo[ comparison to LLM notes:
 - We use Bouali 2025's LLM script with MiniMax 2.7. This was done in corroberation with Nacir Bouali, and is, according to the author, supposedly better than the models used in Bouali et al. 2024
 - Bouali 2025's parser only textualises classes, assocations, not methods or fields, which makes it disproportionately strict towards the TCS 2025 q.5 dataset, which award points for attributes.
 - Script that counts points per rubric, because LLM cannot do math (see Bouali 2024). Problems in script:
@@ -522,193 +789,6 @@ Computed Score: 6                   <-- script
   - we decided to keep these issues, as we intend to compare #seshat against the original solution of Bouali 2024.
 ]
 
-#let ABS_DIFF(d: (), fr: 2) = calc.round(digits: fr, d.fold(0, (v, r) => v + calc.abs(r.at(1) - r.at(0))) / d.len())
-
-
-#let diagram_comparison(title: [], ylabel: [$Delta$ score ], xlabel: [submission], data: (/*two-column array of points*/), maxscore: 1, lim: (-1.25,1.25), ..args) = {
-  show lq.selector(lq.tick-label): set text(0.7em)
-  show lq.selector(lq.legend): set text(0.8em)
-  lq.diagram(
-    width: 95%,
-    height: 3cm,
-    title: title, ylabel: ylabel, xlabel: xlabel,
-    legend: (position: center + bottom),
-    xaxis: ( ticks: none, //data.map(rotate.with(-90deg, reflow: true)).enumerate()
-      subticks: none ),
-    yaxis: ( lim: lim, ticks: ((-1,$100%$),(-0.5,$-50%$),(-0.25,$-25%$),(0,$0%$),(0.25,$25%$),(0.5,$50%$),(1,$100%$)), subticks: 5 ),
-    ..args,
-    lq.bar(
-      range(data.len()), data.map(r => (r.at(1)-r.at(0)) / maxscore).sorted(),
-      fill: blue,
-      label: none, //[ human grade - #seshat grade ]
-      width: 100%,
-    ),
-
-    lq.hlines(-1, 1, stroke: 0.25mm + purple, label: none),
-    lq.hlines(ABS_DIFF(d: data) / maxscore, stroke: 0.25mm + orange, label: [ average absolute difference ])
-  )
-}
-
-
-#let diagram_histogram(title: [], ylabel: [frequency], xlabel: [score], data, start: 0, end: 10, step: 0.5, ..args, y_range: (0,10)) = {
-  lq.diagram(
-    width: 100%, height: 2cm, title: title, ylabel: ylabel, xlabel: xlabel,
-    legend: (position: center+bottom),
-    yaxis: ( lim: y_range ),
-    xaxis: ( lim: (start,end) ),
-    ..args,
-    lq.bar(
-      /*x*/ range(start, int(calc.round(end/step))).map(r => r*step), 
-      // /*y*/ (x) => data.filter(r => (calc.abs(calc.floor(r * (1/step)) * step - x) < step)).len(),
-      /* y */ (x) => data.filter(r => { r >= x and r < x+step }).len(),
-      fill: blue,
-      width: 100%,
-      stroke: none, // blue+0.5mm,
-    )
-  )
-}
-
-== BIT 2024<subsec:bit2024>
-#let bit2024data = csv("data/2024_M2_BIT/GRADE_RESULTS/2024_M2_BIT_combined.csv").slice(1)
-#let (bit2024c, bit2024human, bit2024seshat, bit2024d) = (
-  bit2024data.map(r => r.at(0)),
-  bit2024data.map(r => float(r.at(1))),
-  bit2024data.map(r => float(r.at(2))),
-  bit2024data.map(r => (float(r.at(1)), float(r.at(2)))))
-
-#let bit2024humanmean = bit2024human.sum() / bit2024human.len()
-#let bit2024humanvar = calc.root(estimate_variance(s: bit2024human), 2)
-#let bit2024maxscore = 40
-
-#let bit2024mannw = mann_whitney_utest(s: bit2024d)
-
-#place(bottom+center, float: true, scope: "column", [
-  #figure(caption: [Human grading of BIT 2024 dataset],
-    diagram_histogram(title: [BIT 2024, q.1, Human], bit2024human, start: -2, end: bit2024maxscore, step: 0.5, y_range: (0,7))
-      //lq.bar(range(0, 80).map(r => r/2), (x) => bit2024data.filter(r => calc.round(float(r.at(1)), digits: 1) == x).len())
-  )<fig:bit2024human>
-
-  #figure(caption: [Automated grading of BIT 2024 dataset],
-    diagram_histogram(title: [BIT 2024, q.1, #seshat], bit2024seshat, start: -2, end: bit2024maxscore, step: 0.5, y_range: (0,7))
-  )<fig:bit2024seshat>
-
-  #figure(caption: [ Difference in grading between humans and #seshat per submission in the BIT 2024 dataset, normalised to the maximum number of points in the original rubric. Sorted by increasing difference. Positive scores mean that #seshat awarded more points. ],
-    diagram_comparison(data: bit2024d, maxscore: 40, title: [BIT 2024, question 1], ylabel: [$Delta$ score ], xlabel: [submission])
-  )<fig:bit2024>
-])
-
-This dataset is an export of the first question from an exam from the second module of Business Information Technology (BIT) at the UT, in 2024. It requires drawing a class diagram for an Electric Vehicle Charging Network, with 92 submissions in total. The rubric awards 40 points in total in the categories _classes_, _associations_, and _multiplicities_#todo[, and can be seen in @app:gr-rub-bit2024]. The exercise expects a simple UML class diagram, with the focus on the presence of certain classes and association types.
-
-The grades are not normally distributed, as a Shapiro-Wilk Royston test on human grading gives $W = 0.9448, p = 6.96 dot 10^(-4)$ /* $W = 0.9448, p = 0.000696$*/, using R's `shapiro.test()` function based on Royston's extension of Shapiro-Wilk which better suits sample sizes over $n=50$ @Royston1982 @Royston1995, which did not change significantly when removing outliers.
-
-After implementing the rubric in code exactly, giving 1 point per present class and association, along with a point in total for correct edge multiplicities, the scores were quite negative compared to the human grading, with an average normalised score difference of #{calc.round(digits: 4, 10/40*100)}%. After inspecting a few of the most outrageous offenders with differences of 50-75% /*20-30 points*/, it turned out #seshat was not mapping edges correctly between the solution and submission. After resolving this, and giving _just over_ 1 point for each present vertex and edge (simulating human forgiveness), the equivalence improved slightly with an average normalised difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2024d)/40*100)}%. This can be seen in @fig:bit2024.
-
-Comparing the grading of #seshat to human grading with a Mann-Whitney U-test, as the data is not normally distributed, we get a score of $U = #{bit2024mannw.U}$ for $n = #bit2024d.len()$.
-
-#todo[
-However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
-
-We add statistical analysis including a mean-differences test before the 13th of July 2026.]
-
-== TCS 2025<subsec:tcs2025>
-=== Question 5<subsec:tcs2025q5>
-#let tcs2025q5data = csv("data/2025_M2_TCS/GRADE_RESULTS/5/2025_M2_TCS_q5_combined.csv").slice(1)
-#let (tcs2025q5c, tcs2025q5human, tcs2025q5seshat, tcs2025q5d) = (
-  tcs2025q5data.map(r => r.at(0)), 
-  tcs2025q5data.map(r => float(r.at(1))), 
-  tcs2025q5data.map(r => float(r.at(2))), 
-  tcs2025q5data.map(r => (float(r.at(1)), float(r.at(2)))))
-
-#let tcs2025q5mannw = mann_whitney_utest(s: tcs2025q5d)
-
-#place(top+center, float: true, scope: "column", [
-  #figure(caption: [Humand grading of TCS 2025 q.5],
-    diagram_histogram(title: [ TCS 2025 q.5 - Human ], tcs2025q5human, start: -2, end: 4, step: 0.5, y_range: (0,70))
-  )<fig:tcs2025q5human>
-
-  #figure(caption: [Automated grading of TCS 2025 q.5],
-    diagram_histogram(title: [ TCS 2025 q.5 - #seshat ], tcs2025q5seshat, start: -2, end: 4, step: 0.5, y_range: (0,70))
-  )<fig:tcs2025q5seshat>
-
-  #figure(caption: [Difference in human and automatic grading _per submission_ for the TCS 2025 dataset, question 5. Normalised to the maximum number of points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: tcs2025q5d, maxscore: 4, title: [TCS 2025 q.5])
-  )<fig:tcs2025q5>
-])
-
-This dataset comes from a module 2 exam from Technical Computer Science at the UT, from 2025. The dataset has 241 submissions, which differs one from @subsec:tcs2025q6 as one person did not hand in this exercise. The question requires making a UML class diagram that models a theme park. The sample rubric leans toward a holistic rubric, giving one point for _all_ correct classes (but not mentioning which exact classes), one point for correct methods / attributes, and a combined two points for correct associations and -types,for a combined 4 points in total.#todo[ It can be seen in @app:gr-rub:tcs2025q5.]
-
-Like in @subsec:bit2024, this dataset is not normally distributed, receiving a Shapiro Wilk Royston score of $W = 0.82358, p = 6.543 dot 10^(-16)$. Mann-Whitney U-test: #tcs2025q5mannw $arrow$ results are statistically significantly different with $p < 0.001$.
-
-Here, the strategy we opted for was similar to the BIT 2024 dataset, giving only scores for present classes and associations and not deducting points for extra classes. Unlike @subsec:bit2024, the scores awarded by #seshat were enormous at first, regularly reaching over 10 points higher than the TA grading, while the maximum score for the exercise was 5. After adjusting the grading of classes and associations to only award a point in _total_, and not _per element_, the grading looked slightly more reasonable, at an average grade difference of #ABS_DIFF(d: tcs2025q5d) out of 4 points.
-
-#todo[
-However, regrading this dataset twice or thrice will likely yield more closer alignment to human grading. This will be done before the 13th of July 2026.
-
-We add statistical analysis including a mean-differences test before the 13th of July 2026.
-]
-
-=== Question 6<subsec:tcs2025q6>
-#let tcs2025q6data = csv("data/2025_M2_TCS/GRADE_RESULTS/6/2025_M2_TCS_q6_combined.csv").slice(1)
-#let (tcs2025q6c, tcs2025q6human, tcs2025q6seshat, tcs2025q6d) = (
-  tcs2025q6data.map(r => r.at(0)),
-  tcs2025q6data.map(r => float(r.at(1))),
-  tcs2025q6data.map(r => float(r.at(2))),
-  tcs2025q6data.map(r => (float(r.at(1)), float(r.at(2))))
-)
-
-#let tcs2025q6mannw = mann_whitney_utest(s: tcs2025q6d)
-
-#place(top+center, float:true, scope: "column", [
-  #figure(caption: [ Human grading for TCS 2025 q.6 ],
-    diagram_histogram(title: [ TCS 2025 q.6 - Human ], tcs2025q6human, start: -2, end: 5, step: 0.25, y_range: (1,100))
-  )<fig:tcs2025q6human>
-
-  #figure(caption: [ Automated grading of TCS 2025 q.6 ],
-    diagram_histogram(title: [ TCS 2025 q.6 - #seshat ], tcs2025q6seshat, start: -2, end: 5, step: 0.25, y_range: (0,100))
-  )<fig:tcs2025q6seshat>
-
-  #figure(caption: [Difference in human and automatic grading for the TCS 2025 dataset, question 6. Normalised to the maximum points in the rubric and sorted by increasing difference. Positive scores mean that #seshat awarded more points.],
-    diagram_comparison(data: tcs2025q6d, maxscore: 5, title: [TCS 2025 q.6])
-  )<fig:tcs2025q6>
-])
-
-Question 6 comes from the same exam as @subsec:tcs2025q5, with 242 submissions in total. The question is all about associations: it asks to draw the correct (types of) associations with the correct multiplicities between predetermined classes. As a consequence, the original grading rubric only awards points for correct associations and association types.#todo[ It can be viewed in @app:gr-rub:tcs2025q6.]
-
-Such as with the other datasets, TCS 2025 question 6's human grading is not normally distributed, receiving a Shapiro-Wilk-Royston score of $W = 0.96574, p = 1.421 dot 10^(-5)$. Mann-Whitney U: #tcs2025q6mannw, statistically significantly different with $p < 0.001$.
-
-Initially, we copied over the grading rubric to #seshat. However#todo[, initially], it gave quite optimistic scores, on average giving out scores that were #{calc.round(digits: 4, 2.43 / 5 * 100)}% /*ABS_DIFF(d: tcs2025q6d)*/ higher, which can be seen in @fig:tcs2025q6. #todo[ To compensate, I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026.
-
-We add statistical analysis including a mean-differences test before the 13th of July 2026.]
-
-== BIT 2025<subsec:bit2025>
-#let bit2025data = csv("data/2025_M2_BIT/GRADE_RESULTS/2025_M2_BIT_combined.csv").slice(1)
-#let (bit2025dc, bit2025d) = (bit2025data.map(r => r.at(0)), bit2025data.map(r => (float(r.at(1)), float(r.at(2)))))
-
-
-#place(bottom+center, float:true, scope: "column", [
-  #figure(caption: [Difference in human and automatic grading for the BIT 2025 dataset, question 1. Normalised to the maximum points in the rubric and sorted by increasing difference.],
-    diagram_comparison(data: bit2024d, maxscore: 40, title: [BIT 2025 q.1])
-  )<fig:bit2025>
-])
-
-The BIT 2025 dataset asks students to make a relatively complicated UML class diagram that appears to model the relationships in software development teams. The rubric hands out individual points for present classes and for asscociations, as well as some points for specific multiplicities.#todo[ It can be viewed in @app:gr-rub:bit2025.]
-
-Unlike the other datasets, we cannot reject the hypothesis that this is normally distributed data at a $95%$ confidence level, as BIT 2025 receives a Shapiro-Wilk-Royston score of $W = 0.97306, p = 0.1197$. #hl([TEST SESHAT GRADING]).
-
-The strategy to emulate this grading the best was to give points for present classes and associations that are mentioned in the rubric, as well as giving small fractions of points for correct multiplicities. After revising the grading a time or two, we arrived at an average difference of #{calc.round(digits: 2, ABS_DIFF(d: bit2025d, fr: 10) / 40 * 100)}% of the maximum number of points. The grade differences can be seen in @fig:bit2025.
-
-#todo[
-I will be regrading this dataset twice or thrice to more closely align #seshat to human grading. This will be done before the 13th of July 2026. /* TODO */
-
-We add statistical analysis including a mean-differences test before the 13th of July 2026.
-]
-
-= Discussion<discussion>
-As seen in @results, #seshat can emulate human grading pretty effectively, with most differences likely stemming from human errors#todo[, but this will be definititively answered before 13th of July 2026 /* TODO */]. However, it remains important to manually check a few solutions, especially the ones that receive a lower grade. From our investigations, #seshat can very effectively detect correct solutions, but it is often harsh when grading slightly different solutions compared to human grading.
-
-While trying to emulate human grading, it took a few rounds of revision to the example solution and the scoring system to get an approximately similar result. After fixing some bugs and improving autograder performance, the difference mainly seems to stem from human grading not very strictly following the rubric.
-
-The differences are also likely caused from the different paradigm of grading with a sample solution. Wit h a sample solution, instead of having a teacher make a rubric for a particular exercise and having graders interpret the rubric, inherently leaving room for error, it forces teachers to think about concrete possible solutions. With sample solutions, the possible solutions *are* the rubric. This works quite well for exercises with defined solutions (for example TCS 2025 q.6 mentioned in @subsec:tcs2025q6), but for less clear exercises, the number of possible solutions expands rapidly. This makes more ambiguous exercises inherently worse for autograding when using example solutions.
 
 == Future work
 #todo[
